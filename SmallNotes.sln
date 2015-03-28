@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallNotes", "SmallNotes\Sm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{78FE99A8-493E-4F24-A59C-34B6FD1F4FBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallNotes.Data", "SmallNotes.Data\SmallNotes.Data.csproj", "{9BBEC0F6-DE29-4945-BECF-D1A4DFF3D758}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{78FE99A8-493E-4F24-A59C-34B6FD1F4FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78FE99A8-493E-4F24-A59C-34B6FD1F4FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78FE99A8-493E-4F24-A59C-34B6FD1F4FBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BBEC0F6-DE29-4945-BECF-D1A4DFF3D758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BBEC0F6-DE29-4945-BECF-D1A4DFF3D758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BBEC0F6-DE29-4945-BECF-D1A4DFF3D758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BBEC0F6-DE29-4945-BECF-D1A4DFF3D758}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

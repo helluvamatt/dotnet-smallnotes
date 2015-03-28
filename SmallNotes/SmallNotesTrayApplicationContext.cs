@@ -1,5 +1,8 @@
-﻿using Common.TrayApplication;
+﻿using Common.Data.Async;
+using Common.TrayApplication;
+using SmallNotes.Data;
 using SmallNotes.Properties;
+using SmallNotes.UI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,31 +11,47 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace SmallNotes
 {
 	public class SmallNotesTrayApplicationContext : TrayApplicationContext
 	{
-		/// <summary>
-		/// Cached feed list
-		/// </summary>
-		//public Dictionary<int, Feed> Feeds { get; private set; }
+		private const string APP_DATA_PATH = "SmallNotes";
 
 		/// <summary>
 		/// Config database
 		/// </summary>
-		//public Database ConfigDatabase { get; private set; }
+		public Database ConfigDatabase { get; private set; }
+
+		private AsyncCallback<Database.LoadNotesResult> LoadCallback { get; set; }
 
 		public SmallNotesTrayApplicationContext() : base()
 		{
-			// TODO Initialize variables
+			// Initialize variables
+			// TODO Enable multiple database backends (Filesystem, cloud, etc..)
+			ConfigDatabase = new FileDatabase();
+			LoadCallback = new AsyncCallback<Database.LoadNotesResult>();
 		}
 
 		#region TrayApplicationContext implementation
 
 		protected override void OnInitializeContext()
 		{
-			// TODO Connect databases, load notes, and display note forms, etc...
+			// Make sure the AppDataPath folder is available
+			Directory.CreateDirectory(GetAppDataPath());
+
+			// Initialize the load event handler
+			LoadCallback.AsyncFinished += LoadCallback_AsyncFinished;
+
+			// TODO Load application configuration
+			Dictionary<string, string> properties = new Dictionary<string, string>();
+
+			// Initialize the database
+			ConfigDatabase.Initialize(GetAppDataPath(), properties);
+
+			// Do the load
+			ConfigDatabase.LoadNotesAsync(LoadCallback);
 		}
 
 		protected override OptionsForm BuildOptionsForm()
@@ -74,6 +93,11 @@ namespace SmallNotes
 			return new Icon(GetType(), "appicon.ico");
 		}
 
+		protected override string GetAppDataPath()
+		{
+			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), APP_DATA_PATH);
+		}
+
 		#endregion
 
 		#region Event handlers
@@ -86,11 +110,17 @@ namespace SmallNotes
 		private void newNoteMenuItem_Click(object sender, EventArgs e)
 		{
 			// TODO Create a new note, show it's form, etc...
+			Logger.Info("Creating new note...");
 		}
 
 		private void exitMenuItem_Click(object sender, EventArgs e)
 		{
 			ExitThread();
+		}
+
+		private void LoadCallback_AsyncFinished(Database.LoadNotesResult result)
+		{
+			// TODO Redraw windows, possibly adding new ones
 		}
 
 		#endregion

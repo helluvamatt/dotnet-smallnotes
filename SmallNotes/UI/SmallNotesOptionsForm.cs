@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SmallNotes
+namespace SmallNotes.UI
 {
 	public partial class SmallNotesOptionsForm : OptionsForm
 	{

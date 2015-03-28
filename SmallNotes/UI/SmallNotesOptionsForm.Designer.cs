@@ -1,4 +1,4 @@
-﻿namespace SmallNotes
+﻿namespace SmallNotes.UI
 {
 	partial class SmallNotesOptionsForm
 	{
