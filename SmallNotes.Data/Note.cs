@@ -9,15 +9,29 @@ namespace SmallNotes.Data
 {
 	public class Note
 	{
-		public string ID { get; private set; }
+		public string ID { get; set; }
 		public bool Visible { get; set; }
 		public string Title { get; set; }
 		public string Text { get; set; }
 
-		public Note(string id)
+		public Note()
 		{
-			ID = id;
 			Visible = true;
+		}
+
+		public bool IsChangedFrom(Note other)
+		{
+			return other.Title != Title || other.Text != Text;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is Note && ((Note)obj).ID == ID;
+		}
+
+		public override int GetHashCode()
+		{
+			return ID.GetHashCode();
 		}
 	}
 }

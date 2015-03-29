@@ -25,13 +25,25 @@ namespace SmallNotes
 		public Database ConfigDatabase { get; private set; }
 
 		private AsyncCallback<Database.LoadNotesResult> LoadCallback { get; set; }
+		private AsyncCallback<Database.SaveNoteResult> SaveCallback { get; set; }
+
+		private Dictionary<string, NoteForm> _Forms;
+		private Dictionary<int, NoteForm> _SavingNoteForms;
+		private List<NoteForm> _NewNoteForms;
+
+		private string _NoteHtmlTemplate;
 
 		public SmallNotesTrayApplicationContext() : base()
 		{
 			// Initialize variables
 			// TODO Enable multiple database backends (Filesystem, cloud, etc..)
-			ConfigDatabase = new FileDatabase();
+			//ConfigDatabase = new FileDatabase();
+			ConfigDatabase = new TestDatabase();
 			LoadCallback = new AsyncCallback<Database.LoadNotesResult>();
+			SaveCallback = new AsyncCallback<Database.SaveNoteResult>();
+			_Forms = new Dictionary<string, NoteForm>();
+			_SavingNoteForms = new Dictionary<int, NoteForm>();
+			_NewNoteForms = new List<NoteForm>();
 		}
 
 		#region TrayApplicationContext implementation
@@ -41,8 +53,18 @@ namespace SmallNotes
 			// Make sure the AppDataPath folder is available
 			Directory.CreateDirectory(GetAppDataPath());
 
-			// Initialize the load event handler
+			// Initialize the load/save event handlers
 			LoadCallback.AsyncFinished += LoadCallback_AsyncFinished;
+			SaveCallback.AsyncFinished += SaveCallback_AsyncFinished;
+
+			// Load HTML template
+			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.html"))
+			{
+				using (StreamReader reader = new StreamReader(stream))
+				{
+					_NoteHtmlTemplate = reader.ReadToEnd();
+				}
+			}
 
 			// TODO Load application configuration
 			Dictionary<string, string> properties = new Dictionary<string, string>();
@@ -109,8 +131,11 @@ namespace SmallNotes
 
 		private void newNoteMenuItem_Click(object sender, EventArgs e)
 		{
-			// TODO Create a new note, show it's form, etc...
 			Logger.Info("Creating new note...");
+			NoteForm newNoteForm = CreateNoteForm();
+			_NewNoteForms.Add(newNoteForm);
+			newNoteForm.Data = null;
+			newNoteForm.Show();
 		}
 
 		private void exitMenuItem_Click(object sender, EventArgs e)
@@ -120,7 +145,79 @@ namespace SmallNotes
 
 		private void LoadCallback_AsyncFinished(Database.LoadNotesResult result)
 		{
-			// TODO Redraw windows, possibly adding new ones
+			// Redraw windows, possibly adding new ones
+			foreach (KeyValuePair<string, Note> entry in result.NoteList)
+			{
+				if (_Forms.ContainsKey(entry.Key))
+				{
+					NoteForm existingNoteForm = _Forms[entry.Key];
+					if (entry.Value.IsChangedFrom(existingNoteForm.Data))
+					{
+						existingNoteForm.Data = entry.Value;
+					}
+				}
+				else
+				{
+					// New Note: Add form and display
+					NoteForm newNoteForm = CreateNoteForm();
+					newNoteForm.Data = entry.Value;
+					newNoteForm.Show();
+					_Forms.Add(entry.Key, newNoteForm);
+				}
+			}
+		}
+
+		private void SaveCallback_AsyncFinished(Database.SaveNoteResult result)
+		{
+			if (result.ResultId.HasValue)
+			{
+				lock (_SavingNoteForms)
+				{
+					if (_SavingNoteForms.ContainsKey(result.ResultId.Value))
+					{
+						NoteForm form = _SavingNoteForms[result.ResultId.Value];
+						_SavingNoteForms.Remove(result.ResultId.Value);
+						form.Data = result.SavedNote;
+						_Forms.Add(form.Data.ID, form);
+					}
+				}
+				
+			}
+		}
+
+		private void noteForm_NoteUpdated(object sender, NoteForm.NoteUpdateEventArgs args)
+		{
+			// Save the note given in the args or the sender.Data
+			NoteForm target = (NoteForm)sender;
+
+			// Track the form that is being saved
+			int? saveRequestId = null;
+			lock (_NewNoteForms)
+			{
+				if (_NewNoteForms.Remove(target))
+				{
+					lock (_SavingNoteForms)
+					{
+						saveRequestId = Enumerable.Range(_SavingNoteForms.Keys.Min(), _SavingNoteForms.Keys.Count).Except(_SavingNoteForms.Keys).First();
+						_SavingNoteForms.Add(saveRequestId.Value, target);
+					}
+				}
+			}
+
+			// Do the actual save
+			ConfigDatabase.SaveNoteAsync(SaveCallback, target.Data, saveRequestId);
+		}
+
+		#endregion
+
+		#region Utility methods
+
+		private NoteForm CreateNoteForm()
+		{
+			NoteForm noteForm = new NoteForm();
+			noteForm.NoteHtmlTemplate = _NoteHtmlTemplate;
+			noteForm.NoteUpdated += noteForm_NoteUpdated;
+			return noteForm;
 		}
 
 		#endregion

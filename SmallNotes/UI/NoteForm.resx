@@ -118,217 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="richTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="richTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="richTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>270, 192</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="richTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="richTextBox.Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;richTextBox.Name" xml:space="preserve">
-    <value>richTextBox</value>
-  </data>
-  <data name="&gt;&gt;richTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;richTextBox.Parent" xml:space="preserve">
-    <value>richTextTabPage</value>
-  </data>
-  <data name="&gt;&gt;richTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="richTextTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="richTextTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="richTextTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>276, 198</value>
-  </data>
-  <data name="richTextTabPage.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="richTextTabPage.Text" xml:space="preserve">
-    <value>Rich Text</value>
-  </data>
-  <data name="&gt;&gt;richTextTabPage.Name" xml:space="preserve">
-    <value>richTextTabPage</value>
-  </data>
-  <data name="&gt;&gt;richTextTabPage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;richTextTabPage.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;richTextTabPage.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="markdownTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="markdownTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Consolas, 9.75pt</value>
-  </data>
-  <data name="markdownTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="markdownTextBox.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="markdownTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>270, 192</value>
-  </data>
-  <data name="markdownTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;markdownTextBox.Name" xml:space="preserve">
-    <value>markdownTextBox</value>
-  </data>
-  <data name="&gt;&gt;markdownTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;markdownTextBox.Parent" xml:space="preserve">
-    <value>markdownTabPage</value>
-  </data>
-  <data name="&gt;&gt;markdownTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="markdownTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="markdownTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="markdownTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>276, 198</value>
-  </data>
-  <data name="markdownTabPage.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="markdownTabPage.Text" xml:space="preserve">
-    <value>Markdown</value>
-  </data>
-  <data name="&gt;&gt;markdownTabPage.Name" xml:space="preserve">
-    <value>markdownTabPage</value>
-  </data>
-  <data name="&gt;&gt;markdownTabPage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;markdownTabPage.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;markdownTabPage.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="plainTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="plainTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Consolas, 9.75pt</value>
-  </data>
-  <data name="plainTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="plainTextBox.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="plainTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>270, 192</value>
-  </data>
-  <data name="plainTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;plainTextBox.Name" xml:space="preserve">
-    <value>plainTextBox</value>
-  </data>
-  <data name="&gt;&gt;plainTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;plainTextBox.Parent" xml:space="preserve">
-    <value>plainTextTabPage</value>
-  </data>
-  <data name="&gt;&gt;plainTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="plainTextTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="plainTextTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="plainTextTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>276, 198</value>
-  </data>
-  <data name="plainTextTabPage.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="plainTextTabPage.Text" xml:space="preserve">
-    <value>Plain Text</value>
-  </data>
-  <data name="&gt;&gt;plainTextTabPage.Name" xml:space="preserve">
-    <value>plainTextTabPage</value>
-  </data>
-  <data name="&gt;&gt;plainTextTabPage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;plainTextTabPage.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;plainTextTabPage.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="tabControl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tabControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>284, 224</value>
-  </data>
-  <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tabControl.Name" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabControl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabControl.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tabControl.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="cancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cancelButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACFSURBVFhH7dZLCoAwDEXRrsJVuP+Zq3BBmicUStHQSZuA90Dxl+KdaQEAAJhht3XY2p4rn2Y0
-        qz3L6IWXrdOWF6lnmtGs9izTvvgrcmRmKi8gPK56C0kTV/VBqeKqNjJdnKQObON0bM/DI/s4Xb/dC+GF
-        hEeOBIRGpv/Upf9ZAAAAv1DKDXQzQukDJxo8AAAAAElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABGdBTUEAALGPC/xhBQAAAIVJREFUWEft
+        1ksKgDAMRdGuwlW4/5mrcEGaJxRK0dBJm4D3QPGX4p1pAQAAmGG3ddjaniufZjSrPcvohZet05YXqWea
+        0az2LNO++CtyZGYqLyA8rnoLSRNX9UGp4qo2Ml2cpA5s43Rsz8Mj+zhdv90L4YWER44EhEam/9Sl/1kA
+        AAC/UMoNdDNC6QMnGjwAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 230</value>
+    <value>253, 230</value>
   </data>
   <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 28</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -339,21 +147,24 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;cancelButton.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorPanel</value>
   </data>
   <data name="&gt;&gt;cancelButton.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
+  </data>
+  <data name="saveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="saveButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAB1SURBVFhH7c6xCYBAEETRC+zGdkStRrAXuzTQWXFBRBOTG+Q/GI6N7hcAAAAn7fla6rVVm4/L
-        TMZtml0gcV8Nmm3cqFWJa7RFi4A31eJCp8XHEfAUWTUuTdpTpEVcukdaxaVrpF1cykjLuBSRtnEAAODX
-        StkBRX8tl+kjwzQAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABGdBTUEAALGPC/xhBQAAAHVJREFUWEft
+        zrEJgEAQRNEL7MZ2RK1GsBe7NNBZcUFEE5Mb5D8Yjo3uFwAAACft+VrqtVWbj8tMxm2aXSBxXw2abdyo
+        VYlrtEWLgDfV4kKnxccR8BRZNS5N2lOkRVy6R1rFpWukXVzKSMu4FJG2cQAA4NdK2QFFfy2X6SPDNAAA
+        AABJRU5ErkJggg==
 </value>
   </data>
   <data name="saveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 230</value>
+    <value>219, 230</value>
   </data>
   <data name="saveButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 28</value>
@@ -368,9 +179,138 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;saveButton.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>editorPanel</value>
   </data>
   <data name="&gt;&gt;saveButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.Name" xml:space="preserve">
+    <value>titleTextBox</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.Parent" xml:space="preserve">
+    <value>editorPanel</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;markdownTextBox.Name" xml:space="preserve">
+    <value>markdownTextBox</value>
+  </data>
+  <data name="&gt;&gt;markdownTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;markdownTextBox.Parent" xml:space="preserve">
+    <value>editorPanel</value>
+  </data>
+  <data name="&gt;&gt;markdownTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="editorPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="editorPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="editorPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>284, 261</value>
+  </data>
+  <data name="editorPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;editorPanel.Name" xml:space="preserve">
+    <value>editorPanel</value>
+  </data>
+  <data name="&gt;&gt;editorPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editorPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;editorPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="titleTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="titleTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 4</value>
+  </data>
+  <data name="titleTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 20</value>
+  </data>
+  <data name="titleTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.Name" xml:space="preserve">
+    <value>titleTextBox</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.Parent" xml:space="preserve">
+    <value>editorPanel</value>
+  </data>
+  <data name="&gt;&gt;titleTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="markdownTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="markdownTextBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Consolas, 9.75pt</value>
+  </data>
+  <data name="markdownTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 30</value>
+  </data>
+  <data name="markdownTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="markdownTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 194</value>
+  </data>
+  <data name="markdownTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;markdownTextBox.Name" xml:space="preserve">
+    <value>markdownTextBox</value>
+  </data>
+  <data name="&gt;&gt;markdownTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;markdownTextBox.Parent" xml:space="preserve">
+    <value>editorPanel</value>
+  </data>
+  <data name="&gt;&gt;markdownTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="displayBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="displayBrowser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="displayBrowser.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="displayBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>284, 261</value>
+  </data>
+  <data name="displayBrowser.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;displayBrowser.Name" xml:space="preserve">
+    <value>displayBrowser</value>
+  </data>
+  <data name="&gt;&gt;displayBrowser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;displayBrowser.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;displayBrowser.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

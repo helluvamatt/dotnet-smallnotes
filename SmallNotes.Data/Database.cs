@@ -16,7 +16,7 @@ namespace SmallNotes.Data
 
 		protected abstract void OnInitialize(Dictionary<string, string> properties);
 
-		public abstract BasicResult SaveNote(Note note);
+		public abstract SaveNoteResult SaveNote(Note request);
 
 		public abstract LoadNotesResult LoadNotes();
 
@@ -28,9 +28,9 @@ namespace SmallNotes.Data
 			OnInitialize(properties);
 		}
 
-		public void SaveNoteAsync(AsyncCallback<BasicResult> callback, Note note)
+		public void SaveNoteAsync(AsyncCallback<SaveNoteResult> callback, Note note, int? saveRequestId = null)
 		{
-			new AsyncRunner<BasicResult, Note>().AsyncRun(SaveNote, callback, note);
+			new AsyncRunner<SaveNoteResult, Note>().AsyncRun(SaveNote, callback, note);
 		}
 
 		public void LoadNotesAsync(AsyncCallback<LoadNotesResult> callback)
@@ -45,7 +45,17 @@ namespace SmallNotes.Data
 
 		public class LoadNotesResult : BasicResult
 		{
-			public List<Note> NoteList { get; set; }
+			public Dictionary<string, Note> NoteList { get; set; }
+		}
+
+		public class SaveNoteRequest
+		{
+			public Note _Note { get; set; }
+		}
+
+		public class SaveNoteResult : TrackedResult
+		{
+			public Note SavedNote { get; set; }
 		}
 	}
 }

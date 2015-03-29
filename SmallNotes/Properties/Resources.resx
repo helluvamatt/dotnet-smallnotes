@@ -132,6 +132,9 @@
   <data name="MenuItemNewNote" xml:space="preserve">
     <value>&amp;New Note</value>
   </data>
+  <data name="NewNoteTitle" xml:space="preserve">
+    <value>New Note</value>
+  </data>
   <data name="ProgramTerminated" xml:space="preserve">
     <value>Program Terminated Unexpectedly</value>
   </data>

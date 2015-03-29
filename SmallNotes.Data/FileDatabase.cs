@@ -41,22 +41,27 @@ namespace SmallNotes.Data
 
 		private ILog Logger { get; set; }
 
-		public override BasicResult SaveNote(Note note)
+		public override SaveNoteResult SaveNote(Note note)
 		{
 			try
 			{
-				string fileName = Path.Combine(SavePath, PathUtils.CoerceValidUrl(note.Title) + ".txt");
+				if (note.ID == null)
+				{
+					// Figure out the largest ID and add one
+					note.ID = (Directory.EnumerateFiles(SavePath).Max(fname => Int64.Parse(fname.Substring(0, fname.Length - 4))) + 1).ToString();
+				}
+				string fileName = Path.Combine(SavePath, note.ID + ".txt");
 				using (TextWriter textWriter = File.CreateText(fileName))
 				{
 					textWriter.WriteLine("[//]: # (TITLE:{0})", note.Title);
 					textWriter.Write(note.Text);
 				}
-				return new BasicResult { Success = true, Exception = null };
+				return new SaveNoteResult { Success = true, Exception = null, SavedNote = note };
 			}
 			catch (Exception ex)
 			{
 				Logger.Error("Exception while saving note.", ex);
-				return new BasicResult { Success = false, Exception = ex };
+				return new SaveNoteResult { Success = false, Exception = ex, SavedNote = null };
 			}
 		}
 
@@ -64,7 +69,7 @@ namespace SmallNotes.Data
 		{
 			try
 			{
-				List<Note> noteList = new List<Note>();
+				Dictionary<string, Note> noteList = new Dictionary<string, Note>();
 				foreach (string fileName in Directory.EnumerateFiles(SavePath))
 				{
 					using (TextReader textReader = File.OpenText(fileName))
@@ -74,7 +79,7 @@ namespace SmallNotes.Data
 						//string titleLine = textReader.ReadLine();
 						//note.Title = titleLine.Substring(TITLE_SENTINEL.Length, titleLine.Length - TITLE_SENTINEL.Length - 1);
 						//note.Text = textReader.ReadToEnd();
-						//noteList.Add(note);
+						//noteList.Add(note.ID, note);
 					}
 				}
 				return new LoadNotesResult { Success = true, Exception = null, NoteList = noteList };

@@ -29,110 +29,80 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NoteForm));
-			this.tabControl = new System.Windows.Forms.TabControl();
-			this.richTextTabPage = new System.Windows.Forms.TabPage();
-			this.markdownTabPage = new System.Windows.Forms.TabPage();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.saveButton = new System.Windows.Forms.Button();
-			this.plainTextTabPage = new System.Windows.Forms.TabPage();
-			this.richTextBox = new System.Windows.Forms.RichTextBox();
+			this.editorPanel = new System.Windows.Forms.Panel();
+			this.titleTextBox = new System.Windows.Forms.TextBox();
 			this.markdownTextBox = new System.Windows.Forms.TextBox();
-			this.plainTextBox = new System.Windows.Forms.TextBox();
-			this.tabControl.SuspendLayout();
-			this.richTextTabPage.SuspendLayout();
-			this.markdownTabPage.SuspendLayout();
-			this.plainTextTabPage.SuspendLayout();
+			this.displayBrowser = new System.Windows.Forms.WebBrowser();
+			this.editorPanel.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// tabControl
-			// 
-			this.tabControl.Controls.Add(this.richTextTabPage);
-			this.tabControl.Controls.Add(this.markdownTabPage);
-			this.tabControl.Controls.Add(this.plainTextTabPage);
-			resources.ApplyResources(this.tabControl, "tabControl");
-			this.tabControl.Name = "tabControl";
-			this.tabControl.SelectedIndex = 0;
-			// 
-			// richTextTabPage
-			// 
-			this.richTextTabPage.Controls.Add(this.richTextBox);
-			resources.ApplyResources(this.richTextTabPage, "richTextTabPage");
-			this.richTextTabPage.Name = "richTextTabPage";
-			this.richTextTabPage.UseVisualStyleBackColor = true;
-			// 
-			// markdownTabPage
-			// 
-			this.markdownTabPage.Controls.Add(this.markdownTextBox);
-			resources.ApplyResources(this.markdownTabPage, "markdownTabPage");
-			this.markdownTabPage.Name = "markdownTabPage";
-			this.markdownTabPage.UseVisualStyleBackColor = true;
 			// 
 			// cancelButton
 			// 
 			resources.ApplyResources(this.cancelButton, "cancelButton");
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
 			// saveButton
 			// 
 			resources.ApplyResources(this.saveButton, "saveButton");
 			this.saveButton.Name = "saveButton";
 			this.saveButton.UseVisualStyleBackColor = true;
+			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
-			// plainTextTabPage
+			// editorPanel
 			// 
-			this.plainTextTabPage.Controls.Add(this.plainTextBox);
-			resources.ApplyResources(this.plainTextTabPage, "plainTextTabPage");
-			this.plainTextTabPage.Name = "plainTextTabPage";
-			this.plainTextTabPage.UseVisualStyleBackColor = true;
+			this.editorPanel.Controls.Add(this.titleTextBox);
+			this.editorPanel.Controls.Add(this.markdownTextBox);
+			this.editorPanel.Controls.Add(this.saveButton);
+			this.editorPanel.Controls.Add(this.cancelButton);
+			resources.ApplyResources(this.editorPanel, "editorPanel");
+			this.editorPanel.Name = "editorPanel";
 			// 
-			// richTextBox
+			// titleTextBox
 			// 
-			this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			resources.ApplyResources(this.richTextBox, "richTextBox");
-			this.richTextBox.Name = "richTextBox";
+			resources.ApplyResources(this.titleTextBox, "titleTextBox");
+			this.titleTextBox.Name = "titleTextBox";
 			// 
 			// markdownTextBox
 			// 
-			this.markdownTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			resources.ApplyResources(this.markdownTextBox, "markdownTextBox");
 			this.markdownTextBox.Name = "markdownTextBox";
 			// 
-			// plainTextBox
+			// displayBrowser
 			// 
-			this.plainTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			resources.ApplyResources(this.plainTextBox, "plainTextBox");
-			this.plainTextBox.Name = "plainTextBox";
+			resources.ApplyResources(this.displayBrowser, "displayBrowser");
+			this.displayBrowser.IsWebBrowserContextMenuEnabled = false;
+			this.displayBrowser.Name = "displayBrowser";
+			this.displayBrowser.ScriptErrorsSuppressed = true;
+			this.displayBrowser.ScrollBarsEnabled = false;
 			// 
 			// NoteForm
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.saveButton);
-			this.Controls.Add(this.cancelButton);
-			this.Controls.Add(this.tabControl);
+			this.Controls.Add(this.displayBrowser);
+			this.Controls.Add(this.editorPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "NoteForm";
-			this.tabControl.ResumeLayout(false);
-			this.richTextTabPage.ResumeLayout(false);
-			this.markdownTabPage.ResumeLayout(false);
-			this.markdownTabPage.PerformLayout();
-			this.plainTextTabPage.ResumeLayout(false);
-			this.plainTextTabPage.PerformLayout();
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.DoubleClick += new System.EventHandler(this.NoteForm_DoubleClick);
+			this.editorPanel.ResumeLayout(false);
+			this.editorPanel.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.TabControl tabControl;
-		private System.Windows.Forms.TabPage richTextTabPage;
-		private System.Windows.Forms.TabPage markdownTabPage;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button saveButton;
-		private System.Windows.Forms.TabPage plainTextTabPage;
-		private System.Windows.Forms.RichTextBox richTextBox;
+		private System.Windows.Forms.Panel editorPanel;
 		private System.Windows.Forms.TextBox markdownTextBox;
-		private System.Windows.Forms.TextBox plainTextBox;
+		private System.Windows.Forms.TextBox titleTextBox;
+		private System.Windows.Forms.WebBrowser displayBrowser;
 	}
 }
