@@ -32,10 +32,17 @@
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.saveButton = new System.Windows.Forms.Button();
 			this.editorPanel = new System.Windows.Forms.Panel();
+			this.optionsToolStrip = new System.Windows.Forms.ToolStrip();
+			this.backgroundColorDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
 			this.titleTextBox = new System.Windows.Forms.TextBox();
 			this.markdownTextBox = new System.Windows.Forms.TextBox();
-			this.displayBrowser = new System.Windows.Forms.WebBrowser();
+			this.colorPickerDialog = new System.Windows.Forms.ColorDialog();
+			this.displayPanel = new SmallNotes.UI.ResizePanel();
+			this.titleDisplayLabel = new SmallNotes.UI.NoMouseLabel();
+			this.displayBrowser = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
 			this.editorPanel.SuspendLayout();
+			this.optionsToolStrip.SuspendLayout();
+			this.displayPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// cancelButton
@@ -54,12 +61,27 @@
 			// 
 			// editorPanel
 			// 
+			this.editorPanel.BackColor = System.Drawing.Color.Transparent;
+			this.editorPanel.Controls.Add(this.optionsToolStrip);
 			this.editorPanel.Controls.Add(this.titleTextBox);
 			this.editorPanel.Controls.Add(this.markdownTextBox);
 			this.editorPanel.Controls.Add(this.saveButton);
 			this.editorPanel.Controls.Add(this.cancelButton);
 			resources.ApplyResources(this.editorPanel, "editorPanel");
 			this.editorPanel.Name = "editorPanel";
+			// 
+			// optionsToolStrip
+			// 
+			this.optionsToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.backgroundColorDropDownButton});
+			resources.ApplyResources(this.optionsToolStrip, "optionsToolStrip");
+			this.optionsToolStrip.Name = "optionsToolStrip";
+			// 
+			// backgroundColorDropDownButton
+			// 
+			this.backgroundColorDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			resources.ApplyResources(this.backgroundColorDropDownButton, "backgroundColorDropDownButton");
+			this.backgroundColorDropDownButton.Name = "backgroundColorDropDownButton";
 			// 
 			// titleTextBox
 			// 
@@ -71,27 +93,56 @@
 			resources.ApplyResources(this.markdownTextBox, "markdownTextBox");
 			this.markdownTextBox.Name = "markdownTextBox";
 			// 
+			// displayPanel
+			// 
+			this.displayPanel.BackColor = System.Drawing.Color.Transparent;
+			this.displayPanel.Controls.Add(this.titleDisplayLabel);
+			this.displayPanel.Controls.Add(this.displayBrowser);
+			resources.ApplyResources(this.displayPanel, "displayPanel");
+			this.displayPanel.Name = "displayPanel";
+			this.displayPanel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseDoubleClick);
+			this.displayPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseDown);
+			this.displayPanel.MouseEnter += new System.EventHandler(this.displayPanel_MouseEnter);
+			this.displayPanel.MouseLeave += new System.EventHandler(this.displayPanel_MouseLeave);
+			this.displayPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseMove);
+			this.displayPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseUp);
+			// 
+			// titleDisplayLabel
+			// 
+			resources.ApplyResources(this.titleDisplayLabel, "titleDisplayLabel");
+			this.titleDisplayLabel.Name = "titleDisplayLabel";
+			// 
 			// displayBrowser
 			// 
 			resources.ApplyResources(this.displayBrowser, "displayBrowser");
-			this.displayBrowser.IsWebBrowserContextMenuEnabled = false;
+			this.displayBrowser.BackColor = System.Drawing.SystemColors.Window;
+			this.displayBrowser.BaseStylesheet = null;
 			this.displayBrowser.Name = "displayBrowser";
-			this.displayBrowser.ScriptErrorsSuppressed = true;
-			this.displayBrowser.ScrollBarsEnabled = false;
+			this.displayBrowser.LinkClicked += new System.EventHandler<TheArtOfDev.HtmlRenderer.Core.Entities.HtmlLinkClickedEventArgs>(this.displayBrowser_LinkClicked);
+			this.displayBrowser.ImageLoad += new System.EventHandler<TheArtOfDev.HtmlRenderer.Core.Entities.HtmlImageLoadEventArgs>(this.displayBrowser_ImageLoad);
+			this.displayBrowser.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseDoubleClick);
+			this.displayBrowser.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseDown);
+			this.displayBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseMove);
+			this.displayBrowser.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseUp);
 			// 
 			// NoteForm
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.displayBrowser);
+			this.Controls.Add(this.displayPanel);
 			this.Controls.Add(this.editorPanel);
+			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "NoteForm";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.DoubleClick += new System.EventHandler(this.NoteForm_DoubleClick);
+			this.TopMost = true;
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NoteForm_FormClosing);
 			this.editorPanel.ResumeLayout(false);
 			this.editorPanel.PerformLayout();
+			this.optionsToolStrip.ResumeLayout(false);
+			this.optionsToolStrip.PerformLayout();
+			this.displayPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -103,6 +154,11 @@
 		private System.Windows.Forms.Panel editorPanel;
 		private System.Windows.Forms.TextBox markdownTextBox;
 		private System.Windows.Forms.TextBox titleTextBox;
-		private System.Windows.Forms.WebBrowser displayBrowser;
+		private TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel displayBrowser;
+		private System.Windows.Forms.ColorDialog colorPickerDialog;
+		private System.Windows.Forms.ToolStrip optionsToolStrip;
+		private System.Windows.Forms.ToolStripDropDownButton backgroundColorDropDownButton;
+		private ResizePanel displayPanel;
+		private NoMouseLabel titleDisplayLabel;
 	}
 }

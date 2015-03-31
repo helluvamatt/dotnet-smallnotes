@@ -1,6 +1,7 @@
 ﻿using Common.Data.Async;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,9 @@ namespace SmallNotes.Data
 			Note testNote = new Note();
 			testNote.ID = "1";
 			testNote.Title = "Test Note 1";
-			testNote.Text = "This is a test\r\n\r\nThis is only a test.\r\n\r\n`Piece of code\r\n\r\n";
+			testNote.Text = "# This is a test\r\n\r\nThis is only a test.\r\n\r\n[Google](http://www.google.com)\r\n\r\n```\r\nPiece of code\r\n```\r\n";
+			testNote.ForegroundColor = ColorTranslator.FromHtml("#000000");
+			testNote.BackgroundColor = ColorTranslator.FromHtml("#FBEC94");
 			AddNote(testNote);
 		}
 

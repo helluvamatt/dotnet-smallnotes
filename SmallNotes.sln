@@ -16,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{345739
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HTML-Renderer", "HTML-Renderer", "{632F3886-6101-49D3-9808-36CBF7DE7A1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer", "HTML-Renderer\Source\HtmlRenderer\HtmlRenderer.csproj", "{FE611685-391F-4E3E-B27E-D3150E51E49B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.WinForms", "HTML-Renderer\Source\HtmlRenderer.WinForms\HtmlRenderer.WinForms.csproj", "{1B058920-24B4-4140-8AE7-C8C6C38CA52D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,8 +40,20 @@ Global
 		{9BBEC0F6-DE29-4945-BECF-D1A4DFF3D758}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BBEC0F6-DE29-4945-BECF-D1A4DFF3D758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BBEC0F6-DE29-4945-BECF-D1A4DFF3D758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE611685-391F-4E3E-B27E-D3150E51E49B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE611685-391F-4E3E-B27E-D3150E51E49B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE611685-391F-4E3E-B27E-D3150E51E49B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE611685-391F-4E3E-B27E-D3150E51E49B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B058920-24B4-4140-8AE7-C8C6C38CA52D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B058920-24B4-4140-8AE7-C8C6C38CA52D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B058920-24B4-4140-8AE7-C8C6C38CA52D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B058920-24B4-4140-8AE7-C8C6C38CA52D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE611685-391F-4E3E-B27E-D3150E51E49B} = {632F3886-6101-49D3-9808-36CBF7DE7A1B}
+		{1B058920-24B4-4140-8AE7-C8C6C38CA52D} = {632F3886-6101-49D3-9808-36CBF7DE7A1B}
 	EndGlobalSection
 EndGlobal

@@ -123,6 +123,18 @@
   <data name="AppTitle" xml:space="preserve">
     <value>SmallNotes</value>
   </data>
+  <data name="CustomMenuItem" xml:space="preserve">
+    <value>Custom...</value>
+  </data>
+  <data name="DefaultBackgroundColor" xml:space="preserve">
+    <value>#FBEC94</value>
+  </data>
+  <data name="DefaultFontName" xml:space="preserve">
+    <value>Verdana</value>
+  </data>
+  <data name="DefaultForegroundColor" xml:space="preserve">
+    <value>#000000</value>
+  </data>
   <data name="MenuItemExit" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>

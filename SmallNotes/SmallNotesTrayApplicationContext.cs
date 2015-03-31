@@ -117,7 +117,7 @@ namespace SmallNotes
 
 		protected override string GetAppDataPath()
 		{
-			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), APP_DATA_PATH);
+			return Path.GetDirectoryName(Path.GetFullPath(Uri.UnescapeDataString(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath)));
 		}
 
 		#endregion
@@ -198,7 +198,22 @@ namespace SmallNotes
 				{
 					lock (_SavingNoteForms)
 					{
-						saveRequestId = Enumerable.Range(_SavingNoteForms.Keys.Min(), _SavingNoteForms.Keys.Count).Except(_SavingNoteForms.Keys).First();
+						if (_SavingNoteForms.Keys.Count < 1)
+						{
+							saveRequestId = 1;
+						}
+						else
+						{
+							IEnumerable<int> gapIds = Enumerable.Range(_SavingNoteForms.Keys.Min(), _SavingNoteForms.Keys.Count).Except(_SavingNoteForms.Keys);
+							if (gapIds.Count() < 1)
+							{
+								saveRequestId = _SavingNoteForms.Keys.Max() + 1;
+							}
+							else
+							{
+								saveRequestId = gapIds.First();
+							}
+						}
 						_SavingNoteForms.Add(saveRequestId.Value, target);
 					}
 				}
@@ -214,7 +229,7 @@ namespace SmallNotes
 
 		private NoteForm CreateNoteForm()
 		{
-			NoteForm noteForm = new NoteForm();
+			NoteForm noteForm = new NoteForm(AppDataFolder);
 			noteForm.NoteHtmlTemplate = _NoteHtmlTemplate;
 			noteForm.NoteUpdated += noteForm_NoteUpdated;
 			return noteForm;

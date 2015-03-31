@@ -79,6 +79,42 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom....
+        /// </summary>
+        internal static string CustomMenuItem {
+            get {
+                return ResourceManager.GetString("CustomMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #FBEC94.
+        /// </summary>
+        internal static string DefaultBackgroundColor {
+            get {
+                return ResourceManager.GetString("DefaultBackgroundColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verdana.
+        /// </summary>
+        internal static string DefaultFontName {
+            get {
+                return ResourceManager.GetString("DefaultFontName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #000000.
+        /// </summary>
+        internal static string DefaultForegroundColor {
+            get {
+                return ResourceManager.GetString("DefaultForegroundColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E&amp;xit.
         /// </summary>
         internal static string MenuItemExit {

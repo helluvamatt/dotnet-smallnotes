@@ -64,7 +64,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UI\ColorList.cs" />
     <Compile Include="UI\EventTrigger.cs" />
+    <Compile Include="UI\NoMouseLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ResizePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\SimpleHtmlTemplate.cs" />
     <Compile Include="UI\SmallNotesOptionsForm.cs">
       <SubType>Form</SubType>
@@ -103,6 +110,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="colors.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="UI\ic_action_done.png" />
     <Content Include="UI\ic_content_clear.png" />
     <EmbeddedResource Include="UI\template.html" />
@@ -113,6 +123,14 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{78fe99a8-493e-4f24-a59c-34b6fd1f4fba}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HTML-Renderer\Source\HtmlRenderer.WinForms\HtmlRenderer.WinForms.csproj">
+      <Project>{1b058920-24b4-4140-8ae7-c8c6c38ca52d}</Project>
+      <Name>HtmlRenderer.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HTML-Renderer\Source\HtmlRenderer\HtmlRenderer.csproj">
+      <Project>{fe611685-391f-4e3e-b27e-d3150e51e49b}</Project>
+      <Name>HtmlRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\SmallNotes.Data\SmallNotes.Data.csproj">
       <Project>{9bbec0f6-de29-4945-becf-d1a4dff3d758}</Project>
