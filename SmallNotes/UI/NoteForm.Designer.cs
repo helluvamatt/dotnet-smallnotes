@@ -34,12 +34,19 @@
 			this.editorPanel = new System.Windows.Forms.Panel();
 			this.optionsToolStrip = new System.Windows.Forms.ToolStrip();
 			this.backgroundColorDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
+			this.foregroundColorDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
 			this.titleTextBox = new System.Windows.Forms.TextBox();
 			this.markdownTextBox = new System.Windows.Forms.TextBox();
 			this.colorPickerDialog = new System.Windows.Forms.ColorDialog();
 			this.displayPanel = new SmallNotes.UI.ResizePanel();
 			this.titleDisplayLabel = new SmallNotes.UI.NoMouseLabel();
 			this.displayBrowser = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
+			this.automaticForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.blackForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.whiteForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.customForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editorPanel.SuspendLayout();
 			this.optionsToolStrip.SuspendLayout();
 			this.displayPanel.SuspendLayout();
@@ -73,7 +80,8 @@
 			// optionsToolStrip
 			// 
 			this.optionsToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.backgroundColorDropDownButton});
+            this.backgroundColorDropDownButton,
+            this.foregroundColorDropDownButton});
 			resources.ApplyResources(this.optionsToolStrip, "optionsToolStrip");
 			this.optionsToolStrip.Name = "optionsToolStrip";
 			// 
@@ -82,6 +90,19 @@
 			this.backgroundColorDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			resources.ApplyResources(this.backgroundColorDropDownButton, "backgroundColorDropDownButton");
 			this.backgroundColorDropDownButton.Name = "backgroundColorDropDownButton";
+			// 
+			// foregroundColorDropDownButton
+			// 
+			this.foregroundColorDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.foregroundColorDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.automaticForegroundColorToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.blackForegroundColorToolStripMenuItem,
+            this.whiteForegroundColorToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.customForegroundColorToolStripMenuItem});
+			resources.ApplyResources(this.foregroundColorDropDownButton, "foregroundColorDropDownButton");
+			this.foregroundColorDropDownButton.Name = "foregroundColorDropDownButton";
 			// 
 			// titleTextBox
 			// 
@@ -125,12 +146,46 @@
 			this.displayBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseMove);
 			this.displayBrowser.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseUp);
 			// 
+			// automaticForegroundColorToolStripMenuItem
+			// 
+			this.automaticForegroundColorToolStripMenuItem.Name = "automaticForegroundColorToolStripMenuItem";
+			resources.ApplyResources(this.automaticForegroundColorToolStripMenuItem, "automaticForegroundColorToolStripMenuItem");
+			this.automaticForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.automaticForegroundColorToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+			// 
+			// blackForegroundColorToolStripMenuItem
+			// 
+			this.blackForegroundColorToolStripMenuItem.Name = "blackForegroundColorToolStripMenuItem";
+			resources.ApplyResources(this.blackForegroundColorToolStripMenuItem, "blackForegroundColorToolStripMenuItem");
+			this.blackForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.blackForegroundColorToolStripMenuItem_Click);
+			// 
+			// whiteForegroundColorToolStripMenuItem
+			// 
+			this.whiteForegroundColorToolStripMenuItem.Name = "whiteForegroundColorToolStripMenuItem";
+			resources.ApplyResources(this.whiteForegroundColorToolStripMenuItem, "whiteForegroundColorToolStripMenuItem");
+			this.whiteForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.whiteForegroundColorToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+			// 
+			// customForegroundColorToolStripMenuItem
+			// 
+			this.customForegroundColorToolStripMenuItem.Name = "customForegroundColorToolStripMenuItem";
+			resources.ApplyResources(this.customForegroundColorToolStripMenuItem, "customForegroundColorToolStripMenuItem");
+			this.customForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.customForegroundColorToolStripMenuItem_Click);
+			// 
 			// NoteForm
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.displayPanel);
 			this.Controls.Add(this.editorPanel);
+			this.Controls.Add(this.displayPanel);
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Name = "NoteForm";
@@ -138,6 +193,8 @@
 			this.ShowInTaskbar = false;
 			this.TopMost = true;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NoteForm_FormClosing);
+			this.BackColorChanged += new System.EventHandler(this.NoteForm_BackColorChanged);
+			this.ForeColorChanged += new System.EventHandler(this.NoteForm_ForeColorChanged);
 			this.editorPanel.ResumeLayout(false);
 			this.editorPanel.PerformLayout();
 			this.optionsToolStrip.ResumeLayout(false);
@@ -160,5 +217,12 @@
 		private System.Windows.Forms.ToolStripDropDownButton backgroundColorDropDownButton;
 		private ResizePanel displayPanel;
 		private NoMouseLabel titleDisplayLabel;
+		private System.Windows.Forms.ToolStripDropDownButton foregroundColorDropDownButton;
+		private System.Windows.Forms.ToolStripMenuItem automaticForegroundColorToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem blackForegroundColorToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem whiteForegroundColorToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem customForegroundColorToolStripMenuItem;
 	}
 }

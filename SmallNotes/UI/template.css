@@ -1,0 +1,38 @@
+﻿html, body
+{
+	color: $ForeColor$;
+	background-color: $BackColor$;
+}
+
+hr {
+	height: 2px;
+	border: none;
+	color: $ForeColor$;
+	background-color: $ForeColor$;
+	width: 100%;
+}
+
+fieldset, legend
+{
+	padding: 5px;
+	border: solid $ForeColor$ 2px;
+}
+
+fieldset
+{
+	corner-se-radius: 6px;
+	corner-sw-radius: 6px;
+	corner-ne-radius: 6px;
+	overflow: hidden;
+	margin-top: 0px;
+}
+
+legend
+{
+	margin-bottom: 0px;
+	corner-ne-radius: 6px;
+	corner-nw-radius: 6px;
+	background-color: $BackColor$;
+}
+
+$CustomStylesheet$

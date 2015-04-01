@@ -18,10 +18,18 @@ namespace SmallNotes.Data
 			Note testNote = new Note();
 			testNote.ID = "1";
 			testNote.Title = "Test Note 1";
-			testNote.Text = "# This is a test\r\n\r\nThis is only a test.\r\n\r\n[Google](http://www.google.com)\r\n\r\n```\r\nPiece of code\r\n```\r\n";
-			testNote.ForegroundColor = ColorTranslator.FromHtml("#000000");
-			testNote.BackgroundColor = ColorTranslator.FromHtml("#FBEC94");
+			testNote.Text = "# This is a test\r\n\r\nThis is only a test.\r\n\r\n[Google](http://www.google.com)\r\n\r\n";
+			testNote.ForegroundColor = null;
+			testNote.BackgroundColor = ColorTranslator.FromHtml("#000099");
 			AddNote(testNote);
+
+			Note testNote2 = new Note();
+			testNote2.ID = "2";
+			testNote2.Title = "Test Note 2";
+			testNote2.Text = "# Test class\r\n\r\n```c#:HelloWorld.cs\r\nusing System;\r\npublic class TestClass {\r\n    public void DoWork() {\r\n        Console.WriteLine(\"Hello, world!\")\r\n    }\r\n}\r\n```\r\n";
+			testNote2.ForegroundColor = Color.Maroon; // Custom color
+			testNote2.BackgroundColor = Color.AliceBlue; // Custom color
+			AddNote(testNote2);
 		}
 
 		private void AddNote(Note note)

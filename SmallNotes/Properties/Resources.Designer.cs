@@ -106,15 +106,6 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #000000.
-        /// </summary>
-        internal static string DefaultForegroundColor {
-            get {
-                return ResourceManager.GetString("DefaultForegroundColor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to E&amp;xit.
         /// </summary>
         internal static string MenuItemExit {

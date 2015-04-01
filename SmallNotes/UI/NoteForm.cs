@@ -1,6 +1,7 @@
-﻿using Kiwi.Markdown;
+﻿using ColorCode;
+using CommonMark;
+using CommonMark.Syntax;
 using log4net;
-using MarkdownSharp;
 using SmallNotes.Data;
 using SmallNotes.Properties;
 using System;
@@ -9,11 +10,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -62,7 +65,7 @@ namespace SmallNotes.UI
 
 		#region Properties
 
-		public string NoteHtmlTemplate { get; set; }
+		public string CustomStylesheet { get; set; }
 
 		public string AppDataPath { get; set; }
 
@@ -77,14 +80,20 @@ namespace SmallNotes.UI
 		private Point _mouseDown;
 		private bool _moveCapture;
 		private bool _resizeCapture;
-
 		private const int GRIP_SIZE = 16;
 
 		private ColorList _colorList;
-		
+		private bool _automaticForeColor = false;
+		private ToolStripMenuItem customBackgroundColorMenuItem;
+
+		private string _StylesheetTemplate;
+		private string _DocumentTemplate;
+
 		//private static int MouseAreaW = SystemInformation.DoubleClickSize.Width;
 		//private static int MouseAreaH = SystemInformation.DoubleClickSize.Height;
 		//private static TimeSpan DoubleClickTime = TimeSpan.FromMilliseconds(SystemInformation.DoubleClickTime);
+
+		//private static Regex _codeBlock = new Regex(@"<code>((?:.*\n+)+)</code>", RegexOptions.Multiline | RegexOptions.Compiled);
 
 		#endregion
 
@@ -96,7 +105,7 @@ namespace SmallNotes.UI
 			InitializeComponent();
 			SetStyle(ControlStyles.ResizeRedraw, true);
 
-			// Load color list from colors.xml
+			// Load background color list from colors.xml
 			try
 			{
 				string path = Path.Combine(AppDataPath, "colors.xml");
@@ -119,14 +128,42 @@ namespace SmallNotes.UI
 			{
 				foreach (ColorList.ColorItem item in _colorList.Items)
 				{
-
+					ToolStripMenuItem newItem = new ToolStripMenuItem();
+					newItem.Text = item.Name;
+					newItem.Image = item.Icon;
+					newItem.Click += backgroundColorMenuItem_Click;
+					newItem.Tag = item.HexColor;
+					backgroundColorDropDownButton.DropDownItems.Add(newItem);
 				}
 				backgroundColorDropDownButton.DropDownItems.Add(new ToolStripSeparator());
 			}
-			ToolStripMenuItem customBackgroundColorMenuItem = new ToolStripMenuItem();
+			customBackgroundColorMenuItem = new ToolStripMenuItem();
 			customBackgroundColorMenuItem.Text = Resources.CustomMenuItem;
 			customBackgroundColorMenuItem.Click += customBackgroundColorMenuItem_Click;
+			backgroundColorDropDownButton.DropDownItems.Add(customBackgroundColorMenuItem);
 
+			// Populate foreground color menu icons
+			blackForegroundColorToolStripMenuItem.Image = new ColorList.ColorItem("Black") { Color = Color.Black }.Icon;
+			whiteForegroundColorToolStripMenuItem.Image = new ColorList.ColorItem("White") { Color = Color.White }.Icon;
+
+			// Load template.css
+			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.css"))
+			{
+				using (StreamReader reader = new StreamReader(stream))
+				{
+					_StylesheetTemplate = reader.ReadToEnd();
+				}
+			}
+			CustomStylesheet = "";
+
+			// Load template.html
+			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.html"))
+			{
+				using (StreamReader reader = new StreamReader(stream))
+				{
+					_DocumentTemplate = reader.ReadToEnd();
+				}
+			}
 		}
 
 		#region Utility methods
@@ -139,36 +176,102 @@ namespace SmallNotes.UI
 			// Editor
 			titleTextBox.Text = Data != null ? Data.Title : Resources.NewNoteTitle;
 			markdownTextBox.Text = Data != null ? Data.Text : "";
+			_automaticForeColor = Data == null || !Data.ForegroundColor.HasValue;
 			BackColor = Data != null ? Data.BackgroundColor : ColorTranslator.FromHtml(Resources.DefaultBackgroundColor);
-			displayBrowser.BackColor = Data != null ? Data.BackgroundColor : ColorTranslator.FromHtml(Resources.DefaultBackgroundColor);
-			displayBrowser.ForeColor = Data != null ? Data.ForegroundColor : ColorTranslator.FromHtml(Resources.DefaultForegroundColor);
+			ForeColor = Data != null && Data.ForegroundColor.HasValue ? Data.ForegroundColor.Value : GetAutomaticForegroundColor(BackColor);
+			RedrawAutomaticMenuItemIcon();
 
 			// Display
 			if (Data != null)
 			{
 				// Parse Markdown to HTML
-				// TODO [BUG] Using an invalid language will cause the parsing (and, right now, the application) to crash!
-				MarkdownService markdown = new MarkdownService(null);
-				string bodyHtml = markdown.ToHtml(Data.Text);
+				string bodyHtml = CommonMarkConverter.Convert(Data.Text, GetCommonMarkSettings());
 
-				// Render template
-				SimpleHtmlTemplate template = new SimpleHtmlTemplate();
-				template.HtmlTemplate = NoteHtmlTemplate;
-				template["title"] = Data.Title;
-				template["body"] = bodyHtml;
-				string html = template.Render();
+				// Process _StylesheetTemplate
+				SimpleTemplate styleTemplate = new SimpleTemplate() { Template = _StylesheetTemplate };
+				styleTemplate["ForeColor"] = ColorTranslator.ToHtml(ForeColor);
+				styleTemplate["BackColor"] = ColorTranslator.ToHtml(BackColor);
+				styleTemplate["CustomStylesheet"] = CustomStylesheet;
+
+				// Process _DocumentTemplate
+				SimpleTemplate documentTemplate = new SimpleTemplate() { Template = _DocumentTemplate };
+				documentTemplate["Title"] = Data.Title;
+				documentTemplate["StyleSheet"] = styleTemplate.Render();
+				documentTemplate["BodyHtml"] = bodyHtml;
+				string documentHtml = documentTemplate.Render();
 
 				// Display the note
-				displayBrowser.Text = html;
+				displayBrowser.BackColor = BackColor;
+				displayBrowser.ForeColor = ForeColor;
+				displayBrowser.Text = documentHtml;
 				titleDisplayLabel.Text = Data.Title;
 			}
 		}
 
+		#region GetCommonMarkSettings for colorizing FencedCode blocks
+
+		private static CommonMarkSettings _CommonMarkSettings;
+
+		public CommonMarkSettings GetCommonMarkSettings()
+		{
+			if (_CommonMarkSettings == null)
+			{
+				_CommonMarkSettings = CommonMarkSettings.Default.Clone();
+				_CommonMarkSettings.OutputDelegate = new Action<Block, TextWriter, CommonMarkSettings>((block, target, settings) => new ColorizedCodeHtmlFormatter(target, settings).WriteDocument(block));
+			}
+			return _CommonMarkSettings;
+		}
+
+		private class ColorizedCodeHtmlFormatter : CommonMark.Formatters.HtmlFormatter
+		{
+			private CodeColorizer _colorizer;
+
+			private TextWriter _writer;
+
+			public ColorizedCodeHtmlFormatter(TextWriter target, CommonMarkSettings settings) : base(target, settings)
+			{
+				_writer = target;
+				_colorizer = new CodeColorizer();
+			}
+
+			protected override void WriteBlock(Block block, bool isOpening, bool isClosing, out bool ignoreChildNodes)
+			{
+				ignoreChildNodes = false;
+				if (block.Tag == BlockTag.FencedCode && block.FencedCodeData != null)
+				{
+					string langName = block.FencedCodeData.Info;
+					string title = null;
+					int colonSearch = langName.IndexOf(':');
+					if (colonSearch > -1)
+					{
+						title = langName.Substring(colonSearch + 1);
+						langName = langName.Substring(0, colonSearch);
+					}
+					ILanguage lang = Languages.FindById(langName);
+					if (lang != null)
+					{
+						if (title == null) title = lang.Name;
+						_colorizer.Colorize(block.StringContent.ToString(), lang, new NoteCodeFormatter(title), StyleSheets.Default, _writer);
+						ignoreChildNodes = true;
+					}
+				}
+				if (!ignoreChildNodes)
+				{
+					base.WriteBlock(block, isOpening, isClosing, out ignoreChildNodes);
+				}
+			}
+		}
+
+		#endregion
+
 		private void CheckRadioMenu(ToolStripDropDownItem menu, ToolStripItem selectedItem)
 		{
-			foreach (ToolStripMenuItem item in menu.DropDownItems)
+			foreach (ToolStripItem item in menu.DropDownItems)
 			{
-				if (item != null) item.Checked = item == selectedItem;
+				if (item != null && item is ToolStripMenuItem)
+				{
+					((ToolStripMenuItem)item).Checked = item == selectedItem;
+				}
 			}
 		}
 
@@ -186,6 +289,17 @@ namespace SmallNotes.UI
 			}
 		}
 
+		private Color GetAutomaticForegroundColor(Color backColor)
+		{
+			int val = (int)Math.Round((new int[] { backColor.R, backColor.G, backColor.B }).Average());
+			return val >= 128 ? Color.Black : Color.White;
+		}
+
+		private void RedrawAutomaticMenuItemIcon()
+		{
+			automaticForegroundColorToolStripMenuItem.Image = new ColorList.ColorItem("Auto") { Color = GetAutomaticForegroundColor(BackColor) }.Icon;
+		}
+
 		#endregion
 
 		#region Event handlers
@@ -198,6 +312,7 @@ namespace SmallNotes.UI
 				Data.Text = markdownTextBox.Text;
 				Data.Title = titleTextBox.Text;
 				Data.BackgroundColor = BackColor;
+				Data.ForegroundColor = _automaticForeColor ? (Color?)null : ForeColor;
 				EditMode = false;
 			}
 			else
@@ -205,8 +320,8 @@ namespace SmallNotes.UI
 				Note newNote = new Note();
 				newNote.Text = markdownTextBox.Text;
 				newNote.Title = titleTextBox.Text;
-				newNote.BackgroundColor = ColorTranslator.FromHtml(Resources.DefaultBackgroundColor);
-				newNote.ForegroundColor = ColorTranslator.FromHtml(Resources.DefaultForegroundColor);
+				newNote.BackgroundColor = BackColor;
+				newNote.ForegroundColor = _automaticForeColor ? (Color?)null : ForeColor;
 
 				Data = newNote;
 			}
@@ -338,12 +453,89 @@ namespace SmallNotes.UI
 
 		private void backgroundColorMenuItem_Click(object sender, EventArgs e)
 		{
-			CheckRadioMenu(backgroundColorDropDownButton, (ToolStripItem)sender);
+			ToolStripItem item = (ToolStripItem)sender;
+			CheckRadioMenu(backgroundColorDropDownButton, item);
+			BackColor = ColorTranslator.FromHtml((string)item.Tag);
 		}
 
 		private void customBackgroundColorMenuItem_Click(object sender, EventArgs e)
 		{
 			CheckRadioMenu(backgroundColorDropDownButton, (ToolStripItem)sender);
+
+			// Launch custom color dialog
+			colorPickerDialog.Color = BackColor;
+			colorPickerDialog.FullOpen = true;
+			if (colorPickerDialog.ShowDialog() == DialogResult.OK)
+			{
+				ColorList.ColorItem customItem = new ColorList.ColorItem("");
+				customItem.HexColor = ColorTranslator.ToHtml(colorPickerDialog.Color);
+				customBackgroundColorMenuItem.Image = customItem.Icon;
+				BackColor = colorPickerDialog.Color;
+			}
+		}
+
+		private void automaticForegroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CheckRadioMenu(foregroundColorDropDownButton, (ToolStripItem)sender);
+			_automaticForeColor = true;
+			ForeColor = GetAutomaticForegroundColor(BackColor);
+		}
+
+		private void blackForegroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CheckRadioMenu(foregroundColorDropDownButton, (ToolStripItem)sender);
+			_automaticForeColor = false;
+			ForeColor = Color.Black;
+		}
+
+		private void whiteForegroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CheckRadioMenu(foregroundColorDropDownButton, (ToolStripItem)sender);
+			_automaticForeColor = false;
+			ForeColor = Color.White;
+		}
+
+		private void customForegroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CheckRadioMenu(foregroundColorDropDownButton, (ToolStripItem)sender);
+
+			// Launch custom color dialog
+			colorPickerDialog.Color = ForeColor;
+			colorPickerDialog.FullOpen = true;
+			if (colorPickerDialog.ShowDialog() == DialogResult.OK)
+			{
+				customForegroundColorToolStripMenuItem.Image = new ColorList.ColorItem("") { Color = colorPickerDialog.Color }.Icon;
+				_automaticForeColor = false;
+				ForeColor = colorPickerDialog.Color;
+			}
+		}
+
+		private void NoteForm_BackColorChanged(object sender, EventArgs e)
+		{
+			// Redraw image for main button
+			Bitmap bm = new Bitmap(16, 16);
+			Graphics g = Graphics.FromImage(bm);
+			g.SmoothingMode = SmoothingMode.AntiAlias;
+			Brush colorBrush = new SolidBrush(BackColor);
+			g.FillRectangle(colorBrush, 0, 0, 16, 16);
+			g.DrawString("A", new Font(FontFamily.GenericSansSerif, 10), new SolidBrush(GetAutomaticForegroundColor(BackColor)), 2, 0);
+			backgroundColorDropDownButton.Image = bm;
+
+			// Redraw image for automatic color item
+			RedrawAutomaticMenuItemIcon();
+
+			// Recalculate automatic foreground color if necessary
+			if (_automaticForeColor) ForeColor = GetAutomaticForegroundColor(BackColor);
+		}
+
+		private void NoteForm_ForeColorChanged(object sender, EventArgs e)
+		{
+			// Redraw image for main button
+			Bitmap bm = new Bitmap(16, 16);
+			Graphics g = Graphics.FromImage(bm);
+			g.SmoothingMode = SmoothingMode.AntiAlias;
+			g.DrawString("A", new Font(FontFamily.GenericSansSerif, 10), new SolidBrush(ForeColor), 2, 0);
+			foregroundColorDropDownButton.Image = bm;
 		}
 
 		private void NoteForm_FormClosing(object sender, FormClosingEventArgs e)

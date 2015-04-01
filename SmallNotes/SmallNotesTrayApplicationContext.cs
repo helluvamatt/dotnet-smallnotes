@@ -31,8 +31,6 @@ namespace SmallNotes
 		private Dictionary<int, NoteForm> _SavingNoteForms;
 		private List<NoteForm> _NewNoteForms;
 
-		private string _NoteHtmlTemplate;
-
 		public SmallNotesTrayApplicationContext() : base()
 		{
 			// Initialize variables
@@ -56,15 +54,6 @@ namespace SmallNotes
 			// Initialize the load/save event handlers
 			LoadCallback.AsyncFinished += LoadCallback_AsyncFinished;
 			SaveCallback.AsyncFinished += SaveCallback_AsyncFinished;
-
-			// Load HTML template
-			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.html"))
-			{
-				using (StreamReader reader = new StreamReader(stream))
-				{
-					_NoteHtmlTemplate = reader.ReadToEnd();
-				}
-			}
 
 			// TODO Load application configuration
 			Dictionary<string, string> properties = new Dictionary<string, string>();
@@ -177,7 +166,14 @@ namespace SmallNotes
 					{
 						NoteForm form = _SavingNoteForms[result.ResultId.Value];
 						_SavingNoteForms.Remove(result.ResultId.Value);
-						form.Data = result.SavedNote;
+						if (form.Data == null)
+						{
+							form.Data = result.SavedNote;
+						}
+						else
+						{
+							form.Data.ID = result.SavedNote.ID;
+						}
 						_Forms.Add(form.Data.ID, form);
 					}
 				}
@@ -230,7 +226,6 @@ namespace SmallNotes
 		private NoteForm CreateNoteForm()
 		{
 			NoteForm noteForm = new NoteForm(AppDataFolder);
-			noteForm.NoteHtmlTemplate = _NoteHtmlTemplate;
 			noteForm.NoteUpdated += noteForm_NoteUpdated;
 			return noteForm;
 		}

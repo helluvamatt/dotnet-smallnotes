@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace SmallNotes.UI
 {
-	public class SimpleHtmlTemplate : Dictionary<string,string>
+	public class SimpleTemplate : Dictionary<string,string>
 	{
-		public string HtmlTemplate { get; set; }
+		public string Template { get; set; }
 
 		public string Render()
 		{
-			if (HtmlTemplate == null) throw new TemplateException("HtmlTemplate is null.");
-			Regex replacementRegex = new Regex(@"%([A-Za-z_0-9]+)%");
-			return replacementRegex.Replace(HtmlTemplate, match => this[match.Groups[1].Value]);
+			if (Template == null) throw new TemplateException("Template is null.");
+			Regex replacementRegex = new Regex(@"\$([A-Za-z_0-9]+)\$");
+			return replacementRegex.Replace(Template, match => this[match.Groups[1].Value]);
 		}
 
 		public class TemplateException : Exception

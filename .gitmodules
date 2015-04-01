@@ -4,3 +4,9 @@
 [submodule "HTML-Renderer"]
 	path = HTML-Renderer
 	url = git@github.com:helluvamatt/HTML-Renderer.git
+[submodule "CommonMark.NET"]
+	path = CommonMark.NET
+	url = git@github.com:Knagis/CommonMark.NET.git
+[submodule "ColorCode"]
+	path = ColorCode
+	url = git@github.com:helluvamatt/colorcode.git

@@ -37,23 +37,15 @@
     <ApplicationIcon>appicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ColorCode">
-      <HintPath>..\packages\ColorCode.1.0.1\lib\ColorCode.dll</HintPath>
-    </Reference>
-    <Reference Include="Kiwi.Markdown">
-      <HintPath>..\packages\Kiwi.Markdown.0.8.2\lib\net40\Kiwi.Markdown.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="MarkdownSharp">
-      <HintPath>..\packages\MarkdownSharp.1.13.0.0\lib\35\MarkdownSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,14 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UI\ColorList.cs" />
-    <Compile Include="UI\EventTrigger.cs" />
     <Compile Include="UI\NoMouseLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\NoteCodeFormatter.cs" />
     <Compile Include="UI\ResizePanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\SimpleHtmlTemplate.cs" />
+    <Compile Include="UI\SimpleTemplate.cs" />
     <Compile Include="UI\SmallNotesOptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,10 +108,19 @@
     <Content Include="UI\ic_action_done.png" />
     <Content Include="UI\ic_content_clear.png" />
     <EmbeddedResource Include="UI\template.html" />
+    <EmbeddedResource Include="UI\template.css" />
     <EmbeddedResource Include="appicon.ico" />
     <Content Include="appicon.svg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ColorCode\ColorCode\ColorCode.csproj">
+      <Project>{37438935-d221-4fd8-a10e-4ec5356b0f94}</Project>
+      <Name>ColorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommonMark.NET\CommonMark\CommonMark.Base.csproj">
+      <Project>{0fd4b1dd-45a8-4f02-beb0-5881cd512573}</Project>
+      <Name>CommonMark.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{78fe99a8-493e-4f24-a59c-34b6fd1f4fba}</Project>
       <Name>Common</Name>

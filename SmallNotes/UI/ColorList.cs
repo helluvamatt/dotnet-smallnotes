@@ -104,25 +104,38 @@ namespace SmallNotes.UI
 			public Bitmap Icon { get; set; }
 
 			#region Color property
-			private string _HexColor;
+
+			private Color _Color;
+			public Color Color
+			{
+				get
+				{
+					return _Color;
+				}
+				set
+				{
+					_Color = value;
+					Bitmap bm = new Bitmap(16, 16);
+					Graphics g = Graphics.FromImage(bm);
+					g.DrawRectangle(Pens.White, 0, 0, bm.Width, bm.Height);
+					if (_Color != null)
+					{
+						Brush b = new SolidBrush(_Color);
+						g.FillRectangle(b, 1, 1, bm.Width - 1, bm.Height - 1);
+					}
+					Icon = bm;
+				}
+			}
+
 			public string HexColor
 			{
 				get
 				{
-					return _HexColor;
+					return ColorTranslator.ToHtml(Color);
 				}
 				set
 				{
-					_HexColor = value;
-					Bitmap bm = new Bitmap(16, 16);
-					Graphics g = Graphics.FromImage(bm);
-					g.DrawRectangle(Pens.White, 0, 0, bm.Width, bm.Height);
-					if (_HexColor != null)
-					{
-						Brush b = new SolidBrush(ColorTranslator.FromHtml(_HexColor));
-						g.FillRectangle(b, 1, 1, bm.Width - 1, bm.Height - 1);
-					}
-					Icon = bm;
+					Color = ColorTranslator.FromHtml(value);
 				}
 			}
 

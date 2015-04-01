@@ -132,9 +132,6 @@
   <data name="DefaultFontName" xml:space="preserve">
     <value>Verdana</value>
   </data>
-  <data name="DefaultForegroundColor" xml:space="preserve">
-    <value>#000000</value>
-  </data>
   <data name="MenuItemExit" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
