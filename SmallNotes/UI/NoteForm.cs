@@ -69,6 +69,8 @@ namespace SmallNotes.UI
 
 		public string AppDataPath { get; set; }
 
+		public bool FastResizeMove { get; set; }
+
 		private ILog Logger { get; set; }
 
 		#endregion
@@ -81,6 +83,7 @@ namespace SmallNotes.UI
 		private bool _moveCapture;
 		private bool _resizeCapture;
 		private const int GRIP_SIZE = 16;
+		private bool _lastUpFromDrag;
 
 		private ColorList _colorList;
 		private bool _automaticForeColor = false;
@@ -214,7 +217,7 @@ namespace SmallNotes.UI
 			}
 		}
 
-		#region GetCommonMarkSettings for colorizing FencedCode blocks
+		#region GetCommonMarkSettings for custom HTML rendering
 
 		private static CommonMarkSettings _CommonMarkSettings;
 
@@ -223,18 +226,18 @@ namespace SmallNotes.UI
 			if (_CommonMarkSettings == null)
 			{
 				_CommonMarkSettings = CommonMarkSettings.Default.Clone();
-				_CommonMarkSettings.OutputDelegate = new Action<Block, TextWriter, CommonMarkSettings>((block, target, settings) => new ColorizedCodeHtmlFormatter(target, settings).WriteDocument(block));
+				_CommonMarkSettings.OutputDelegate = new Action<Block, TextWriter, CommonMarkSettings>((block, target, settings) => new CustomHtmlFormatter(target, settings).WriteDocument(block));
 			}
 			return _CommonMarkSettings;
 		}
 
-		private class ColorizedCodeHtmlFormatter : CommonMark.Formatters.HtmlFormatter
+		private class CustomHtmlFormatter : CommonMark.Formatters.HtmlFormatter
 		{
 			private CodeColorizer _colorizer;
 
 			private TextWriter _writer;
 
-			public ColorizedCodeHtmlFormatter(TextWriter target, CommonMarkSettings settings) : base(target, settings)
+			public CustomHtmlFormatter(TextWriter target, CommonMarkSettings settings) : base(target, settings)
 			{
 				_writer = target;
 				_colorizer = new CodeColorizer();
@@ -264,6 +267,48 @@ namespace SmallNotes.UI
 				if (!ignoreChildNodes)
 				{
 					base.WriteBlock(block, isOpening, isClosing, out ignoreChildNodes);
+				}
+			}
+
+			protected override void WriteInline(Inline inline, bool isOpening, bool isClosing, out bool ignoreChildNodes)
+			{
+				if (inline.Tag == InlineTag.Image)
+				{
+					ignoreChildNodes = false;
+					if (isOpening)
+					{
+						Func<string,string> uriResolver = this.Settings.UriResolver;
+						string uri = uriResolver != null ? uriResolver(inline.TargetUrl) : inline.TargetUrl;
+						this.Write("<a href=\"");
+						this.WriteEncodedUrl(uri);
+						this.Write("\"><img src=\"");
+						this.WriteEncodedUrl(uri);
+						this.Write("\" alt=\"");
+						if (!isClosing)
+						{
+							this.RenderPlainTextInlines.Push(true);
+						}
+					}
+
+					if (isClosing)
+					{
+						// this.RenderPlainTextInlines.Pop() is done by the plain text renderer above.
+
+						this.Write('\"');
+						if (inline.LiteralContent.Length > 0)
+						{
+							this.Write(" title=\"");
+							this.WriteEncodedHtml(inline.LiteralContent);
+							this.Write('\"');
+						}
+
+						if (this.Settings.TrackSourcePosition) this.WritePositionAttribute(inline);
+						this.Write(" /></a>");
+					}
+				}
+				else
+				{
+					base.WriteInline(inline, isOpening, isClosing, out ignoreChildNodes);
 				}
 			}
 		}
@@ -364,15 +409,19 @@ namespace SmallNotes.UI
 
 		private void displayBrowser_LinkClicked(object sender, HtmlLinkClickedEventArgs e)
 		{
-			Logger.DebugFormat("Link clicked: '{0}'", e.Link);
-			// Open links in the user's default browser (Chrome, etc.)
-			Process.Start(e.Link);
+			if (!_lastUpFromDrag)
+			{
+				Logger.DebugFormat("Link clicked: '{0}'", e.Link);
+				// Open links in the user's default browser (Chrome, etc.)
+				Process.Start(e.Link);
+			}
 			e.Handled = true;
 		}
 
 		private void displayBrowser_ImageLoad(object sender, HtmlImageLoadEventArgs e)
 		{
 			// TODO Use this to make sure we support SVG images
+			
 		}
 
 		private void displayBrowser_MouseDown(object sender, MouseEventArgs e)
@@ -380,22 +429,29 @@ namespace SmallNotes.UI
 			_moveCapture = true;
 			_mouseDown = e.Location;
 			_formLocation = ((Form)TopLevelControl).Location;
+			_lastUpFromDrag = false;
 		}
 
 		private void displayBrowser_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (_moveCapture)
 			{
+				if (FastResizeMove) displayBrowser.DisableRedraw();
 				int dx = e.Location.X - _mouseDown.X;
 				int dy = e.Location.Y - _mouseDown.Y;
 				Point newLocation = new Point(_formLocation.X + dx, _formLocation.Y + dy);
 				((Form)TopLevelControl).Location = newLocation;
 				_formLocation = newLocation;
+				if (_lastUpFromDrag || Math.Abs(newLocation.X - _mouseDown.X) > SystemInformation.DoubleClickSize.Width || Math.Abs(newLocation.Y - _mouseDown.Y) > SystemInformation.DoubleClickSize.Height)
+				{
+					_lastUpFromDrag = true;
+				}
 			}
 		}
 
 		private void displayBrowser_MouseUp(object sender, MouseEventArgs e)
 		{
+			displayBrowser.EnableRedraw();
 			_moveCapture = false;
 		}
 
@@ -429,6 +485,7 @@ namespace SmallNotes.UI
 		{
 			if (_moveCapture)
 			{
+				if (FastResizeMove) displayBrowser.DisableRedraw();
 				int dx = e.Location.X - _mouseDown.X;
 				int dy = e.Location.Y - _mouseDown.Y;
 				Point newLocation = new Point(_formLocation.X + dx, _formLocation.Y + dy);
@@ -437,6 +494,7 @@ namespace SmallNotes.UI
 			}
 			if (_resizeCapture)
 			{
+				if (FastResizeMove) displayBrowser.DisableRedraw();
 				int dx = e.Location.X - _mouseDown.X;
 				int dy = e.Location.Y - _mouseDown.Y;
 				Size newSize = new Size(_formSize.Width + dx, _formSize.Height + dy);
@@ -448,6 +506,7 @@ namespace SmallNotes.UI
 
 		private void displayPanel_MouseUp(object sender, MouseEventArgs e)
 		{
+			displayBrowser.EnableRedraw();
 			_moveCapture = false;
 			_resizeCapture = false;
 		}

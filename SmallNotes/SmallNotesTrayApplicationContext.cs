@@ -227,6 +227,7 @@ namespace SmallNotes
 		{
 			NoteForm noteForm = new NoteForm(AppDataFolder);
 			noteForm.NoteUpdated += noteForm_NoteUpdated;
+			noteForm.FastResizeMove = true; // TODO From setting
 			return noteForm;
 		}
 

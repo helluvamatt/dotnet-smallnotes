@@ -30,6 +30,14 @@ namespace SmallNotes.Data
 			testNote2.ForegroundColor = Color.Maroon; // Custom color
 			testNote2.BackgroundColor = Color.AliceBlue; // Custom color
 			AddNote(testNote2);
+
+			Note testNote3 = new Note();
+			testNote3.ID = "3";
+			testNote3.Title = "Image Test";
+			testNote3.Text = "![Image test](http://i.imgur.com/IUWmOG1.jpg)\r\n";
+			testNote3.ForegroundColor = null;
+			testNote3.BackgroundColor = Color.Goldenrod;
+			AddNote(testNote3);
 		}
 
 		private void AddNote(Note note)

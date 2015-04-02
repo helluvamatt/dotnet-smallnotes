@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UI\ColorList.cs" />
+    <Compile Include="UI\NativeDisableRendering.cs" />
     <Compile Include="UI\NoMouseLabel.cs">
       <SubType>Component</SubType>
     </Compile>
