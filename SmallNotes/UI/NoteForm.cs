@@ -184,6 +184,11 @@ namespace SmallNotes.UI
 			// Display
 			if (Data != null)
 			{
+				// Compute link color
+				// ForegroundColor == Automatic: LinkColor = AliceBlue for dark backgrounds, Blue for light backgrounds
+				// ForegroundColor != Automatic: LinkColor = ForegroundColor
+				Color linkColor = Data.ForegroundColor.HasValue ? Data.ForegroundColor.Value : IsBackgroundDark(BackColor) ? Color.AliceBlue : Color.Blue;
+
 				// Parse Markdown to HTML
 				string bodyHtml = CommonMarkConverter.Convert(Data.Text, GetCommonMarkSettings());
 
@@ -191,6 +196,7 @@ namespace SmallNotes.UI
 				SimpleTemplate styleTemplate = new SimpleTemplate() { Template = _StylesheetTemplate };
 				styleTemplate["ForeColor"] = ColorTranslator.ToHtml(ForeColor);
 				styleTemplate["BackColor"] = ColorTranslator.ToHtml(BackColor);
+				styleTemplate["LinkColor"] = ColorTranslator.ToHtml(linkColor);
 				styleTemplate["CustomStylesheet"] = CustomStylesheet;
 
 				// Process _DocumentTemplate
@@ -289,10 +295,15 @@ namespace SmallNotes.UI
 			}
 		}
 
-		private Color GetAutomaticForegroundColor(Color backColor)
+		private static bool IsBackgroundDark(Color backColor)
 		{
 			int val = (int)Math.Round((new int[] { backColor.R, backColor.G, backColor.B }).Average());
-			return val >= 128 ? Color.Black : Color.White;
+			return val < 128;
+		}
+
+		private static Color GetAutomaticForegroundColor(Color backColor)
+		{
+			return IsBackgroundDark(backColor) ? Color.White : Color.Black;
 		}
 
 		private void RedrawAutomaticMenuItemIcon()

@@ -4,7 +4,13 @@
 	background-color: $BackColor$;
 }
 
-hr {
+a
+{
+	color: $LinkColor$;
+}
+
+hr
+{
 	height: 2px;
 	border: none;
 	color: $ForeColor$;
