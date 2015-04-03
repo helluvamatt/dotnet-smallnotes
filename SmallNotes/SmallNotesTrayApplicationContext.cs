@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using SmallNotes.Data.Entities;
 
 namespace SmallNotes
 {
@@ -22,7 +23,7 @@ namespace SmallNotes
 		/// <summary>
 		/// Config database
 		/// </summary>
-		public Database ConfigDatabase { get; private set; }
+		public Database NoteDatabase { get; private set; }
 
 		private AsyncCallback<Database.LoadNotesResult> LoadCallback { get; set; }
 		private AsyncCallback<Database.SaveNoteResult> SaveCallback { get; set; }
@@ -34,9 +35,6 @@ namespace SmallNotes
 		public SmallNotesTrayApplicationContext() : base()
 		{
 			// Initialize variables
-			// TODO Enable multiple database backends (Filesystem, cloud, etc..)
-			//ConfigDatabase = new FileDatabase();
-			ConfigDatabase = new TestDatabase();
 			LoadCallback = new AsyncCallback<Database.LoadNotesResult>();
 			SaveCallback = new AsyncCallback<Database.SaveNoteResult>();
 			_Forms = new Dictionary<string, NoteForm>();
@@ -58,11 +56,15 @@ namespace SmallNotes
 			// TODO Load application configuration
 			Dictionary<string, string> properties = new Dictionary<string, string>();
 
+			// TODO Enable multiple database backends (Filesystem, cloud, etc..)
+			NoteDatabase = new FileDatabase();
+			//NoteDatabase = new TestDatabase();
+
 			// Initialize the database
-			ConfigDatabase.Initialize(GetAppDataPath(), properties);
+			NoteDatabase.Initialize(GetAppDataPath(), properties);
 
 			// Do the load
-			ConfigDatabase.LoadNotesAsync(LoadCallback);
+			NoteDatabase.LoadNotesAsync(LoadCallback);
 		}
 
 		protected override OptionsForm BuildOptionsForm()
@@ -140,18 +142,23 @@ namespace SmallNotes
 				if (_Forms.ContainsKey(entry.Key))
 				{
 					NoteForm existingNoteForm = _Forms[entry.Key];
+					existingNoteForm.Visible = entry.Value.Visible;
 					if (entry.Value.IsChangedFrom(existingNoteForm.Data))
 					{
 						existingNoteForm.Data = entry.Value;
 					}
 				}
-				else
+				else if (entry.Value.Visible)
 				{
 					// New Note: Add form and display
 					NoteForm newNoteForm = CreateNoteForm();
 					newNoteForm.Data = entry.Value;
 					newNoteForm.Show();
 					_Forms.Add(entry.Key, newNoteForm);
+				}
+				else
+				{
+					Logger.DebugFormat("Note '{0}' has Visible = {1} was not shown.", entry.Value.ID, entry.Value.Visible);
 				}
 			}
 		}
@@ -216,7 +223,7 @@ namespace SmallNotes
 			}
 
 			// Do the actual save
-			ConfigDatabase.SaveNoteAsync(SaveCallback, target.Data, saveRequestId);
+			NoteDatabase.SaveNoteAsync(SaveCallback, target.Data, saveRequestId);
 		}
 
 		#endregion
@@ -227,6 +234,7 @@ namespace SmallNotes
 		{
 			NoteForm noteForm = new NoteForm(AppDataFolder);
 			noteForm.NoteUpdated += noteForm_NoteUpdated;
+			noteForm.NoteFactory = () => NoteDatabase.CreateNewNote();
 			noteForm.FastResizeMove = true; // TODO From setting
 			return noteForm;
 		}

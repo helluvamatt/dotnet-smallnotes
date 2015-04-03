@@ -3,6 +3,7 @@ using CommonMark;
 using CommonMark.Syntax;
 using log4net;
 using SmallNotes.Data;
+using SmallNotes.Data.Entities;
 using SmallNotes.Properties;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,8 @@ namespace SmallNotes.UI
 		public string AppDataPath { get; set; }
 
 		public bool FastResizeMove { get; set; }
+
+		public Func<Note> NoteFactory { get; set; }
 
 		private ILog Logger { get; set; }
 
@@ -373,11 +376,12 @@ namespace SmallNotes.UI
 			}
 			else
 			{
-				Note newNote = new Note();
+				Note newNote = NoteFactory.Invoke();
 				newNote.Text = markdownTextBox.Text;
 				newNote.Title = titleTextBox.Text;
 				newNote.BackgroundColor = BackColor;
 				newNote.ForegroundColor = _automaticForeColor ? (Color?)null : ForeColor;
+				newNote.Visible = true;
 
 				Data = newNote;
 			}

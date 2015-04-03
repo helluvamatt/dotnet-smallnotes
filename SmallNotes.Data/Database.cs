@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
+using SmallNotes.Data.Entities;
 
 namespace SmallNotes.Data
 {
@@ -19,6 +20,13 @@ namespace SmallNotes.Data
 		public abstract SaveNoteResult SaveNote(Note request);
 
 		public abstract LoadNotesResult LoadNotes();
+
+		public abstract Note CreateNewNote();
+
+		public virtual void Dispose()
+		{
+			// Do nothing by default
+		}
 
 		#endregion
 
@@ -36,11 +44,6 @@ namespace SmallNotes.Data
 		public void LoadNotesAsync(AsyncCallback<LoadNotesResult> callback)
 		{
 			new AsyncRunner<LoadNotesResult, object>().AsyncRun(LoadNotes, callback);
-		}
-
-		public virtual void Dispose()
-		{
-			// Do nothing by default
 		}
 
 		public class LoadNotesResult : BasicResult

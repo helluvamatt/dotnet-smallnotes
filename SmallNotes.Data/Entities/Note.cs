@@ -5,21 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmallNotes.Data
+namespace SmallNotes.Data.Entities
 {
-	public class Note
+	public abstract class Note
 	{
-		public string ID { get; set; }
-		public bool Visible { get; set; }
-		public string Title { get; set; }
-		public string Text { get; set; }
-		public Color BackgroundColor { get; set; }
-		public Color? ForegroundColor { get; set; }
-
-		public Note()
-		{
-			Visible = true;
-		}
+		public virtual string ID { get; set; }
+		public virtual bool Visible { get; set; }
+		public virtual string Title { get; set; }
+		public virtual string Text { get; set; }
+		public virtual Color BackgroundColor { get; set; }
+		public virtual Color? ForegroundColor { get; set; }
 
 		public bool IsChangedFrom(Note other)
 		{
