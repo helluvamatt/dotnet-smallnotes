@@ -5,6 +5,7 @@ using log4net;
 using SmallNotes.Data;
 using SmallNotes.Data.Entities;
 using SmallNotes.Properties;
+using SmallNotes.UI.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -84,16 +85,17 @@ namespace SmallNotes.UI
 		private Size _formSize;
 		private Point _mouseDown;
 		private bool _moveCapture;
+		private bool _moveMoved;
 		private bool _resizeCapture;
+		private bool _resizeResized;
 		private const int GRIP_SIZE = 16;
 		private bool _lastUpFromDrag;
 
-		private ColorList _colorList;
 		private bool _automaticForeColor = false;
 		private ToolStripMenuItem customBackgroundColorMenuItem;
 
-		private string _StylesheetTemplate;
-		private string _DocumentTemplate;
+		public static string StylesheetTemplate { get; set; }
+		public static string DocumentTemplate { get; set; }
 
 		//private static int MouseAreaW = SystemInformation.DoubleClickSize.Width;
 		//private static int MouseAreaH = SystemInformation.DoubleClickSize.Height;
@@ -103,36 +105,18 @@ namespace SmallNotes.UI
 
 		#endregion
 
-		public NoteForm(string appDataPath)
+		public NoteForm(string appDataPath, ColorList backgroundColorList)
 		{
 			Logger = LogManager.GetLogger(GetType());
 			AppDataPath = appDataPath;
-			_colorList = new ColorList();
 			InitializeComponent();
 			SetStyle(ControlStyles.ResizeRedraw, true);
-
-			// Load background color list from colors.xml
-			try
-			{
-				string path = Path.Combine(AppDataPath, "colors.xml");
-				using (StreamReader reader = new StreamReader(path, Encoding.UTF8))
-				{
-					_colorList.LoadFromXml(reader);
-				}
-			}
-			catch (XmlException ex)
-			{
-				Logger.Error("XML parsing error", ex);
-			}
-			catch (IOException ex)
-			{
-				Logger.Error("IO error", ex);
-			}
+			CustomStylesheet = "";
 
 			// Populate color menu
-			if (_colorList.Items.Count > 0)
+			if (backgroundColorList.Items.Count > 0)
 			{
-				foreach (ColorList.ColorItem item in _colorList.Items)
+				foreach (ColorList.ColorItem item in backgroundColorList.Items)
 				{
 					ToolStripMenuItem newItem = new ToolStripMenuItem();
 					newItem.Text = item.Name;
@@ -145,6 +129,7 @@ namespace SmallNotes.UI
 			}
 			customBackgroundColorMenuItem = new ToolStripMenuItem();
 			customBackgroundColorMenuItem.Text = Resources.CustomMenuItem;
+			customBackgroundColorMenuItem.Image = ColorList.DrawEmptyCustomIcon();
 			customBackgroundColorMenuItem.Click += customBackgroundColorMenuItem_Click;
 			backgroundColorDropDownButton.DropDownItems.Add(customBackgroundColorMenuItem);
 
@@ -152,24 +137,7 @@ namespace SmallNotes.UI
 			blackForegroundColorToolStripMenuItem.Image = new ColorList.ColorItem("Black") { Color = Color.Black }.Icon;
 			whiteForegroundColorToolStripMenuItem.Image = new ColorList.ColorItem("White") { Color = Color.White }.Icon;
 
-			// Load template.css
-			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.css"))
-			{
-				using (StreamReader reader = new StreamReader(stream))
-				{
-					_StylesheetTemplate = reader.ReadToEnd();
-				}
-			}
-			CustomStylesheet = "";
-
-			// Load template.html
-			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.html"))
-			{
-				using (StreamReader reader = new StreamReader(stream))
-				{
-					_DocumentTemplate = reader.ReadToEnd();
-				}
-			}
+			
 		}
 
 		#region Utility methods
@@ -183,40 +151,25 @@ namespace SmallNotes.UI
 			titleTextBox.Text = Data != null ? Data.Title : Resources.NewNoteTitle;
 			markdownTextBox.Text = Data != null ? Data.Text : "";
 			_automaticForeColor = Data == null || !Data.ForegroundColor.HasValue;
-			BackColor = Data != null ? Data.BackgroundColor : ColorTranslator.FromHtml(Resources.DefaultBackgroundColor);
-			ForeColor = Data != null && Data.ForegroundColor.HasValue ? Data.ForegroundColor.Value : GetAutomaticForegroundColor(BackColor);
+			BackColor = Data != null ? Data.BackgroundColor : ColorTranslator.FromHtml(Settings.DEFAULT_BACKGROUND_COLOR);
+			ForeColor = ComputeForegroundColor(Data, BackColor);
 			RedrawAutomaticMenuItemIcon();
 
 			// Display
 			if (Data != null)
 			{
-				// Compute link color
-				// ForegroundColor == Automatic: LinkColor = AliceBlue for dark backgrounds, Blue for light backgrounds
-				// ForegroundColor != Automatic: LinkColor = ForegroundColor
-				Color linkColor = Data.ForegroundColor.HasValue ? Data.ForegroundColor.Value : IsBackgroundDark(BackColor) ? Color.AliceBlue : Color.Blue;
-
-				// Parse Markdown to HTML
-				string bodyHtml = CommonMarkConverter.Convert(Data.Text, GetCommonMarkSettings());
-
-				// Process _StylesheetTemplate
-				SimpleTemplate styleTemplate = new SimpleTemplate() { Template = _StylesheetTemplate };
-				styleTemplate["ForeColor"] = ColorTranslator.ToHtml(ForeColor);
-				styleTemplate["BackColor"] = ColorTranslator.ToHtml(BackColor);
-				styleTemplate["LinkColor"] = ColorTranslator.ToHtml(linkColor);
-				styleTemplate["CustomStylesheet"] = CustomStylesheet;
-
-				// Process _DocumentTemplate
-				SimpleTemplate documentTemplate = new SimpleTemplate() { Template = _DocumentTemplate };
-				documentTemplate["Title"] = Data.Title;
-				documentTemplate["StyleSheet"] = styleTemplate.Render();
-				documentTemplate["BodyHtml"] = bodyHtml;
-				string documentHtml = documentTemplate.Render();
+				string documentHtml = RenderNoteToHtml(Data, CustomStylesheet);
 
 				// Display the note
 				displayBrowser.BackColor = BackColor;
 				displayBrowser.ForeColor = ForeColor;
 				displayBrowser.Text = documentHtml;
 				titleDisplayLabel.Text = Data.Title;
+
+				// Ensure correct location and size
+				StartPosition = FormStartPosition.Manual;
+				if (!Data.Dimensions.IsEmpty) this.Size = Data.Dimensions;
+				if (!Data.Location.IsEmpty) this.Location = Data.Location;
 			}
 		}
 
@@ -224,7 +177,7 @@ namespace SmallNotes.UI
 
 		private static CommonMarkSettings _CommonMarkSettings;
 
-		public CommonMarkSettings GetCommonMarkSettings()
+		public static CommonMarkSettings GetCommonMarkSettings()
 		{
 			if (_CommonMarkSettings == null)
 			{
@@ -359,6 +312,46 @@ namespace SmallNotes.UI
 			automaticForegroundColorToolStripMenuItem.Image = new ColorList.ColorItem("Auto") { Color = GetAutomaticForegroundColor(BackColor) }.Icon;
 		}
 
+		private void UpdateLocationAndSize()
+		{
+			if (Data != null)
+			{
+				Data.Location = this.Location;
+				Data.Dimensions = this.Size;
+				OnNoteUpdated();
+			}
+		}
+
+		private static Color ComputeForegroundColor(Note note, Color backgroundColor)
+		{
+			return note != null && note.ForegroundColor.HasValue ? note.ForegroundColor.Value : GetAutomaticForegroundColor(backgroundColor);
+		}
+
+		public static string RenderNoteToHtml(Note note, string customCss)
+		{
+			// Compute link color
+			// ForegroundColor == Automatic: LinkColor = AliceBlue for dark backgrounds, Blue for light backgrounds
+			// ForegroundColor != Automatic: LinkColor = ForegroundColor
+			Color linkColor = note.ForegroundColor.HasValue ? note.ForegroundColor.Value : IsBackgroundDark(note.BackgroundColor) ? Color.AliceBlue : Color.Blue;
+
+			// Parse Markdown to HTML
+			string bodyHtml = CommonMarkConverter.Convert(note.Text, GetCommonMarkSettings());
+
+			// Process _StylesheetTemplate
+			SimpleTemplate styleTemplate = new SimpleTemplate() { Template = StylesheetTemplate };
+			styleTemplate["ForeColor"] = ColorTranslator.ToHtml(ComputeForegroundColor(note, note.BackgroundColor));
+			styleTemplate["BackColor"] = ColorTranslator.ToHtml(note.BackgroundColor);
+			styleTemplate["LinkColor"] = ColorTranslator.ToHtml(linkColor);
+			styleTemplate["CustomStylesheet"] = customCss;
+
+			// Process _DocumentTemplate
+			SimpleTemplate documentTemplate = new SimpleTemplate() { Template = DocumentTemplate };
+			documentTemplate["Title"] = note.Title;
+			documentTemplate["StyleSheet"] = styleTemplate.Render();
+			documentTemplate["BodyHtml"] = bodyHtml;
+			return documentTemplate.Render();
+		}
+
 		#endregion
 
 		#region Event handlers
@@ -372,6 +365,8 @@ namespace SmallNotes.UI
 				Data.Title = titleTextBox.Text;
 				Data.BackgroundColor = BackColor;
 				Data.ForegroundColor = _automaticForeColor ? (Color?)null : ForeColor;
+				Data.Location = this.Location;
+				Data.Dimensions = this.Size;
 				EditMode = false;
 			}
 			else
@@ -382,12 +377,13 @@ namespace SmallNotes.UI
 				newNote.BackgroundColor = BackColor;
 				newNote.ForegroundColor = _automaticForeColor ? (Color?)null : ForeColor;
 				newNote.Visible = true;
-
+				newNote.Dimensions = this.Size;
+				newNote.Location = this.Location;
 				Data = newNote;
 			}
 
 			// Save the note
-			if (NoteUpdated != null) NoteUpdated(this, new NoteUpdateEventArgs { UpdatedNote = Data });
+			OnNoteUpdated();
 		}
 
 		private void cancelButton_Click(object sender, EventArgs e)
@@ -446,6 +442,7 @@ namespace SmallNotes.UI
 				Point newLocation = new Point(_formLocation.X + dx, _formLocation.Y + dy);
 				((Form)TopLevelControl).Location = newLocation;
 				_formLocation = newLocation;
+				_moveMoved = true;
 				if (_lastUpFromDrag || Math.Abs(newLocation.X - _mouseDown.X) > SystemInformation.DoubleClickSize.Width || Math.Abs(newLocation.Y - _mouseDown.Y) > SystemInformation.DoubleClickSize.Height)
 				{
 					_lastUpFromDrag = true;
@@ -456,6 +453,11 @@ namespace SmallNotes.UI
 		private void displayBrowser_MouseUp(object sender, MouseEventArgs e)
 		{
 			displayBrowser.EnableRedraw();
+			if (_moveMoved)
+			{
+				UpdateLocationAndSize();
+			}
+			_moveMoved = false;
 			_moveCapture = false;
 		}
 
@@ -495,6 +497,7 @@ namespace SmallNotes.UI
 				Point newLocation = new Point(_formLocation.X + dx, _formLocation.Y + dy);
 				((Form)TopLevelControl).Location = newLocation;
 				_formLocation = newLocation;
+				_moveMoved = true;
 			}
 			if (_resizeCapture)
 			{
@@ -503,6 +506,7 @@ namespace SmallNotes.UI
 				int dy = e.Location.Y - _mouseDown.Y;
 				Size newSize = new Size(_formSize.Width + dx, _formSize.Height + dy);
 				((Form)TopLevelControl).Size = newSize;
+				_resizeResized = true;
 			}
 
 			CheckCursor();
@@ -511,8 +515,14 @@ namespace SmallNotes.UI
 		private void displayPanel_MouseUp(object sender, MouseEventArgs e)
 		{
 			displayBrowser.EnableRedraw();
+			if (_moveMoved || _resizeResized)
+			{
+				UpdateLocationAndSize();
+			}
 			_moveCapture = false;
+			_moveMoved = false;
 			_resizeCapture = false;
+			_resizeResized = false;
 		}
 
 		private void displayPanel_MouseEnter(object sender, EventArgs e)
@@ -632,6 +642,11 @@ namespace SmallNotes.UI
 		public class NoteUpdateEventArgs : EventArgs
 		{
 			public Note UpdatedNote { get; set; }
+		}
+
+		private void OnNoteUpdated()
+		{
+			if (NoteUpdated != null) NoteUpdated(this, new NoteUpdateEventArgs { UpdatedNote = Data });
 		}
 
 		#endregion

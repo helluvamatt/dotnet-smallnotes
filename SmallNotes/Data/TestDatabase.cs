@@ -1,5 +1,4 @@
-﻿using Common.Data.Async;
-using SmallNotes.Data.Entities;
+﻿using SmallNotes.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SmallNotes.Data
 {
-	public class TestDatabase : Database
+	public class TestDatabase : IDatabase
 	{
 		private Dictionary<string, Note> _Notes;
 
-		protected override void OnInitialize(Dictionary<string, string> properties)
+		public TestDatabase(IDatabaseDescriptor descriptor)
 		{
 			_Notes = new Dictionary<string, Note>();
 			Note testNote = CreateNewNote();
@@ -49,7 +48,7 @@ namespace SmallNotes.Data
 			_Notes[note.ID] = note;
 		}
 
-		public override SaveNoteResult SaveNote(Note note)
+		public Note SaveNote(Note note)
 		{
 			if (note.ID == null)
 			{
@@ -57,17 +56,22 @@ namespace SmallNotes.Data
 				note.ID = (largestId + 1).ToString();
 			}
 			AddNote(note);
-			return new SaveNoteResult { Success = true, Exception = null, SavedNote = note };
+			return note;
 		}
 
-		public override Database.LoadNotesResult LoadNotes()
+		public Dictionary<string, Note> LoadNotes()
 		{
-			return new Database.LoadNotesResult { Success = true, Exception = null, NoteList = _Notes };
+			return _Notes;
 		}
 
-		public override Note CreateNewNote()
+		public Note CreateNewNote()
 		{
 			return new TestNote();
+		}
+
+		public void Dispose()
+		{
+			// Do nothing
 		}
 
 		public class TestNote : Note { }

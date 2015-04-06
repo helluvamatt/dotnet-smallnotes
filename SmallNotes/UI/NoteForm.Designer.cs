@@ -1,4 +1,6 @@
-﻿namespace SmallNotes.UI
+﻿using SmallNotes.UI.Controls;
+using SmallNotes.UI.Utils;
+namespace SmallNotes.UI
 {
 	partial class NoteForm
 	{
@@ -35,18 +37,18 @@
 			this.optionsToolStrip = new System.Windows.Forms.ToolStrip();
 			this.backgroundColorDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
 			this.foregroundColorDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
-			this.titleTextBox = new System.Windows.Forms.TextBox();
-			this.markdownTextBox = new System.Windows.Forms.TextBox();
-			this.colorPickerDialog = new System.Windows.Forms.ColorDialog();
-			this.displayPanel = new SmallNotes.UI.ResizePanel();
-			this.titleDisplayLabel = new SmallNotes.UI.NoMouseLabel();
-			this.displayBrowser = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
 			this.automaticForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.blackForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.whiteForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.customForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.titleTextBox = new System.Windows.Forms.TextBox();
+			this.markdownTextBox = new System.Windows.Forms.TextBox();
+			this.colorPickerDialog = new System.Windows.Forms.ColorDialog();
+			this.displayPanel = new SmallNotes.UI.Controls.ResizePanel();
+			this.titleDisplayLabel = new SmallNotes.UI.Controls.NoMouseLabel();
+			this.displayBrowser = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
 			this.editorPanel.SuspendLayout();
 			this.optionsToolStrip.SuspendLayout();
 			this.displayPanel.SuspendLayout();
@@ -55,6 +57,7 @@
 			// cancelButton
 			// 
 			resources.ApplyResources(this.cancelButton, "cancelButton");
+			this.cancelButton.Image = global::SmallNotes.Properties.Resources.ic_content_clear;
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -62,6 +65,7 @@
 			// saveButton
 			// 
 			resources.ApplyResources(this.saveButton, "saveButton");
+			this.saveButton.Image = global::SmallNotes.Properties.Resources.ic_action_done;
 			this.saveButton.Name = "saveButton";
 			this.saveButton.UseVisualStyleBackColor = true;
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
@@ -104,6 +108,40 @@
 			resources.ApplyResources(this.foregroundColorDropDownButton, "foregroundColorDropDownButton");
 			this.foregroundColorDropDownButton.Name = "foregroundColorDropDownButton";
 			// 
+			// automaticForegroundColorToolStripMenuItem
+			// 
+			this.automaticForegroundColorToolStripMenuItem.Name = "automaticForegroundColorToolStripMenuItem";
+			resources.ApplyResources(this.automaticForegroundColorToolStripMenuItem, "automaticForegroundColorToolStripMenuItem");
+			this.automaticForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.automaticForegroundColorToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+			// 
+			// blackForegroundColorToolStripMenuItem
+			// 
+			this.blackForegroundColorToolStripMenuItem.Name = "blackForegroundColorToolStripMenuItem";
+			resources.ApplyResources(this.blackForegroundColorToolStripMenuItem, "blackForegroundColorToolStripMenuItem");
+			this.blackForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.blackForegroundColorToolStripMenuItem_Click);
+			// 
+			// whiteForegroundColorToolStripMenuItem
+			// 
+			this.whiteForegroundColorToolStripMenuItem.Name = "whiteForegroundColorToolStripMenuItem";
+			resources.ApplyResources(this.whiteForegroundColorToolStripMenuItem, "whiteForegroundColorToolStripMenuItem");
+			this.whiteForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.whiteForegroundColorToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+			// 
+			// customForegroundColorToolStripMenuItem
+			// 
+			this.customForegroundColorToolStripMenuItem.Name = "customForegroundColorToolStripMenuItem";
+			resources.ApplyResources(this.customForegroundColorToolStripMenuItem, "customForegroundColorToolStripMenuItem");
+			this.customForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.customForegroundColorToolStripMenuItem_Click);
+			// 
 			// titleTextBox
 			// 
 			resources.ApplyResources(this.titleTextBox, "titleTextBox");
@@ -145,40 +183,6 @@
 			this.displayBrowser.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseDown);
 			this.displayBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseMove);
 			this.displayBrowser.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseUp);
-			// 
-			// automaticForegroundColorToolStripMenuItem
-			// 
-			this.automaticForegroundColorToolStripMenuItem.Name = "automaticForegroundColorToolStripMenuItem";
-			resources.ApplyResources(this.automaticForegroundColorToolStripMenuItem, "automaticForegroundColorToolStripMenuItem");
-			this.automaticForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.automaticForegroundColorToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-			// 
-			// blackForegroundColorToolStripMenuItem
-			// 
-			this.blackForegroundColorToolStripMenuItem.Name = "blackForegroundColorToolStripMenuItem";
-			resources.ApplyResources(this.blackForegroundColorToolStripMenuItem, "blackForegroundColorToolStripMenuItem");
-			this.blackForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.blackForegroundColorToolStripMenuItem_Click);
-			// 
-			// whiteForegroundColorToolStripMenuItem
-			// 
-			this.whiteForegroundColorToolStripMenuItem.Name = "whiteForegroundColorToolStripMenuItem";
-			resources.ApplyResources(this.whiteForegroundColorToolStripMenuItem, "whiteForegroundColorToolStripMenuItem");
-			this.whiteForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.whiteForegroundColorToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
-			// 
-			// customForegroundColorToolStripMenuItem
-			// 
-			this.customForegroundColorToolStripMenuItem.Name = "customForegroundColorToolStripMenuItem";
-			resources.ApplyResources(this.customForegroundColorToolStripMenuItem, "customForegroundColorToolStripMenuItem");
-			this.customForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.customForegroundColorToolStripMenuItem_Click);
 			// 
 			// NoteForm
 			// 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace SmallNotes.UI
+namespace SmallNotes.UI.Utils
 {
 	public class ColorList
 	{
@@ -101,12 +101,12 @@ namespace SmallNotes.UI
 
 			public string Name { get; private set; }
 
-			public Bitmap Icon { get; set; }
+			public Image Icon { get; set; }
 
 			#region Color property
 
-			private Color _Color;
-			public Color Color
+			private Color? _Color;
+			public Color? Color
 			{
 				get
 				{
@@ -115,15 +115,7 @@ namespace SmallNotes.UI
 				set
 				{
 					_Color = value;
-					Bitmap bm = new Bitmap(16, 16);
-					Graphics g = Graphics.FromImage(bm);
-					g.DrawRectangle(Pens.White, 0, 0, bm.Width, bm.Height);
-					if (_Color != null)
-					{
-						Brush b = new SolidBrush(_Color);
-						g.FillRectangle(b, 1, 1, bm.Width - 1, bm.Height - 1);
-					}
-					Icon = bm;
+					Icon = _Color.HasValue ? DrawColorIcon(_Color.Value) : DrawEmptyCustomIcon();
 				}
 			}
 
@@ -131,11 +123,11 @@ namespace SmallNotes.UI
 			{
 				get
 				{
-					return ColorTranslator.ToHtml(Color);
+					return Color.HasValue ? ColorTranslator.ToHtml(Color.Value) : null;
 				}
 				set
 				{
-					Color = ColorTranslator.FromHtml(value);
+					Color = value != null ? ColorTranslator.FromHtml(value) : (Color?)null;
 				}
 			}
 
@@ -145,6 +137,30 @@ namespace SmallNotes.UI
 			{
 				return Name;
 			}
+		}
+
+		public static Image DrawColorIcon(Color c, int w = 16, int h = 16)
+		{
+			Bitmap bm = new Bitmap(w, h);
+			Graphics g = Graphics.FromImage(bm);
+			g.DrawRectangle(Pens.White, 0, 0, w - 1, h - 1);
+			Brush b = new SolidBrush(c);
+			g.FillRectangle(b, 1, 1, bm.Width - 1, bm.Height - 1);
+			return bm;
+		}
+
+		public static Image DrawEmptyCustomIcon(int w = 16, int h = 16)
+		{
+			Rectangle area = new Rectangle(0, 0, w - 1, w - 1);
+			Bitmap im = new Bitmap(w, h);
+			Graphics g = Graphics.FromImage(im);
+			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+			Pen blackPen = new Pen(Color.Black, 1);
+			g.FillRectangle(new SolidBrush(Color.White), area);
+			g.DrawRectangle(blackPen, area);
+			g.DrawLine(blackPen, new Point(0, 0), new Point(w - 1, h - 1));
+			g.DrawLine(blackPen, new Point(0, h - 1), new Point(w - 1, 0));
+			return im;
 		}
 	}
 }

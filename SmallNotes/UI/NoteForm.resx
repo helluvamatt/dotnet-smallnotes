@@ -121,18 +121,10 @@
   <data name="cancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="cancelButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABGdBTUEAALGPC/xhBQAAAIVJREFUWEft
-        1ksKgDAMRdGuwlW4/5mrcEGaJxRK0dBJm4D3QPGX4p1pAQAAmGG3ddjaniufZjSrPcvohZet05YXqWea
-        0az2LNO++CtyZGYqLyA8rnoLSRNX9UGp4qo2Ml2cpA5s43Rsz8Mj+zhdv90L4YWER44EhEam/9Sl/1kA
-        AAC/UMoNdDNC6QMnGjwAAAAASUVORK5CYII=
-</value>
-  </data>
   <data name="cancelButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>253, 230</value>
   </data>
@@ -157,14 +149,6 @@
   </data>
   <data name="saveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
-  </data>
-  <data name="saveButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABGdBTUEAALGPC/xhBQAAAHVJREFUWEft
-        zrEJgEAQRNEL7MZ2RK1GsBe7NNBZcUFEE5Mb5D8Yjo3uFwAAACft+VrqtVWbj8tMxm2aXSBxXw2abdyo
-        VYlrtEWLgDfV4kKnxccR8BRZNS5N2lOkRVy6R1rFpWukXVzKSMu4FJG2cQAA4NdK2QFFfy2X6SPDNAAA
-        AABJRU5ErkJggg==
-</value>
   </data>
   <data name="saveButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -218,31 +202,31 @@
     <value>toolStripDropDownButton1</value>
   </data>
   <data name="automaticForegroundColorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>130, 22</value>
   </data>
   <data name="automaticForegroundColorToolStripMenuItem.Text" xml:space="preserve">
     <value>Automatic</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>127, 6</value>
   </data>
   <data name="blackForegroundColorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>130, 22</value>
   </data>
   <data name="blackForegroundColorToolStripMenuItem.Text" xml:space="preserve">
     <value>Black</value>
   </data>
   <data name="whiteForegroundColorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>130, 22</value>
   </data>
   <data name="whiteForegroundColorToolStripMenuItem.Text" xml:space="preserve">
     <value>White</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>127, 6</value>
   </data>
   <data name="customForegroundColorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>130, 22</value>
   </data>
   <data name="customForegroundColorToolStripMenuItem.Text" xml:space="preserve">
     <value>Custom...</value>
@@ -373,54 +357,6 @@
   <metadata name="colorPickerDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="&gt;&gt;titleDisplayLabel.Name" xml:space="preserve">
-    <value>titleDisplayLabel</value>
-  </data>
-  <data name="&gt;&gt;titleDisplayLabel.Type" xml:space="preserve">
-    <value>SmallNotes.UI.NoMouseLabel, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;titleDisplayLabel.Parent" xml:space="preserve">
-    <value>displayPanel</value>
-  </data>
-  <data name="&gt;&gt;titleDisplayLabel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;displayBrowser.Name" xml:space="preserve">
-    <value>displayBrowser</value>
-  </data>
-  <data name="&gt;&gt;displayBrowser.Type" xml:space="preserve">
-    <value>TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel, HtmlRenderer.WinForms, Version=1.5.1.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;displayBrowser.Parent" xml:space="preserve">
-    <value>displayPanel</value>
-  </data>
-  <data name="&gt;&gt;displayBrowser.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="displayPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="displayPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="displayPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>284, 261</value>
-  </data>
-  <data name="displayPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;displayPanel.Name" xml:space="preserve">
-    <value>displayPanel</value>
-  </data>
-  <data name="&gt;&gt;displayPanel.Type" xml:space="preserve">
-    <value>SmallNotes.UI.ResizePanel, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;displayPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;displayPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="titleDisplayLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
@@ -443,7 +379,7 @@
     <value>titleDisplayLabel</value>
   </data>
   <data name="&gt;&gt;titleDisplayLabel.Type" xml:space="preserve">
-    <value>SmallNotes.UI.NoMouseLabel, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SmallNotes.UI.Controls.NoMouseLabel, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;titleDisplayLabel.Parent" xml:space="preserve">
     <value>displayPanel</value>
@@ -481,6 +417,30 @@
   <data name="&gt;&gt;displayBrowser.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="displayPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="displayPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="displayPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>284, 261</value>
+  </data>
+  <data name="displayPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;displayPanel.Name" xml:space="preserve">
+    <value>displayPanel</value>
+  </data>
+  <data name="&gt;&gt;displayPanel.Type" xml:space="preserve">
+    <value>SmallNotes.UI.Controls.ResizePanel, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;displayPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;displayPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -504,12 +464,6 @@
   </data>
   <data name="&gt;&gt;foregroundColorDropDownButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;colorPickerDialog.Name" xml:space="preserve">
-    <value>colorPickerDialog</value>
-  </data>
-  <data name="&gt;&gt;colorPickerDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;automaticForegroundColorToolStripMenuItem.Name" xml:space="preserve">
     <value>automaticForegroundColorToolStripMenuItem</value>
@@ -546,6 +500,12 @@
   </data>
   <data name="&gt;&gt;customForegroundColorToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;colorPickerDialog.Name" xml:space="preserve">
+    <value>colorPickerDialog</value>
+  </data>
+  <data name="&gt;&gt;colorPickerDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>NoteForm</value>

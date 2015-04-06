@@ -15,6 +15,8 @@ namespace SmallNotes.Data.Entities
 		public virtual string Text { get; set; }
 		public virtual Color BackgroundColor { get; set; }
 		public virtual Color? ForegroundColor { get; set; }
+		public virtual Size Dimensions { get; set; }
+		public virtual Point Location { get; set; }
 
 		public bool IsChangedFrom(Note other)
 		{

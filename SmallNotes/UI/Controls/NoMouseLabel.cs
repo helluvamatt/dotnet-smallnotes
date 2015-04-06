@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SmallNotes.UI
+namespace SmallNotes.UI.Controls
 {
 	public class NoMouseLabel : Label
 	{

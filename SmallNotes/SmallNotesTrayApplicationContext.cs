@@ -13,33 +13,45 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using SmallNotes.Data.Entities;
+using System.Xml;
+using Common.Data;
+using SmallNotes.UI.Utils;
 
 namespace SmallNotes
 {
-	public class SmallNotesTrayApplicationContext : TrayApplicationContext
+	public class SmallNotesTrayApplicationContext : TrayApplicationContext<Settings>
 	{
-		private const string APP_DATA_PATH = "SmallNotes";
+		#region Static properties
 
-		/// <summary>
-		/// Config database
-		/// </summary>
-		public Database NoteDatabase { get; private set; }
+		public static ColorList BackgroundColorList { get; private set; }
 
-		private AsyncCallback<Database.LoadNotesResult> LoadCallback { get; set; }
-		private AsyncCallback<Database.SaveNoteResult> SaveCallback { get; set; }
+		#endregion
 
+		#region Private members
+
+		private DatabaseManager _DatabaseManager;
 		private Dictionary<string, NoteForm> _Forms;
 		private Dictionary<int, NoteForm> _SavingNoteForms;
 		private List<NoteForm> _NewNoteForms;
 
+		private const string INI_FILE_NAME = "SmallNotes.ini";
+		private string IniFile
+		{
+			get
+			{
+				return Path.Combine(AppDataPath, INI_FILE_NAME);
+			}
+		}
+
+		#endregion
+
 		public SmallNotesTrayApplicationContext() : base()
 		{
 			// Initialize variables
-			LoadCallback = new AsyncCallback<Database.LoadNotesResult>();
-			SaveCallback = new AsyncCallback<Database.SaveNoteResult>();
 			_Forms = new Dictionary<string, NoteForm>();
 			_SavingNoteForms = new Dictionary<int, NoteForm>();
 			_NewNoteForms = new List<NoteForm>();
+			_DatabaseManager = new DatabaseManager(AppDataPath);
 		}
 
 		#region TrayApplicationContext implementation
@@ -47,30 +59,75 @@ namespace SmallNotes
 		protected override void OnInitializeContext()
 		{
 			// Make sure the AppDataPath folder is available
-			Directory.CreateDirectory(GetAppDataPath());
+			Directory.CreateDirectory(AppDataPath);
 
 			// Initialize the load/save event handlers
-			LoadCallback.AsyncFinished += LoadCallback_AsyncFinished;
-			SaveCallback.AsyncFinished += SaveCallback_AsyncFinished;
+			_DatabaseManager.NoteSaved += _DatabaseManager_NoteSaved;
+			_DatabaseManager.NotesLoaded += _DatabaseManager_NotesLoaded;
 
-			// TODO Load application configuration
-			Dictionary<string, string> properties = new Dictionary<string, string>();
+			// Load Note template.css
+			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.css"))
+			{
+				using (StreamReader reader = new StreamReader(stream))
+				{
+					NoteForm.StylesheetTemplate = reader.ReadToEnd();
+				}
+			}
 
-			// TODO Enable multiple database backends (Filesystem, cloud, etc..)
-			NoteDatabase = new FileDatabase();
-			//NoteDatabase = new TestDatabase();
+			// Load Note template.html
+			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.html"))
+			{
+				using (StreamReader reader = new StreamReader(stream))
+				{
+					NoteForm.DocumentTemplate = reader.ReadToEnd();
+				}
+			}
 
-			// Initialize the database
-			NoteDatabase.Initialize(GetAppDataPath(), properties);
+			// Load application configuration
+			LoadSettingsAsync(Settings => {
 
-			// Do the load
-			NoteDatabase.LoadNotesAsync(LoadCallback);
+				// Initialize the database
+				// TODO Enable multiple database backends (Filesystem, cloud, etc..)
+				// This line should not be needed, as this would be initailized by the SettingsManager
+				SettingsManager.SettingsObject.DatabaseInformation = new FileDatabaseDescriptor();
+				_DatabaseManager.Descriptor = SettingsManager.SettingsObject.DatabaseInformation;
+
+				// Do an initial load
+				_DatabaseManager.LoadNotesAsync();
+			
+			}, IniFile);
+
+			// Load background color list from colors.xml
+			if (BackgroundColorList == null)
+			{
+				string path = Path.Combine(AppDataPath, "colors.xml");
+				new AsyncRunner<ColorList, string>().AsyncRun(f => {
+					ColorList list = new ColorList();
+					try
+					{
+						using (StreamReader reader = new StreamReader(path, Encoding.UTF8))
+						{
+							list.LoadFromXml(reader);
+						}
+					}
+					catch (XmlException ex)
+					{
+						Logger.Error("XML parsing error", ex);
+					}
+					catch (IOException ex)
+					{
+						Logger.Error("IO error", ex);
+					}
+					return list;
+					
+				}, list => { BackgroundColorList = list; }, path);
+			}
 		}
 
 		protected override OptionsForm BuildOptionsForm()
 		{
-			SmallNotesOptionsForm form = new SmallNotesOptionsForm();
-			// TODO Bind events, etc...
+			SmallNotesOptionsForm form = new SmallNotesOptionsForm(SettingsManager);
+			form.OptionChanged += SmallNotesOptionsForm_OptionChanged;
 			return form;
 		}
 
@@ -96,19 +153,28 @@ namespace SmallNotes
 			notifyIcon.ContextMenuStrip.Items.Add(exitMenuItem);
 		}
 
-		protected override string GetApplicationName()
+		protected override string ApplicationName
 		{
-			return Resources.AppTitle;
+			get
+			{
+				return Resources.AppTitle;
+			}
 		}
 
-		protected override Icon GetApplicationIcon()
+		protected override Icon ApplicationIcon
 		{
-			return new Icon(GetType(), "appicon.ico");
+			get
+			{
+				return new Icon(GetType(), "appicon.ico");
+			}
 		}
 
-		protected override string GetAppDataPath()
+		protected override string AppDataPath
 		{
-			return Path.GetDirectoryName(Path.GetFullPath(Uri.UnescapeDataString(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath)));
+			get
+			{
+				return Path.GetDirectoryName(Path.GetFullPath(Uri.UnescapeDataString(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath)));
+			}
 		}
 
 		#endregion
@@ -134,8 +200,14 @@ namespace SmallNotes
 			ExitThread();
 		}
 
-		private void LoadCallback_AsyncFinished(Database.LoadNotesResult result)
+		private void _DatabaseManager_NotesLoaded(DatabaseManager.LoadNotesResult result)
 		{
+			// Send updates to the options form (if it exists)
+			if (optionsForm != null)
+			{
+				((SmallNotesOptionsForm)optionsForm).NoteList = result.NoteList;
+			}
+
 			// Redraw windows, possibly adding new ones
 			foreach (KeyValuePair<string, Note> entry in result.NoteList)
 			{
@@ -163,7 +235,7 @@ namespace SmallNotes
 			}
 		}
 
-		private void SaveCallback_AsyncFinished(Database.SaveNoteResult result)
+		private void _DatabaseManager_NoteSaved(DatabaseManager.SaveNoteResult result)
 		{
 			if (result.ResultId.HasValue)
 			{
@@ -184,7 +256,33 @@ namespace SmallNotes
 						_Forms.Add(form.Data.ID, form);
 					}
 				}
-				
+			}
+
+			// Send update to OptionsForm (if it exists)
+			if (optionsForm != null)
+			{
+				((SmallNotesOptionsForm)optionsForm).UpdateNote(result.SavedNote);
+			}
+		}
+
+		private void SmallNotesOptionsForm_OptionChanged(object sender, OptionChangedEventArgs args)
+		{
+			SaveSettingsAsync(null, IniFile);
+
+			// Reconfigure FastRendering setting
+			if (args.Name == "FastRendering")
+			{
+				bool fastRendering = SettingsManager.SettingsObject.FastRendering;
+				AllNoteFormsIterator(f => f.FastResizeMove = fastRendering);
+			}
+			else if (args.Name == "CustomCss")
+			{
+				string customCss = SettingsManager.SettingsObject.CustomCss;
+				AllNoteFormsIterator(f => f.CustomStylesheet = customCss);
+			}
+			else if (args.Name == "DatabaseInformation")
+			{
+				// TODO Reconfigure when changing backends
 			}
 		}
 
@@ -223,7 +321,7 @@ namespace SmallNotes
 			}
 
 			// Do the actual save
-			NoteDatabase.SaveNoteAsync(SaveCallback, target.Data, saveRequestId);
+			_DatabaseManager.SaveNoteAsync(target.Data, saveRequestId);
 		}
 
 		#endregion
@@ -232,11 +330,33 @@ namespace SmallNotes
 
 		private NoteForm CreateNoteForm()
 		{
-			NoteForm noteForm = new NoteForm(AppDataFolder);
+			NoteForm noteForm = new NoteForm(AppDataPath, BackgroundColorList);
 			noteForm.NoteUpdated += noteForm_NoteUpdated;
-			noteForm.NoteFactory = () => NoteDatabase.CreateNewNote();
-			noteForm.FastResizeMove = true; // TODO From setting
+			noteForm.NoteFactory = () => _DatabaseManager.CreateNewNote();
+			noteForm.FastResizeMove = SettingsManager.SettingsObject.FastRendering;
 			return noteForm;
+		}
+
+		private void AllNoteFormsIterator(Action<NoteForm> callback)
+		{
+			foreach(KeyValuePair<string, NoteForm> entry in _Forms)
+			{
+				callback(entry.Value);
+			}
+			lock (_NewNoteForms)
+			{
+				foreach(NoteForm entry in _NewNoteForms)
+				{
+					callback(entry);
+				}
+			}
+			lock (_SavingNoteForms)
+			{
+				foreach(KeyValuePair<int, NoteForm> entry in _SavingNoteForms)
+				{
+					callback(entry.Value);
+				}
+			}
 		}
 
 		#endregion

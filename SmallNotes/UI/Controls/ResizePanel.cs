@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace SmallNotes.UI
+namespace SmallNotes.UI.Controls
 {
 	public class ResizePanel : Panel
 	{
