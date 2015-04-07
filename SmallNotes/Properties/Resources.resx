@@ -310,4 +310,28 @@
   <data name="page_white" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\page_white.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Settings_Category_Database" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="Settings_Database_Description" xml:space="preserve">
+    <value>Database backend type to use for storing notes</value>
+  </data>
+  <data name="Settings_Database_DisplayName" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="FileDatabaseDescriptor_DbFile_Description" xml:space="preserve">
+    <value>Path to the location where the database file should be stored. Can be a file or a folder. If you specify a folder, a "Notes.db" file will be created in this folder.</value>
+  </data>
+  <data name="FileDatabaseDescriptor_DbFile_DisplayName" xml:space="preserve">
+    <value>Database File</value>
+  </data>
+  <data name="arrow_refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\arrow_refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_content_save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\ic_content_save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FileDatabaseDescriptor_Category_Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
 </root>

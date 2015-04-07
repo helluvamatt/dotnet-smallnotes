@@ -87,13 +87,13 @@ namespace SmallNotes
 			LoadSettingsAsync(Settings => {
 
 				// Initialize the database
-				// TODO Enable multiple database backends (Filesystem, cloud, etc..)
-				// This line should not be needed, as this would be initailized by the SettingsManager
-				SettingsManager.SettingsObject.DatabaseInformation = new FileDatabaseDescriptor();
 				_DatabaseManager.Descriptor = SettingsManager.SettingsObject.DatabaseInformation;
 
-				// Do an initial load
-				_DatabaseManager.LoadNotesAsync();
+				// Populate settings
+				if (optionsForm != null)
+				{
+					((SmallNotesOptionsForm)optionsForm).PopulateSettings();
+				}
 			
 			}, IniFile);
 

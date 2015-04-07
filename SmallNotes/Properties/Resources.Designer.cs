@@ -149,6 +149,16 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_refresh {
+            get {
+                object obj = ResourceManager.GetObject("arrow_refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Black.
         /// </summary>
         internal static string Black {
@@ -203,6 +213,33 @@ namespace SmallNotes.Properties {
             get {
                 object obj = ResourceManager.GetObject("disk_multiple", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameters.
+        /// </summary>
+        internal static string FileDatabaseDescriptor_Category_Parameters {
+            get {
+                return ResourceManager.GetString("FileDatabaseDescriptor_Category_Parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path to the location where the database file should be stored. Can be a file or a folder. If you specify a folder, a &quot;Notes.db&quot; file will be created in this folder..
+        /// </summary>
+        internal static string FileDatabaseDescriptor_DbFile_Description {
+            get {
+                return ResourceManager.GetString("FileDatabaseDescriptor_DbFile_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database File.
+        /// </summary>
+        internal static string FileDatabaseDescriptor_DbFile_DisplayName {
+            get {
+                return ResourceManager.GetString("FileDatabaseDescriptor_DbFile_DisplayName", resourceCulture);
             }
         }
         
@@ -319,6 +356,16 @@ namespace SmallNotes.Properties {
         internal static System.Drawing.Bitmap ic_content_clear {
             get {
                 object obj = ResourceManager.GetObject("ic_content_clear", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_content_save {
+            get {
+                object obj = ResourceManager.GetObject("ic_content_save", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -548,6 +595,15 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database.
+        /// </summary>
+        internal static string Settings_Category_Database {
+            get {
+                return ResourceManager.GetString("Settings_Category_Database", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Defaults.
         /// </summary>
         internal static string Settings_Category_Defaults {
@@ -571,6 +627,24 @@ namespace SmallNotes.Properties {
         internal static string Settings_CustomCss_DisplayName {
             get {
                 return ResourceManager.GetString("Settings_CustomCss_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database backend type to use for storing notes.
+        /// </summary>
+        internal static string Settings_Database_Description {
+            get {
+                return ResourceManager.GetString("Settings_Database_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database.
+        /// </summary>
+        internal static string Settings_Database_DisplayName {
+            get {
+                return ResourceManager.GetString("Settings_Database_DisplayName", resourceCulture);
             }
         }
         

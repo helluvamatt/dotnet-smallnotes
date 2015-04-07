@@ -59,7 +59,7 @@ namespace SmallNotes.Data.Entities
 		]
 		public Size DefaultSize { get; set; }
 
-		// TODO this will be the setting that controls multiple database backends and which one to use
+		// TODO For some reason this is not deserializing the IDatabaseDescriptor properly (Issue #10)
 		[Browsable(false)]
 		public IDatabaseDescriptor DatabaseInformation { get; set; }
 

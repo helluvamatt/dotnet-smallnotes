@@ -58,6 +58,18 @@ namespace SmallNotes.UI
 
 			// Populate settings
 			_SettingsManager = sm;
+		}
+
+		#region Public members
+
+		public void UpdateNote(Note note)
+		{
+			NoteList[note.ID] = note;
+			PopulateListView();
+		}
+
+		public void PopulateSettings()
+		{
 			settingsPropertyGrid.SelectedObject = _SettingsManager.SettingsObject;
 
 			string notesListView = _SettingsManager.SettingsObject.NotesListView;
@@ -70,19 +82,16 @@ namespace SmallNotes.UI
 			{
 				OnSetView(View.SmallIcon, false);
 			}
-		}
 
-		#region Public members
-
-		public void UpdateNote(Note note)
-		{
-			NoteList[note.ID] = note;
-			PopulateListView();
+			PopulateDatabaseTypesComboBox();
+			PopulateDatabaseProperties();
 		}
 
 		#endregion
 
 		#region Event handlers
+
+		#region Form global
 
 		private void optionsFormTabControl_DrawItem(object sender, DrawItemEventArgs e)
 		{
@@ -115,6 +124,11 @@ namespace SmallNotes.UI
 				g.DrawImage(Resources.ic_action_settings, _tabBounds.X, _tabBounds.Y, _tabBounds.Height, _tabBounds.Height);
 				_tabBounds.X += _tabBounds.Height;
 			}
+			else if (_tabPage == databaseTabPage)
+			{
+				g.DrawImage(Resources.ic_content_save, _tabBounds.X, _tabBounds.Y, _tabBounds.Height, _tabBounds.Height);
+				_tabBounds.X += _tabBounds.Height;
+			}
 
 			// Draw string
 			SolidBrush _brush = new SolidBrush(Color.Black);
@@ -124,10 +138,9 @@ namespace SmallNotes.UI
 			g.DrawString(_tabPage.Text, e.Font, _brush, _tabBounds, new StringFormat(_stringFlags));
 		}
 
-		private void settingsPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-		{
-			OnOptionChanged(e.ChangedItem.PropertyDescriptor.Name, e.ChangedItem.Value);
-		}
+		#endregion
+
+		#region Notes tab
 
 		private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -153,6 +166,38 @@ namespace SmallNotes.UI
 		{
 			OnSetView(View.Tile, true);
 		}
+
+		#endregion
+
+		#region Settings tab
+
+		private void settingsPropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+		{
+			OnOptionChanged(e.ChangedItem.PropertyDescriptor.Name, e.ChangedItem.Value);
+		}
+
+		#endregion
+
+		#region Database Tab
+
+		private void refreshButton_Click(object sender, EventArgs e)
+		{
+			PopulateDatabaseTypesComboBox();
+		}
+
+		private void databaseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			_SettingsManager.SettingsObject.DatabaseInformation = (IDatabaseDescriptor)databaseTypeComboBox.SelectedItem;
+			PopulateDatabaseProperties();
+			OnOptionChanged("DatabaseInformation", _SettingsManager.SettingsObject.DatabaseInformation);
+		}
+
+		private void databasePropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+		{
+			OnOptionChanged("DatabaseInformation", _SettingsManager.SettingsObject.DatabaseInformation);
+		}
+
+		#endregion
 
 		#endregion
 
@@ -255,6 +300,18 @@ namespace SmallNotes.UI
 				index++;
 			}
 			notesListView.PerformLayout();
+		}
+
+		private void PopulateDatabaseTypesComboBox()
+		{
+			Dictionary<string, IDatabaseDescriptor> types = DatabaseManager.GetDatabaseTypes(true);
+			databaseTypeComboBox.DataSource = types.Values.ToList();
+			databaseTypeComboBox.DisplayMember = "DisplayName";
+		}
+
+		private void PopulateDatabaseProperties()
+		{
+			databasePropertyGrid.SelectedObject = _SettingsManager.SettingsObject.DatabaseInformation;
 		}
 
 		#endregion

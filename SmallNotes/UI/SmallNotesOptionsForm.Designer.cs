@@ -33,6 +33,12 @@
 			this.settingsPropertyGrid = new System.Windows.Forms.PropertyGrid();
 			this.optionsFormTabControl = new System.Windows.Forms.TabControl();
 			this.notesTabPage = new System.Windows.Forms.TabPage();
+			this.notesListView = new System.Windows.Forms.ListView();
+			this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.lastModifiedColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.createdColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this._largeImageList = new System.Windows.Forms.ImageList(this.components);
+			this._iconImageList = new System.Windows.Forms.ImageList(this.components);
 			this.notesToolStrip = new System.Windows.Forms.ToolStrip();
 			this.newToolStripButton = new System.Windows.Forms.ToolStripDropDownButton();
 			this.folderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,22 +58,21 @@
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.viewToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
 			this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.settingsTabPage = new System.Windows.Forms.TabPage();
 			this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.smallIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.largeIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.notesListView = new System.Windows.Forms.ListView();
-			this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.lastModifiedColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.createdColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this._largeImageList = new System.Windows.Forms.ImageList(this.components);
-			this._iconImageList = new System.Windows.Forms.ImageList(this.components);
-			this._smallImageList = new System.Windows.Forms.ImageList(this.components);
 			this.tilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.settingsTabPage = new System.Windows.Forms.TabPage();
+			this.databaseTabPage = new System.Windows.Forms.TabPage();
+			this.refreshButton = new System.Windows.Forms.Button();
+			this.databaseTypeComboBox = new System.Windows.Forms.ComboBox();
+			this.databasePropertyGrid = new System.Windows.Forms.PropertyGrid();
+			this._smallImageList = new System.Windows.Forms.ImageList(this.components);
 			this.optionsFormTabControl.SuspendLayout();
 			this.notesTabPage.SuspendLayout();
 			this.notesToolStrip.SuspendLayout();
 			this.settingsTabPage.SuspendLayout();
+			this.databaseTabPage.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// settingsPropertyGrid
@@ -81,6 +86,7 @@
 			resources.ApplyResources(this.optionsFormTabControl, "optionsFormTabControl");
 			this.optionsFormTabControl.Controls.Add(this.notesTabPage);
 			this.optionsFormTabControl.Controls.Add(this.settingsTabPage);
+			this.optionsFormTabControl.Controls.Add(this.databaseTabPage);
 			this.optionsFormTabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
 			this.optionsFormTabControl.Multiline = true;
 			this.optionsFormTabControl.Name = "optionsFormTabControl";
@@ -95,6 +101,43 @@
 			this.notesTabPage.Controls.Add(this.notesToolStrip);
 			resources.ApplyResources(this.notesTabPage, "notesTabPage");
 			this.notesTabPage.Name = "notesTabPage";
+			// 
+			// notesListView
+			// 
+			this.notesListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.notesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.titleColumnHeader,
+            this.lastModifiedColumnHeader,
+            this.createdColumnHeader});
+			this.notesListView.LargeImageList = this._largeImageList;
+			resources.ApplyResources(this.notesListView, "notesListView");
+			this.notesListView.Name = "notesListView";
+			this.notesListView.SmallImageList = this._iconImageList;
+			this.notesListView.UseCompatibleStateImageBehavior = false;
+			// 
+			// titleColumnHeader
+			// 
+			resources.ApplyResources(this.titleColumnHeader, "titleColumnHeader");
+			// 
+			// lastModifiedColumnHeader
+			// 
+			resources.ApplyResources(this.lastModifiedColumnHeader, "lastModifiedColumnHeader");
+			// 
+			// createdColumnHeader
+			// 
+			resources.ApplyResources(this.createdColumnHeader, "createdColumnHeader");
+			// 
+			// _largeImageList
+			// 
+			this._largeImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
+			resources.ApplyResources(this._largeImageList, "_largeImageList");
+			this._largeImageList.TransparentColor = System.Drawing.Color.Transparent;
+			// 
+			// _iconImageList
+			// 
+			this._iconImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			resources.ApplyResources(this._iconImageList, "_iconImageList");
+			this._iconImageList.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// notesToolStrip
 			// 
@@ -240,13 +283,6 @@
 			resources.ApplyResources(this.detailsToolStripMenuItem, "detailsToolStripMenuItem");
 			this.detailsToolStripMenuItem.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
 			// 
-			// settingsTabPage
-			// 
-			this.settingsTabPage.Controls.Add(this.settingsPropertyGrid);
-			resources.ApplyResources(this.settingsTabPage, "settingsTabPage");
-			this.settingsTabPage.Name = "settingsTabPage";
-			this.settingsTabPage.UseVisualStyleBackColor = true;
-			// 
 			// listToolStripMenuItem
 			// 
 			this.listToolStripMenuItem.Image = global::SmallNotes.Properties.Resources.application_view_list;
@@ -270,55 +306,55 @@
 			resources.ApplyResources(this.largeIconsToolStripMenuItem, "largeIconsToolStripMenuItem");
 			this.largeIconsToolStripMenuItem.Click += new System.EventHandler(this.largeIconsToolStripMenuItem_Click);
 			// 
-			// notesListView
-			// 
-			this.notesListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.notesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.titleColumnHeader,
-            this.lastModifiedColumnHeader,
-            this.createdColumnHeader});
-			this.notesListView.LargeImageList = this._largeImageList;
-			resources.ApplyResources(this.notesListView, "notesListView");
-			this.notesListView.Name = "notesListView";
-			this.notesListView.SmallImageList = this._iconImageList;
-			this.notesListView.UseCompatibleStateImageBehavior = false;
-			// 
-			// titleColumnHeader
-			// 
-			resources.ApplyResources(this.titleColumnHeader, "titleColumnHeader");
-			// 
-			// lastModifiedColumnHeader
-			// 
-			resources.ApplyResources(this.lastModifiedColumnHeader, "lastModifiedColumnHeader");
-			// 
-			// createdColumnHeader
-			// 
-			resources.ApplyResources(this.createdColumnHeader, "createdColumnHeader");
-			// 
-			// _largeImageList
-			// 
-			this._largeImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
-			resources.ApplyResources(this._largeImageList, "_largeImageList");
-			this._largeImageList.TransparentColor = System.Drawing.Color.Transparent;
-			// 
-			// _iconImageList
-			// 
-			this._iconImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-			resources.ApplyResources(this._iconImageList, "_iconImageList");
-			this._iconImageList.TransparentColor = System.Drawing.Color.Transparent;
-			// 
-			// _smallImageList
-			// 
-			this._smallImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-			resources.ApplyResources(this._smallImageList, "_smallImageList");
-			this._smallImageList.TransparentColor = System.Drawing.Color.Transparent;
-			// 
 			// tilesToolStripMenuItem
 			// 
 			this.tilesToolStripMenuItem.Image = global::SmallNotes.Properties.Resources.application_view_tile;
 			this.tilesToolStripMenuItem.Name = "tilesToolStripMenuItem";
 			resources.ApplyResources(this.tilesToolStripMenuItem, "tilesToolStripMenuItem");
 			this.tilesToolStripMenuItem.Click += new System.EventHandler(this.tilesToolStripMenuItem_Click);
+			// 
+			// settingsTabPage
+			// 
+			this.settingsTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.settingsTabPage.Controls.Add(this.settingsPropertyGrid);
+			resources.ApplyResources(this.settingsTabPage, "settingsTabPage");
+			this.settingsTabPage.Name = "settingsTabPage";
+			// 
+			// databaseTabPage
+			// 
+			this.databaseTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.databaseTabPage.Controls.Add(this.refreshButton);
+			this.databaseTabPage.Controls.Add(this.databaseTypeComboBox);
+			this.databaseTabPage.Controls.Add(this.databasePropertyGrid);
+			resources.ApplyResources(this.databaseTabPage, "databaseTabPage");
+			this.databaseTabPage.Name = "databaseTabPage";
+			// 
+			// refreshButton
+			// 
+			resources.ApplyResources(this.refreshButton, "refreshButton");
+			this.refreshButton.Image = global::SmallNotes.Properties.Resources.arrow_refresh;
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.UseVisualStyleBackColor = true;
+			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+			// 
+			// databaseTypeComboBox
+			// 
+			resources.ApplyResources(this.databaseTypeComboBox, "databaseTypeComboBox");
+			this.databaseTypeComboBox.FormattingEnabled = true;
+			this.databaseTypeComboBox.Name = "databaseTypeComboBox";
+			this.databaseTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.databaseTypeComboBox_SelectedIndexChanged);
+			// 
+			// databasePropertyGrid
+			// 
+			resources.ApplyResources(this.databasePropertyGrid, "databasePropertyGrid");
+			this.databasePropertyGrid.Name = "databasePropertyGrid";
+			this.databasePropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.databasePropertyGrid_PropertyValueChanged);
+			// 
+			// _smallImageList
+			// 
+			this._smallImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+			resources.ApplyResources(this._smallImageList, "_smallImageList");
+			this._smallImageList.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// SmallNotesOptionsForm
 			// 
@@ -332,6 +368,7 @@
 			this.notesToolStrip.ResumeLayout(false);
 			this.notesToolStrip.PerformLayout();
 			this.settingsTabPage.ResumeLayout(false);
+			this.databaseTabPage.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -372,6 +409,10 @@
 		private System.Windows.Forms.ImageList _iconImageList;
 		private System.Windows.Forms.ImageList _smallImageList;
 		private System.Windows.Forms.ToolStripMenuItem tilesToolStripMenuItem;
+		private System.Windows.Forms.TabPage databaseTabPage;
+		private System.Windows.Forms.PropertyGrid databasePropertyGrid;
+		private System.Windows.Forms.Button refreshButton;
+		private System.Windows.Forms.ComboBox databaseTypeComboBox;
 	}
 }
 

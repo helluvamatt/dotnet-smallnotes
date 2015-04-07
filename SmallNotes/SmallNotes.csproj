@@ -83,6 +83,7 @@
     <Compile Include="UI\Controls\ImageListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Editors\FileUIEditor.cs" />
     <Compile Include="UI\Utils\ColorList.cs" />
     <Compile Include="UI\Editors\BackgroundColorEditor.cs" />
     <Compile Include="UI\Editors\ColorEditor.cs" />
@@ -165,11 +166,13 @@
     <None Include="assets\page_white_copy.png" />
     <None Include="assets\application_side_boxes.png" />
     <None Include="assets\application_view_gallery.png" />
+    <None Include="assets\arrow_refresh.png" />
     <Content Include="assets\ic_action_done.png" />
     <Content Include="assets\ic_action_settings.png" />
     <Content Include="assets\ic_content_clear.png" />
     <None Include="assets\ic_notes_large.png" />
     <None Include="assets\page_white.png" />
+    <None Include="assets\ic_content_save.png" />
     <Content Include="colors.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
