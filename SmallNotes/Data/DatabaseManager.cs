@@ -1,4 +1,5 @@
-﻿using Common.Data.Async;
+﻿using Common.Data;
+using Common.Data.Async;
 using log4net;
 using SmallNotes.Data.Entities;
 using SQLite.Net;
@@ -21,32 +22,8 @@ namespace SmallNotes.Data
 		private static ILog Logger = LogManager.GetLogger(typeof(DatabaseManager));
 		private static string _AppDataPath;
 
-		private IDatabase _Database;
 		private IDatabaseDescriptor _Descriptor;
-
-		#endregion
-
-		#region Properties
-
-		public IDatabaseDescriptor Descriptor
-		{
-			get
-			{
-				return _Descriptor;
-			}
-			set
-			{
-				_Descriptor = value;
-				// Clean up existing database if exists
-				if (_Database != null)
-				{
-					_Database.Dispose();
-				}
-				// Initialize new one
-				_Database = _Descriptor.InitializeDatabase(_AppDataPath);
-				LoadNotesAsync();
-			}
-		}
+		private IDatabase _Database;
 
 		#endregion
 
@@ -56,13 +33,40 @@ namespace SmallNotes.Data
 			_AppDataPath = appDataPath;
 		}
 
+		public void SetDatabase(string type, Dictionary<string, string> props)
+		{
+			// Clean up existing database if exists
+			if (_Database != null)
+			{
+				_Database.Dispose();
+			}
+
+			// Initialize new one
+			if (props == null) props = new Dictionary<string, string>();
+			if (type == null) type = typeof(FileDatabaseDescriptor).FullName;
+			_Descriptor = (IDatabaseDescriptor)ModelSerializer.DeserializeModelFromHash(props, GetDatabaseTypes()[type].GetType());
+			_Database = _Descriptor.InitializeDatabase(_AppDataPath);
+			LoadNotesAsync();
+		}
+
+		public IDatabaseDescriptor DatabaseDescriptor
+		{
+			get
+			{
+				return _Descriptor;
+			}
+		}
+
 		public void SaveNoteAsync(Note note, int? saveRequestId = null)
 		{
+			if (NoteSaving != null) NoteSaving(this, note);
 			new AsyncRunner<SaveNoteResult, Note>().AsyncRun(SaveNote, NoteSaved, note);
 		}
 
-		public void LoadNotesAsync()
+		public void LoadNotesAsync(string fromPath = null)
 		{
+			if (NotesLoading != null) NotesLoading(this, new NotesLoadingRequest { FromPath = fromPath });
+			// TODO Send request to synchronouse Load method
 			new AsyncRunner<LoadNotesResult, object>().AsyncRun(LoadNotes, NotesLoaded);
 		}
 
@@ -76,6 +80,10 @@ namespace SmallNotes.Data
 		public event Action<SaveNoteResult> NoteSaved;
 
 		public event Action<LoadNotesResult> NotesLoaded;
+
+		public event EventHandler<NotesLoadingRequest> NotesLoading;
+
+		public event EventHandler<Note> NoteSaving;
 
 		#endregion
 
@@ -141,7 +149,7 @@ namespace SmallNotes.Data
 			{
 				return new SaveNoteResult { Success = true, Exception = null, SavedNote = _Database.SaveNote(note) };
 			}
-			catch (SQLiteException ex)
+			catch (Exception ex)
 			{
 				Logger.Error("Exception while loading notes.", ex);
 				return new SaveNoteResult { Success = false, Exception = ex, SavedNote = null };
@@ -154,7 +162,7 @@ namespace SmallNotes.Data
 			{
 				return new LoadNotesResult { Success = true, Exception = null, NoteList = _Database.LoadNotes() };
 			}
-			catch (SQLiteException ex)
+			catch (Exception ex)
 			{
 				Logger.Error("Exception while loading notes.", ex);
 				return new LoadNotesResult { Success = false, Exception = ex, NoteList = null };
@@ -178,6 +186,11 @@ namespace SmallNotes.Data
 		public class SaveNoteResult : TrackedResult
 		{
 			public Note SavedNote { get; set; }
+		}
+
+		public class NotesLoadingRequest : EventArgs
+		{
+			public string FromPath { get; set; }
 		}
 
 		#endregion

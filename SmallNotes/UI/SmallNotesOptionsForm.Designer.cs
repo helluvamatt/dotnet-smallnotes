@@ -68,6 +68,7 @@
 			this.databaseTypeComboBox = new System.Windows.Forms.ComboBox();
 			this.databasePropertyGrid = new System.Windows.Forms.PropertyGrid();
 			this._smallImageList = new System.Windows.Forms.ImageList(this.components);
+			this.notesTabProgressBar = new System.Windows.Forms.ProgressBar();
 			this.optionsFormTabControl.SuspendLayout();
 			this.notesTabPage.SuspendLayout();
 			this.notesToolStrip.SuspendLayout();
@@ -97,6 +98,7 @@
 			// notesTabPage
 			// 
 			this.notesTabPage.BackColor = System.Drawing.SystemColors.Window;
+			this.notesTabPage.Controls.Add(this.notesTabProgressBar);
 			this.notesTabPage.Controls.Add(this.notesListView);
 			this.notesTabPage.Controls.Add(this.notesToolStrip);
 			resources.ApplyResources(this.notesTabPage, "notesTabPage");
@@ -183,6 +185,7 @@
 			this.noteToolStripMenuItem.Image = global::SmallNotes.Properties.Resources.note_add;
 			this.noteToolStripMenuItem.Name = "noteToolStripMenuItem";
 			resources.ApplyResources(this.noteToolStripMenuItem, "noteToolStripMenuItem");
+			this.noteToolStripMenuItem.Click += new System.EventHandler(this.noteToolStripMenuItem_Click);
 			// 
 			// saveToolStripButton
 			// 
@@ -356,6 +359,12 @@
 			resources.ApplyResources(this._smallImageList, "_smallImageList");
 			this._smallImageList.TransparentColor = System.Drawing.Color.Transparent;
 			// 
+			// notesTabProgressBar
+			// 
+			resources.ApplyResources(this.notesTabProgressBar, "notesTabProgressBar");
+			this.notesTabProgressBar.Name = "notesTabProgressBar";
+			this.notesTabProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+			// 
 			// SmallNotesOptionsForm
 			// 
 			resources.ApplyResources(this, "$this");
@@ -413,6 +422,7 @@
 		private System.Windows.Forms.PropertyGrid databasePropertyGrid;
 		private System.Windows.Forms.Button refreshButton;
 		private System.Windows.Forms.ComboBox databaseTypeComboBox;
+		private System.Windows.Forms.ProgressBar notesTabProgressBar;
 	}
 }
 

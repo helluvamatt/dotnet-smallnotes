@@ -59,9 +59,11 @@ namespace SmallNotes.Data.Entities
 		]
 		public Size DefaultSize { get; set; }
 
-		// TODO For some reason this is not deserializing the IDatabaseDescriptor properly (Issue #10)
 		[Browsable(false)]
-		public IDatabaseDescriptor DatabaseInformation { get; set; }
+		public string DatabaseType { get; set; }
+
+		[Browsable(false)]
+		public Dictionary<string, string> DatabaseProperties { get; set; }
 
 		[Browsable(false), DefaultValue("LargeIcon")]
 		public string NotesListView { get; set; }

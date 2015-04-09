@@ -22,7 +22,6 @@ namespace SmallNotes.UI.Editors
 			IWindowsFormsEditorService editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
 			SaveFileDialog saveDialog = new SaveFileDialog();
 			saveDialog.Filter = "All Files (*.*)|*.*";
-			saveDialog.CheckFileExists = true;
 			string filename = (string)value;
 			saveDialog.FileName = filename;
 			DialogResult res = saveDialog.ShowDialog();

@@ -64,6 +64,8 @@ namespace SmallNotes
 			// Initialize the load/save event handlers
 			_DatabaseManager.NoteSaved += _DatabaseManager_NoteSaved;
 			_DatabaseManager.NotesLoaded += _DatabaseManager_NotesLoaded;
+			_DatabaseManager.NoteSaving += _DatabaseManager_NoteSaving;
+			_DatabaseManager.NotesLoading += _DatabaseManager_NotesLoading;
 
 			// Load Note template.css
 			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.css"))
@@ -87,11 +89,12 @@ namespace SmallNotes
 			LoadSettingsAsync(Settings => {
 
 				// Initialize the database
-				_DatabaseManager.Descriptor = SettingsManager.SettingsObject.DatabaseInformation;
+				_DatabaseManager.SetDatabase(Settings.DatabaseType, Settings.DatabaseProperties);
 
 				// Populate settings
 				if (optionsForm != null)
 				{
+					((SmallNotesOptionsForm)optionsForm).SelectedDatabase = _DatabaseManager.DatabaseDescriptor;
 					((SmallNotesOptionsForm)optionsForm).PopulateSettings();
 				}
 			
@@ -128,6 +131,7 @@ namespace SmallNotes
 		{
 			SmallNotesOptionsForm form = new SmallNotesOptionsForm(SettingsManager);
 			form.OptionChanged += SmallNotesOptionsForm_OptionChanged;
+			form.DatabaseSettingsUpdated += SmallNotesOptionsForm_DatabaseSettingsUpdated;
 			return form;
 		}
 
@@ -206,6 +210,7 @@ namespace SmallNotes
 			if (optionsForm != null)
 			{
 				((SmallNotesOptionsForm)optionsForm).NoteList = result.NoteList;
+				((SmallNotesOptionsForm)optionsForm).IsLoadingNotes = false;
 			}
 
 			// Redraw windows, possibly adding new ones
@@ -265,6 +270,17 @@ namespace SmallNotes
 			}
 		}
 
+		private void _DatabaseManager_NotesLoading(object sender, DatabaseManager.NotesLoadingRequest e)
+		{
+			if (optionsForm != null) ((SmallNotesOptionsForm)optionsForm).IsLoadingNotes = true;
+		}
+
+		private void _DatabaseManager_NoteSaving(object sender, Note e)
+		{
+			// Do nothing
+			Logger.DebugFormat("Saving note ('{0}')...", e.Title);
+		}
+
 		private void SmallNotesOptionsForm_OptionChanged(object sender, OptionChangedEventArgs args)
 		{
 			SaveSettingsAsync(null, IniFile);
@@ -280,10 +296,17 @@ namespace SmallNotes
 				string customCss = SettingsManager.SettingsObject.CustomCss;
 				AllNoteFormsIterator(f => f.CustomStylesheet = customCss);
 			}
-			else if (args.Name == "DatabaseInformation")
-			{
-				// TODO Reconfigure when changing backends
-			}
+		}
+
+		private void SmallNotesOptionsForm_DatabaseSettingsUpdated(IDatabaseDescriptor obj)
+		{
+			// Save settings
+			SettingsManager.SettingsObject.DatabaseType = obj.GetType().FullName;
+			SettingsManager.SettingsObject.DatabaseProperties = ModelSerializer.SerializeModelToHash(obj);
+			SaveSettingsAsync(null, IniFile);
+
+			// Reconfigure when changing backends
+			_DatabaseManager.SetDatabase(SettingsManager.SettingsObject.DatabaseType, SettingsManager.SettingsObject.DatabaseProperties);
 		}
 
 		private void noteForm_NoteUpdated(object sender, NoteForm.NoteUpdateEventArgs args)

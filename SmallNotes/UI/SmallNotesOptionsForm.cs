@@ -22,6 +22,8 @@ namespace SmallNotes.UI
 {
 	public partial class SmallNotesOptionsForm : OptionsForm
 	{
+		#region Properties
+
 		#region NoteList Property
 
 		private Dictionary<string, Note> _NoteList;
@@ -40,9 +42,39 @@ namespace SmallNotes.UI
 
 		#endregion
 
+		private IDatabaseDescriptor _SelectedDatabase;
+		public IDatabaseDescriptor SelectedDatabase
+		{
+			get
+			{
+				return _SelectedDatabase;
+			}
+			set
+			{
+				_SelectedDatabase = value;
+				MergeSelectedType();
+			}
+		}
+
+		public bool IsLoadingNotes
+		{
+			get
+			{
+				return notesTabProgressBar.Visible;
+			}
+			set
+			{
+				notesTabProgressBar.Visible = value;
+				notesListView.Visible = !value;
+			}
+		}
+
+		#endregion
+
 		#region Private members
 
 		private SettingsManager<Settings> _SettingsManager;
+		private Dictionary<string, IDatabaseDescriptor> _Types = new Dictionary<string, IDatabaseDescriptor>();
 
 		private ILog Logger { get; set; }
 
@@ -86,6 +118,17 @@ namespace SmallNotes.UI
 			PopulateDatabaseTypesComboBox();
 			PopulateDatabaseProperties();
 		}
+
+		#endregion
+
+		#region Events
+
+		private void OnDatabaseSettingsUpdated(IDatabaseDescriptor descriptor)
+		{
+			if (DatabaseSettingsUpdated != null) DatabaseSettingsUpdated(descriptor);
+		}
+
+		public event Action<IDatabaseDescriptor> DatabaseSettingsUpdated;
 
 		#endregion
 
@@ -142,6 +185,11 @@ namespace SmallNotes.UI
 
 		#region Notes tab
 
+		private void noteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			
+		}
+
 		private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			OnSetView(View.Details, true);
@@ -187,14 +235,14 @@ namespace SmallNotes.UI
 
 		private void databaseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			_SettingsManager.SettingsObject.DatabaseInformation = (IDatabaseDescriptor)databaseTypeComboBox.SelectedItem;
+			SelectedDatabase = (IDatabaseDescriptor)databaseTypeComboBox.SelectedItem;
 			PopulateDatabaseProperties();
-			OnOptionChanged("DatabaseInformation", _SettingsManager.SettingsObject.DatabaseInformation);
+			OnDatabaseSettingsUpdated(SelectedDatabase);
 		}
 
 		private void databasePropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
 		{
-			OnOptionChanged("DatabaseInformation", _SettingsManager.SettingsObject.DatabaseInformation);
+			OnDatabaseSettingsUpdated(SelectedDatabase);
 		}
 
 		#endregion
@@ -304,14 +352,22 @@ namespace SmallNotes.UI
 
 		private void PopulateDatabaseTypesComboBox()
 		{
-			Dictionary<string, IDatabaseDescriptor> types = DatabaseManager.GetDatabaseTypes(true);
-			databaseTypeComboBox.DataSource = types.Values.ToList();
+			_Types = DatabaseManager.GetDatabaseTypes(true);
+			MergeSelectedType();
+			databaseTypeComboBox.DataSource = _Types.Values.ToList();
 			databaseTypeComboBox.DisplayMember = "DisplayName";
+		}
+
+		private void MergeSelectedType()
+		{
+			_Types[_SelectedDatabase.GetType().FullName] = _SelectedDatabase;
+			databaseTypeComboBox.SelectedItem = _SelectedDatabase;
+			PopulateDatabaseProperties();
 		}
 
 		private void PopulateDatabaseProperties()
 		{
-			databasePropertyGrid.SelectedObject = _SettingsManager.SettingsObject.DatabaseInformation;
+			databasePropertyGrid.SelectedObject = SelectedDatabase;
 		}
 
 		#endregion
