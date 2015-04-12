@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>253, 230</value>
+    <value>254, 230</value>
   </data>
   <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 28</value>
@@ -252,6 +252,15 @@
   <data name="foregroundColorDropDownButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 22</value>
   </data>
+  <data name="tagsToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="tagsToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="tagsToolStripButton.Text" xml:space="preserve">
+    <value>Tags</value>
+  </data>
   <data name="optionsToolStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -260,9 +269,6 @@
   </data>
   <data name="optionsToolStrip.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
-  </data>
-  <data name="optionsToolStrip.Text" xml:space="preserve">
-    <value>toolStrip1</value>
   </data>
   <data name="&gt;&gt;optionsToolStrip.Name" xml:space="preserve">
     <value>optionsToolStrip</value>
@@ -357,47 +363,17 @@
   <metadata name="colorPickerDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="titleDisplayLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
-  </data>
-  <data name="titleDisplayLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 245</value>
-  </data>
-  <data name="titleDisplayLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>268, 13</value>
-  </data>
-  <data name="titleDisplayLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="titleDisplayLabel.Text" xml:space="preserve">
-    <value>New Note</value>
-  </data>
-  <data name="titleDisplayLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomLeft</value>
-  </data>
-  <data name="&gt;&gt;titleDisplayLabel.Name" xml:space="preserve">
-    <value>titleDisplayLabel</value>
-  </data>
-  <data name="&gt;&gt;titleDisplayLabel.Type" xml:space="preserve">
-    <value>SmallNotes.UI.Controls.NoMouseLabel, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;titleDisplayLabel.Parent" xml:space="preserve">
-    <value>displayPanel</value>
-  </data>
-  <data name="&gt;&gt;titleDisplayLabel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="displayBrowser.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="displayScrollPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="displayBrowser.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="displayBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>0, 0</value>
+  </data>
+  <data name="displayBrowser.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="displayBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 240</value>
+    <value>0, 0</value>
   </data>
   <data name="displayBrowser.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -409,12 +385,72 @@
     <value>displayBrowser</value>
   </data>
   <data name="&gt;&gt;displayBrowser.Type" xml:space="preserve">
-    <value>TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel, HtmlRenderer.WinForms, Version=1.5.1.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>TheArtOfDev.HtmlRenderer.WinForms.HtmlLabel, HtmlRenderer.WinForms, Version=1.5.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;displayBrowser.Parent" xml:space="preserve">
-    <value>displayPanel</value>
+    <value>displayScrollPanel</value>
   </data>
   <data name="&gt;&gt;displayBrowser.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="displayScrollPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 2</value>
+  </data>
+  <data name="displayScrollPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="displayScrollPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>280, 224</value>
+  </data>
+  <data name="displayScrollPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;displayScrollPanel.Name" xml:space="preserve">
+    <value>displayScrollPanel</value>
+  </data>
+  <data name="&gt;&gt;displayScrollPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;displayScrollPanel.Parent" xml:space="preserve">
+    <value>displayPanel</value>
+  </data>
+  <data name="&gt;&gt;displayScrollPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="titleDisplayLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="titleDisplayLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="titleDisplayLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 230</value>
+  </data>
+  <data name="titleDisplayLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="titleDisplayLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>280, 29</value>
+  </data>
+  <data name="titleDisplayLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="titleDisplayLabel.Text" xml:space="preserve">
+    <value>New Note</value>
+  </data>
+  <data name="titleDisplayLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;titleDisplayLabel.Name" xml:space="preserve">
+    <value>titleDisplayLabel</value>
+  </data>
+  <data name="&gt;&gt;titleDisplayLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;titleDisplayLabel.Parent" xml:space="preserve">
+    <value>displayPanel</value>
+  </data>
+  <data name="&gt;&gt;titleDisplayLabel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="displayPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -433,7 +469,7 @@
     <value>displayPanel</value>
   </data>
   <data name="&gt;&gt;displayPanel.Type" xml:space="preserve">
-    <value>SmallNotes.UI.Controls.ResizePanel, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;displayPanel.Parent" xml:space="preserve">
     <value>$this</value>
@@ -449,6 +485,9 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>284, 261</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>150, 150</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>New Note</value>
@@ -500,6 +539,12 @@
   </data>
   <data name="&gt;&gt;customForegroundColorToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tagsToolStripButton.Name" xml:space="preserve">
+    <value>tagsToolStripButton</value>
+  </data>
+  <data name="&gt;&gt;tagsToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;colorPickerDialog.Name" xml:space="preserve">
     <value>colorPickerDialog</value>

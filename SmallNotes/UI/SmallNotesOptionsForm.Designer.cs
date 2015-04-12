@@ -33,27 +33,24 @@
 			this.settingsPropertyGrid = new System.Windows.Forms.PropertyGrid();
 			this.optionsFormTabControl = new System.Windows.Forms.TabControl();
 			this.notesTabPage = new System.Windows.Forms.TabPage();
+			this.notesTabProgressBar = new System.Windows.Forms.ProgressBar();
 			this.notesListView = new System.Windows.Forms.ListView();
 			this.titleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lastModifiedColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.createdColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.visibleColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.tagsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this._largeImageList = new System.Windows.Forms.ImageList(this.components);
 			this._iconImageList = new System.Windows.Forms.ImageList(this.components);
 			this.notesToolStrip = new System.Windows.Forms.ToolStrip();
-			this.newToolStripButton = new System.Windows.Forms.ToolStripDropDownButton();
-			this.folderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.noteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.newNoteToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.saveToolStripButton = new System.Windows.Forms.ToolStripDropDownButton();
 			this.exportToMarkdownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportToHTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportToPlaintextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-			this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.copyToolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.deleteToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.viewToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
@@ -62,16 +59,24 @@
 			this.smallIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.largeIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tagsTabPage = new System.Windows.Forms.TabPage();
+			this.tagsTabProgressBar = new System.Windows.Forms.ProgressBar();
+			this.tagsListBox = new SmallNotes.UI.Controls.TagListBox();
+			this.tagsPageToolStrip = new System.Windows.Forms.ToolStrip();
+			this.newTagToolStripButton = new System.Windows.Forms.ToolStripButton();
+			this.deleteTagToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.settingsTabPage = new System.Windows.Forms.TabPage();
 			this.databaseTabPage = new System.Windows.Forms.TabPage();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.databaseTypeComboBox = new System.Windows.Forms.ComboBox();
 			this.databasePropertyGrid = new System.Windows.Forms.PropertyGrid();
+			this.noPropertiesLabel = new System.Windows.Forms.Label();
 			this._smallImageList = new System.Windows.Forms.ImageList(this.components);
-			this.notesTabProgressBar = new System.Windows.Forms.ProgressBar();
 			this.optionsFormTabControl.SuspendLayout();
 			this.notesTabPage.SuspendLayout();
 			this.notesToolStrip.SuspendLayout();
+			this.tagsTabPage.SuspendLayout();
+			this.tagsPageToolStrip.SuspendLayout();
 			this.settingsTabPage.SuspendLayout();
 			this.databaseTabPage.SuspendLayout();
 			this.SuspendLayout();
@@ -86,6 +91,7 @@
 			// 
 			resources.ApplyResources(this.optionsFormTabControl, "optionsFormTabControl");
 			this.optionsFormTabControl.Controls.Add(this.notesTabPage);
+			this.optionsFormTabControl.Controls.Add(this.tagsTabPage);
 			this.optionsFormTabControl.Controls.Add(this.settingsTabPage);
 			this.optionsFormTabControl.Controls.Add(this.databaseTabPage);
 			this.optionsFormTabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
@@ -104,18 +110,29 @@
 			resources.ApplyResources(this.notesTabPage, "notesTabPage");
 			this.notesTabPage.Name = "notesTabPage";
 			// 
+			// notesTabProgressBar
+			// 
+			resources.ApplyResources(this.notesTabProgressBar, "notesTabProgressBar");
+			this.notesTabProgressBar.Name = "notesTabProgressBar";
+			this.notesTabProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+			// 
 			// notesListView
 			// 
+			this.notesListView.AllowColumnReorder = true;
+			resources.ApplyResources(this.notesListView, "notesListView");
 			this.notesListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.notesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.titleColumnHeader,
             this.lastModifiedColumnHeader,
-            this.createdColumnHeader});
+            this.createdColumnHeader,
+            this.visibleColumnHeader,
+            this.tagsColumnHeader});
 			this.notesListView.LargeImageList = this._largeImageList;
-			resources.ApplyResources(this.notesListView, "notesListView");
 			this.notesListView.Name = "notesListView";
 			this.notesListView.SmallImageList = this._iconImageList;
 			this.notesListView.UseCompatibleStateImageBehavior = false;
+			this.notesListView.ItemActivate += new System.EventHandler(this.notesListView_ItemActivate);
+			this.notesListView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.notesListView_KeyUp);
 			// 
 			// titleColumnHeader
 			// 
@@ -128,6 +145,14 @@
 			// createdColumnHeader
 			// 
 			resources.ApplyResources(this.createdColumnHeader, "createdColumnHeader");
+			// 
+			// visibleColumnHeader
+			// 
+			resources.ApplyResources(this.visibleColumnHeader, "visibleColumnHeader");
+			// 
+			// tagsColumnHeader
+			// 
+			resources.ApplyResources(this.tagsColumnHeader, "tagsColumnHeader");
 			// 
 			// _largeImageList
 			// 
@@ -143,49 +168,26 @@
 			// 
 			// notesToolStrip
 			// 
+			this.notesToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.notesToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripButton,
+            this.newNoteToolStripButton,
             this.saveToolStripButton,
             this.printToolStripButton,
             this.toolStripSeparator,
-            this.cutToolStripButton,
-            this.copyToolStripButton1,
-            this.pasteToolStripButton,
-            this.toolStripSeparator1,
+            this.copyToolStripButton,
             this.deleteToolStripButton,
             this.toolStripSeparator4,
             this.viewToolStripDropDownButton});
 			resources.ApplyResources(this.notesToolStrip, "notesToolStrip");
 			this.notesToolStrip.Name = "notesToolStrip";
 			// 
-			// newToolStripButton
+			// newNoteToolStripButton
 			// 
-			this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.newToolStripButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.folderToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.noteToolStripMenuItem});
-			this.newToolStripButton.Image = global::SmallNotes.Properties.Resources.page_white;
-			resources.ApplyResources(this.newToolStripButton, "newToolStripButton");
-			this.newToolStripButton.Name = "newToolStripButton";
-			// 
-			// folderToolStripMenuItem
-			// 
-			this.folderToolStripMenuItem.Image = global::SmallNotes.Properties.Resources.folder_add;
-			this.folderToolStripMenuItem.Name = "folderToolStripMenuItem";
-			resources.ApplyResources(this.folderToolStripMenuItem, "folderToolStripMenuItem");
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
-			// 
-			// noteToolStripMenuItem
-			// 
-			this.noteToolStripMenuItem.Image = global::SmallNotes.Properties.Resources.note_add;
-			this.noteToolStripMenuItem.Name = "noteToolStripMenuItem";
-			resources.ApplyResources(this.noteToolStripMenuItem, "noteToolStripMenuItem");
-			this.noteToolStripMenuItem.Click += new System.EventHandler(this.noteToolStripMenuItem_Click);
+			this.newNoteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.newNoteToolStripButton.Image = global::SmallNotes.Properties.Resources.note_add;
+			resources.ApplyResources(this.newNoteToolStripButton, "newNoteToolStripButton");
+			this.newNoteToolStripButton.Name = "newNoteToolStripButton";
+			this.newNoteToolStripButton.Click += new System.EventHandler(this.newNoteToolStripButton_Click);
 			// 
 			// saveToolStripButton
 			// 
@@ -203,18 +205,21 @@
 			this.exportToMarkdownToolStripMenuItem.Image = global::SmallNotes.Properties.Resources.page_code;
 			this.exportToMarkdownToolStripMenuItem.Name = "exportToMarkdownToolStripMenuItem";
 			resources.ApplyResources(this.exportToMarkdownToolStripMenuItem, "exportToMarkdownToolStripMenuItem");
+			this.exportToMarkdownToolStripMenuItem.Click += new System.EventHandler(this.exportToMarkdownToolStripMenuItem_Click);
 			// 
 			// exportToHTMLToolStripMenuItem
 			// 
 			this.exportToHTMLToolStripMenuItem.Image = global::SmallNotes.Properties.Resources.html;
 			this.exportToHTMLToolStripMenuItem.Name = "exportToHTMLToolStripMenuItem";
 			resources.ApplyResources(this.exportToHTMLToolStripMenuItem, "exportToHTMLToolStripMenuItem");
+			this.exportToHTMLToolStripMenuItem.Click += new System.EventHandler(this.exportToHTMLToolStripMenuItem_Click);
 			// 
 			// exportToPlaintextToolStripMenuItem
 			// 
 			this.exportToPlaintextToolStripMenuItem.Image = global::SmallNotes.Properties.Resources.page_white_text;
 			this.exportToPlaintextToolStripMenuItem.Name = "exportToPlaintextToolStripMenuItem";
 			resources.ApplyResources(this.exportToPlaintextToolStripMenuItem, "exportToPlaintextToolStripMenuItem");
+			this.exportToPlaintextToolStripMenuItem.Click += new System.EventHandler(this.exportToPlaintextToolStripMenuItem_Click);
 			// 
 			// printToolStripButton
 			// 
@@ -222,44 +227,28 @@
 			this.printToolStripButton.Image = global::SmallNotes.Properties.Resources.printer;
 			resources.ApplyResources(this.printToolStripButton, "printToolStripButton");
 			this.printToolStripButton.Name = "printToolStripButton";
+			this.printToolStripButton.Click += new System.EventHandler(this.printToolStripButton_Click);
 			// 
 			// toolStripSeparator
 			// 
 			this.toolStripSeparator.Name = "toolStripSeparator";
 			resources.ApplyResources(this.toolStripSeparator, "toolStripSeparator");
 			// 
-			// cutToolStripButton
+			// copyToolStripButton
 			// 
-			this.cutToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.cutToolStripButton.Image = global::SmallNotes.Properties.Resources.cut;
-			resources.ApplyResources(this.cutToolStripButton, "cutToolStripButton");
-			this.cutToolStripButton.Name = "cutToolStripButton";
-			// 
-			// copyToolStripButton1
-			// 
-			this.copyToolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.copyToolStripButton1.Image = global::SmallNotes.Properties.Resources.page_white_copy;
-			resources.ApplyResources(this.copyToolStripButton1, "copyToolStripButton1");
-			this.copyToolStripButton1.Name = "copyToolStripButton1";
-			// 
-			// pasteToolStripButton
-			// 
-			this.pasteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.pasteToolStripButton.Image = global::SmallNotes.Properties.Resources.paste_plain;
-			resources.ApplyResources(this.pasteToolStripButton, "pasteToolStripButton");
-			this.pasteToolStripButton.Name = "pasteToolStripButton";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+			this.copyToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.copyToolStripButton.Image = global::SmallNotes.Properties.Resources.page_white_copy;
+			resources.ApplyResources(this.copyToolStripButton, "copyToolStripButton");
+			this.copyToolStripButton.Name = "copyToolStripButton";
+			this.copyToolStripButton.Click += new System.EventHandler(this.copyToolStripButton_Click);
 			// 
 			// deleteToolStripButton
 			// 
 			this.deleteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.deleteToolStripButton.Image = global::SmallNotes.Properties.Resources.delete;
+			this.deleteToolStripButton.Image = global::SmallNotes.Properties.Resources.note_delete;
 			resources.ApplyResources(this.deleteToolStripButton, "deleteToolStripButton");
 			this.deleteToolStripButton.Name = "deleteToolStripButton";
+			this.deleteToolStripButton.Click += new System.EventHandler(this.deleteToolStripButton_Click);
 			// 
 			// toolStripSeparator4
 			// 
@@ -316,6 +305,56 @@
 			resources.ApplyResources(this.tilesToolStripMenuItem, "tilesToolStripMenuItem");
 			this.tilesToolStripMenuItem.Click += new System.EventHandler(this.tilesToolStripMenuItem_Click);
 			// 
+			// tagsTabPage
+			// 
+			this.tagsTabPage.Controls.Add(this.tagsTabProgressBar);
+			this.tagsTabPage.Controls.Add(this.tagsListBox);
+			this.tagsTabPage.Controls.Add(this.tagsPageToolStrip);
+			resources.ApplyResources(this.tagsTabPage, "tagsTabPage");
+			this.tagsTabPage.Name = "tagsTabPage";
+			this.tagsTabPage.UseVisualStyleBackColor = true;
+			// 
+			// tagsTabProgressBar
+			// 
+			resources.ApplyResources(this.tagsTabProgressBar, "tagsTabProgressBar");
+			this.tagsTabProgressBar.Name = "tagsTabProgressBar";
+			this.tagsTabProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+			// 
+			// tagsListBox
+			// 
+			resources.ApplyResources(this.tagsListBox, "tagsListBox");
+			this.tagsListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.tagsListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.tagsListBox.DrawNoteCount = true;
+			this.tagsListBox.Name = "tagsListBox";
+			this.tagsListBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tagsListBox_KeyUp);
+			this.tagsListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tagsListBox_MouseDoubleClick);
+			// 
+			// tagsPageToolStrip
+			// 
+			this.tagsPageToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.tagsPageToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newTagToolStripButton,
+            this.deleteTagToolStripButton});
+			resources.ApplyResources(this.tagsPageToolStrip, "tagsPageToolStrip");
+			this.tagsPageToolStrip.Name = "tagsPageToolStrip";
+			// 
+			// newTagToolStripButton
+			// 
+			this.newTagToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.newTagToolStripButton.Image = global::SmallNotes.Properties.Resources.tag_blue_add;
+			resources.ApplyResources(this.newTagToolStripButton, "newTagToolStripButton");
+			this.newTagToolStripButton.Name = "newTagToolStripButton";
+			this.newTagToolStripButton.Click += new System.EventHandler(this.newTagToolStripButton_Click);
+			// 
+			// deleteTagToolStripButton
+			// 
+			this.deleteTagToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.deleteTagToolStripButton.Image = global::SmallNotes.Properties.Resources.tag_blue_delete;
+			resources.ApplyResources(this.deleteTagToolStripButton, "deleteTagToolStripButton");
+			this.deleteTagToolStripButton.Name = "deleteTagToolStripButton";
+			this.deleteTagToolStripButton.Click += new System.EventHandler(this.deleteTagToolStripButton_Click);
+			// 
 			// settingsTabPage
 			// 
 			this.settingsTabPage.BackColor = System.Drawing.SystemColors.Control;
@@ -329,6 +368,7 @@
 			this.databaseTabPage.Controls.Add(this.refreshButton);
 			this.databaseTabPage.Controls.Add(this.databaseTypeComboBox);
 			this.databaseTabPage.Controls.Add(this.databasePropertyGrid);
+			this.databaseTabPage.Controls.Add(this.noPropertiesLabel);
 			resources.ApplyResources(this.databaseTabPage, "databaseTabPage");
 			this.databaseTabPage.Name = "databaseTabPage";
 			// 
@@ -353,17 +393,16 @@
 			this.databasePropertyGrid.Name = "databasePropertyGrid";
 			this.databasePropertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.databasePropertyGrid_PropertyValueChanged);
 			// 
+			// noPropertiesLabel
+			// 
+			resources.ApplyResources(this.noPropertiesLabel, "noPropertiesLabel");
+			this.noPropertiesLabel.Name = "noPropertiesLabel";
+			// 
 			// _smallImageList
 			// 
 			this._smallImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
 			resources.ApplyResources(this._smallImageList, "_smallImageList");
 			this._smallImageList.TransparentColor = System.Drawing.Color.Transparent;
-			// 
-			// notesTabProgressBar
-			// 
-			resources.ApplyResources(this.notesTabProgressBar, "notesTabProgressBar");
-			this.notesTabProgressBar.Name = "notesTabProgressBar";
-			this.notesTabProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
 			// 
 			// SmallNotesOptionsForm
 			// 
@@ -376,8 +415,13 @@
 			this.notesTabPage.PerformLayout();
 			this.notesToolStrip.ResumeLayout(false);
 			this.notesToolStrip.PerformLayout();
+			this.tagsTabPage.ResumeLayout(false);
+			this.tagsTabPage.PerformLayout();
+			this.tagsPageToolStrip.ResumeLayout(false);
+			this.tagsPageToolStrip.PerformLayout();
 			this.settingsTabPage.ResumeLayout(false);
 			this.databaseTabPage.ResumeLayout(false);
+			this.databaseTabPage.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -389,7 +433,6 @@
 		private System.Windows.Forms.TabPage notesTabPage;
 		private System.Windows.Forms.TabPage settingsTabPage;
 		private System.Windows.Forms.ToolStrip notesToolStrip;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripDropDownButton viewToolStripDropDownButton;
 		private System.Windows.Forms.ToolStripMenuItem detailsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripDropDownButton saveToolStripButton;
@@ -398,15 +441,9 @@
 		private System.Windows.Forms.ToolStripMenuItem exportToPlaintextToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton printToolStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
-		private System.Windows.Forms.ToolStripButton cutToolStripButton;
-		private System.Windows.Forms.ToolStripButton copyToolStripButton1;
-		private System.Windows.Forms.ToolStripButton pasteToolStripButton;
+		private System.Windows.Forms.ToolStripButton copyToolStripButton;
 		private System.Windows.Forms.ToolStripButton deleteToolStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-		private System.Windows.Forms.ToolStripDropDownButton newToolStripButton;
-		private System.Windows.Forms.ToolStripMenuItem folderToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-		private System.Windows.Forms.ToolStripMenuItem noteToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem smallIconsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem largeIconsToolStripMenuItem;
@@ -423,6 +460,16 @@
 		private System.Windows.Forms.Button refreshButton;
 		private System.Windows.Forms.ComboBox databaseTypeComboBox;
 		private System.Windows.Forms.ProgressBar notesTabProgressBar;
+		private System.Windows.Forms.ToolStripButton newNoteToolStripButton;
+		private System.Windows.Forms.ColumnHeader visibleColumnHeader;
+		private System.Windows.Forms.ColumnHeader tagsColumnHeader;
+		private System.Windows.Forms.TabPage tagsTabPage;
+		private System.Windows.Forms.ToolStrip tagsPageToolStrip;
+		private System.Windows.Forms.ToolStripButton newTagToolStripButton;
+		private System.Windows.Forms.ToolStripButton deleteTagToolStripButton;
+		private SmallNotes.UI.Controls.TagListBox tagsListBox;
+		private System.Windows.Forms.ProgressBar tagsTabProgressBar;
+		private System.Windows.Forms.Label noPropertiesLabel;
 	}
 }
 

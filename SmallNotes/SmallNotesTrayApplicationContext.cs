@@ -16,6 +16,7 @@ using SmallNotes.Data.Entities;
 using System.Xml;
 using Common.Data;
 using SmallNotes.UI.Utils;
+using System.Collections.Concurrent;
 
 namespace SmallNotes
 {
@@ -30,8 +31,8 @@ namespace SmallNotes
 		#region Private members
 
 		private DatabaseManager _DatabaseManager;
-		private Dictionary<string, NoteForm> _Forms;
-		private Dictionary<int, NoteForm> _SavingNoteForms;
+		private ConcurrentDictionary<string, NoteForm> _Forms;
+		private ConcurrentDictionary<int, NoteForm> _SavingNoteForms;
 		private List<NoteForm> _NewNoteForms;
 
 		private const string INI_FILE_NAME = "SmallNotes.ini";
@@ -48,8 +49,8 @@ namespace SmallNotes
 		public SmallNotesTrayApplicationContext() : base()
 		{
 			// Initialize variables
-			_Forms = new Dictionary<string, NoteForm>();
-			_SavingNoteForms = new Dictionary<int, NoteForm>();
+			_Forms = new ConcurrentDictionary<string, NoteForm>();
+			_SavingNoteForms = new ConcurrentDictionary<int, NoteForm>();
 			_NewNoteForms = new List<NoteForm>();
 			_DatabaseManager = new DatabaseManager(AppDataPath);
 		}
@@ -65,7 +66,10 @@ namespace SmallNotes
 			_DatabaseManager.NoteSaved += _DatabaseManager_NoteSaved;
 			_DatabaseManager.NotesLoaded += _DatabaseManager_NotesLoaded;
 			_DatabaseManager.NoteSaving += _DatabaseManager_NoteSaving;
-			_DatabaseManager.NotesLoading += _DatabaseManager_NotesLoading;
+			_DatabaseManager.NoteDeleted += _DatabaseManager_NoteDeleted;
+			_DatabaseManager.DatabaseChanged += _DatabaseManager_DatabaseChanged;
+			_DatabaseManager.TagsLoaded += _DatabaseManager_TagsLoaded;
+			_DatabaseManager.FatalError += _DatabaseManager_FatalError;
 
 			// Load Note template.css
 			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.template.css"))
@@ -94,7 +98,6 @@ namespace SmallNotes
 				// Populate settings
 				if (optionsForm != null)
 				{
-					((SmallNotesOptionsForm)optionsForm).SelectedDatabase = _DatabaseManager.DatabaseDescriptor;
 					((SmallNotesOptionsForm)optionsForm).PopulateSettings();
 				}
 			
@@ -129,9 +132,10 @@ namespace SmallNotes
 
 		protected override OptionsForm BuildOptionsForm()
 		{
-			SmallNotesOptionsForm form = new SmallNotesOptionsForm(SettingsManager);
+			SmallNotesOptionsForm form = new SmallNotesOptionsForm(SettingsManager, _DatabaseManager);
 			form.OptionChanged += SmallNotesOptionsForm_OptionChanged;
-			form.DatabaseSettingsUpdated += SmallNotesOptionsForm_DatabaseSettingsUpdated;
+			form.NewNoteAction += SmallNotesOptionsForm_NewNoteAction;
+			form.ShowNoteAction += SmallNotesOptionsForm_ShowNoteAction;
 			return form;
 		}
 
@@ -192,11 +196,7 @@ namespace SmallNotes
 
 		private void newNoteMenuItem_Click(object sender, EventArgs e)
 		{
-			Logger.Info("Creating new note...");
-			NoteForm newNoteForm = CreateNoteForm();
-			_NewNoteForms.Add(newNoteForm);
-			newNoteForm.Data = null;
-			newNoteForm.Show();
+			CreateNewNote();
 		}
 
 		private void exitMenuItem_Click(object sender, EventArgs e)
@@ -206,50 +206,67 @@ namespace SmallNotes
 
 		private void _DatabaseManager_NotesLoaded(DatabaseManager.LoadNotesResult result)
 		{
-			// Send updates to the options form (if it exists)
-			if (optionsForm != null)
+			if (result.Success)
 			{
-				((SmallNotesOptionsForm)optionsForm).NoteList = result.NoteList;
-				((SmallNotesOptionsForm)optionsForm).IsLoadingNotes = false;
-			}
-
-			// Redraw windows, possibly adding new ones
-			foreach (KeyValuePair<string, Note> entry in result.NoteList)
-			{
-				if (_Forms.ContainsKey(entry.Key))
+				// First, obliterate all existing forms
+				AllNoteFormsIterator(form => { form.CloseNoSave(); form.Dispose(); });
+				lock (_NewNoteForms)
 				{
-					NoteForm existingNoteForm = _Forms[entry.Key];
-					existingNoteForm.Visible = entry.Value.Visible;
-					if (entry.Value.IsChangedFrom(existingNoteForm.Data))
+					_NewNoteForms.Clear();
+				}
+				_SavingNoteForms.Clear();
+				_Forms.Clear();
+
+				// Draw newly valid ones
+				foreach (KeyValuePair<string, Note> entry in result.NoteList)
+				{
+					if (_Forms.ContainsKey(entry.Key))
 					{
-						existingNoteForm.Data = entry.Value;
+						NoteForm existingNoteForm = _Forms[entry.Key];
+						existingNoteForm.Visible = entry.Value.Visible;
+						if (entry.Value.IsChangedFrom(existingNoteForm.Data))
+						{
+							existingNoteForm.Data = entry.Value;
+						}
+					}
+					else if (entry.Value.Visible)
+					{
+						// New Note: Add form and display
+						NoteForm newNoteForm = CreateNoteForm();
+						newNoteForm.Data = entry.Value;
+						newNoteForm.Show();
+						_Forms.TryAdd(entry.Key, newNoteForm);
+					}
+					else
+					{
+						Logger.DebugFormat("Note '{0}' has Visible = {1} was not shown.", entry.Value.ID, entry.Value.Visible);
 					}
 				}
-				else if (entry.Value.Visible)
-				{
-					// New Note: Add form and display
-					NoteForm newNoteForm = CreateNoteForm();
-					newNoteForm.Data = entry.Value;
-					newNoteForm.Show();
-					_Forms.Add(entry.Key, newNoteForm);
-				}
-				else
-				{
-					Logger.DebugFormat("Note '{0}' has Visible = {1} was not shown.", entry.Value.ID, entry.Value.Visible);
-				}
+			}
+			else
+			{
+				MessageBox.Show(string.Format(Resources.LoadNotesFailed, result.Exception.Message), Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
 		private void _DatabaseManager_NoteSaved(DatabaseManager.SaveNoteResult result)
 		{
-			if (result.ResultId.HasValue)
+			if (result.Success)
 			{
-				lock (_SavingNoteForms)
+				if (result.ResultId.HasValue)
 				{
-					if (_SavingNoteForms.ContainsKey(result.ResultId.Value))
+					NoteForm form;
+					if (_SavingNoteForms.TryRemove(result.ResultId.Value, out form))
 					{
-						NoteForm form = _SavingNoteForms[result.ResultId.Value];
-						_SavingNoteForms.Remove(result.ResultId.Value);
+						// Handle the case where the form was closed while the note was saving
+						if (form.IsDisposed)
+						{
+							Note oldFormData = form.Data;
+							form = CreateNoteForm();
+							form.Data = oldFormData;
+						}
+
+						// Repopulate the Note Data
 						if (form.Data == null)
 						{
 							form.Data = result.SavedNote;
@@ -258,27 +275,57 @@ namespace SmallNotes
 						{
 							form.Data.ID = result.SavedNote.ID;
 						}
-						_Forms.Add(form.Data.ID, form);
+
+						// Make sure the note is in the _Forms hash
+						_Forms.TryAdd(form.Data.ID, form);
 					}
 				}
-			}
+				else if (!_Forms.ContainsKey(result.SavedNote.ID))
+				{
+					NoteForm form = CreateNoteForm();
+					form.Data = result.SavedNote;
+					form.Show();
 
-			// Send update to OptionsForm (if it exists)
-			if (optionsForm != null)
-			{
-				((SmallNotesOptionsForm)optionsForm).UpdateNote(result.SavedNote);
+					// Make sure the note is in the _Forms hash
+					_Forms.TryAdd(form.Data.ID, form);
+				}
 			}
 		}
 
-		private void _DatabaseManager_NotesLoading(object sender, DatabaseManager.NotesLoadingRequest e)
-		{
-			if (optionsForm != null) ((SmallNotesOptionsForm)optionsForm).IsLoadingNotes = true;
-		}
-
-		private void _DatabaseManager_NoteSaving(object sender, Note e)
+		private void _DatabaseManager_NoteSaving(object sender, DatabaseManager.SaveNoteRequest e)
 		{
 			// Do nothing
-			Logger.DebugFormat("Saving note ('{0}')...", e.Title);
+			Logger.DebugFormat("Saving note ('{0}')...", e.SaveNote.Title);
+		}
+
+		private void _DatabaseManager_NoteDeleted(DatabaseManager.ObjectDeletedResult result)
+		{
+			NoteForm form;
+			if (result.Success && _Forms.TryRemove(result.DeletedId, out form))
+			{
+				form.CloseNoSave();
+				form.Dispose();
+			}
+		}
+
+		private void _DatabaseManager_TagsLoaded(DatabaseManager.LoadTagsResult result)
+		{
+			NoteForm.TagList = result.Success ? result.TagList : new Dictionary<string, Tag>();
+		}
+
+		private void _DatabaseManager_DatabaseChanged(object sender, DatabaseManager.DatabaseChangedEventArgs e)
+		{
+			// Save settings
+			SettingsManager.SettingsObject.DatabaseType = e.Database.GetType().FullName;
+			SettingsManager.SettingsObject.DatabaseProperties = ModelSerializer.SerializeModelToHash(e.Database);
+			SaveSettingsAsync(null, IniFile);
+		}
+
+		private void _DatabaseManager_FatalError(object sender, DatabaseManager.DatabaseException e)
+		{
+			// Fatal errors in the database
+			MessageBox.Show(string.Format(Resources.FatalDatabaseError, e.Message), Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			ExitThread();
 		}
 
 		private void SmallNotesOptionsForm_OptionChanged(object sender, OptionChangedEventArgs args)
@@ -296,17 +343,40 @@ namespace SmallNotes
 				string customCss = SettingsManager.SettingsObject.CustomCss;
 				AllNoteFormsIterator(f => f.CustomStylesheet = customCss);
 			}
+			else if (args.Name == "IdleTimeout")
+			{
+				long idleTimeout = SettingsManager.SettingsObject.IdleTimeout;
+				AllNoteFormsIterator(f => f.IdleTimeout = idleTimeout);
+			}
 		}
 
-		private void SmallNotesOptionsForm_DatabaseSettingsUpdated(IDatabaseDescriptor obj)
+		private void SmallNotesOptionsForm_NewNoteAction()
 		{
-			// Save settings
-			SettingsManager.SettingsObject.DatabaseType = obj.GetType().FullName;
-			SettingsManager.SettingsObject.DatabaseProperties = ModelSerializer.SerializeModelToHash(obj);
-			SaveSettingsAsync(null, IniFile);
+			CreateNewNote();
+		}
 
-			// Reconfigure when changing backends
-			_DatabaseManager.SetDatabase(SettingsManager.SettingsObject.DatabaseType, SettingsManager.SettingsObject.DatabaseProperties);
+		private void SmallNotesOptionsForm_ShowNoteAction(Note obj)
+		{
+			if (!obj.Visible)
+			{
+				obj.Visible = true;
+				_DatabaseManager.SaveNoteAsync(obj);
+
+				if (!_Forms.ContainsKey(obj.ID))
+				{
+					NoteForm form = CreateNoteForm();
+					form.Data = obj;
+					form.Show();
+					lock (_Forms)
+					{
+						_Forms[obj.ID] = form;
+					}
+				}
+				else
+				{
+					_Forms[obj.ID].Activate();
+				}
+			}
 		}
 
 		private void noteForm_NoteUpdated(object sender, NoteForm.NoteUpdateEventArgs args)
@@ -320,31 +390,44 @@ namespace SmallNotes
 			{
 				if (_NewNoteForms.Remove(target))
 				{
-					lock (_SavingNoteForms)
+					if (_SavingNoteForms.Keys.Count < 1)
 					{
-						if (_SavingNoteForms.Keys.Count < 1)
+						saveRequestId = 1;
+					}
+					else
+					{
+						IEnumerable<int> gapIds = Enumerable.Range(_SavingNoteForms.Keys.Min(), _SavingNoteForms.Keys.Count).Except(_SavingNoteForms.Keys);
+						if (gapIds.Count() < 1)
 						{
-							saveRequestId = 1;
+							saveRequestId = _SavingNoteForms.Keys.Max() + 1;
 						}
 						else
 						{
-							IEnumerable<int> gapIds = Enumerable.Range(_SavingNoteForms.Keys.Min(), _SavingNoteForms.Keys.Count).Except(_SavingNoteForms.Keys);
-							if (gapIds.Count() < 1)
-							{
-								saveRequestId = _SavingNoteForms.Keys.Max() + 1;
-							}
-							else
-							{
-								saveRequestId = gapIds.First();
-							}
+							saveRequestId = gapIds.First();
 						}
-						_SavingNoteForms.Add(saveRequestId.Value, target);
 					}
+					_SavingNoteForms.TryAdd(saveRequestId.Value, target);
 				}
 			}
 
 			// Do the actual save
 			_DatabaseManager.SaveNoteAsync(target.Data, saveRequestId);
+		}
+
+		private void noteForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			NoteForm noteForm = (NoteForm)sender;
+			if (noteForm.Data != null && !string.IsNullOrEmpty(noteForm.Data.ID))
+			{
+				_Forms.TryRemove(noteForm.Data.ID, out noteForm);
+			}
+			else
+			{
+				lock (_NewNoteForms)
+				{
+					_NewNoteForms.Remove(noteForm);
+				}
+			}
 		}
 
 		#endregion
@@ -355,16 +438,32 @@ namespace SmallNotes
 		{
 			NoteForm noteForm = new NoteForm(AppDataPath, BackgroundColorList);
 			noteForm.NoteUpdated += noteForm_NoteUpdated;
+			noteForm.FormClosed += noteForm_FormClosed;
 			noteForm.NoteFactory = () => _DatabaseManager.CreateNewNote();
 			noteForm.FastResizeMove = SettingsManager.SettingsObject.FastRendering;
+			noteForm.DefaultBackgroundColor = SettingsManager.SettingsObject.DefaultBackgroundColor;
+			noteForm.DefaultForegroundColor = SettingsManager.SettingsObject.DefaultForegroundColor;
+			noteForm.IdleTimeout = SettingsManager.SettingsObject.IdleTimeout;
 			return noteForm;
+		}
+
+		private void CreateNewNote()
+		{
+			Logger.Info("Creating new note...");
+			NoteForm newNoteForm = CreateNoteForm();
+			_NewNoteForms.Add(newNoteForm);
+			newNoteForm.Data = null;
+			newNoteForm.Show();
 		}
 
 		private void AllNoteFormsIterator(Action<NoteForm> callback)
 		{
-			foreach(KeyValuePair<string, NoteForm> entry in _Forms)
+			lock (_Forms)
 			{
-				callback(entry.Value);
+				foreach (KeyValuePair<string, NoteForm> entry in _Forms)
+				{
+					callback(entry.Value);
+				}
 			}
 			lock (_NewNoteForms)
 			{

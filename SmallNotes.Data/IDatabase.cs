@@ -10,10 +10,22 @@ namespace SmallNotes.Data
 {
 	public interface IDatabase : IDisposable
 	{
-		Note SaveNote(Note request);
+		void Initialize();
 
-		Dictionary<string, Note> LoadNotes();
+		Note SaveNote(Note note);
+
+		Tag SaveTag(Tag tag);
+
+		Dictionary<string, Note> GetNotes();
+
+		Dictionary<string, Tag> GetTags();
+
+		void DeleteNote(Note note);
+
+		void DeleteTag(Tag tag);
 
 		Note CreateNewNote();
+
+		Tag CreateNewTag();
 	}
 }

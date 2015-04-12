@@ -149,6 +149,15 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        internal static string AreYouSure {
+            get {
+                return ResourceManager.GetString("AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap arrow_refresh {
@@ -164,6 +173,15 @@ namespace SmallNotes.Properties {
         internal static string Black {
             get {
                 return ResourceManager.GetString("Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy of {0}.
+        /// </summary>
+        internal static string CopyOf {
+            get {
+                return ResourceManager.GetString("CopyOf", resourceCulture);
             }
         }
         
@@ -197,6 +215,42 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to permanently delete &apos;{0}&apos;?.
+        /// </summary>
+        internal static string DeleteMessage {
+            get {
+                return ResourceManager.GetString("DeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to permanently delete {0} notes?.
+        /// </summary>
+        internal static string DeleteMessageMulti {
+            get {
+                return ResourceManager.GetString("DeleteMessageMulti", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete &apos;{0}&apos;?.
+        /// </summary>
+        internal static string DeleteTagsMessage {
+            get {
+                return ResourceManager.GetString("DeleteTagsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete {0} tags?.
+        /// </summary>
+        internal static string DeleteTagsMessagePlural {
+            get {
+                return ResourceManager.GetString("DeleteTagsMessagePlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap disk {
@@ -213,6 +267,24 @@ namespace SmallNotes.Properties {
             get {
                 object obj = ResourceManager.GetObject("disk_multiple", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fatal Database Error: {0}.
+        /// </summary>
+        internal static string FatalDatabaseError {
+            get {
+                return ResourceManager.GetString("FatalDatabaseError", resourceCulture);
             }
         }
         
@@ -258,46 +330,6 @@ namespace SmallNotes.Properties {
         internal static string FileDatabaseDescriptor_DisplayName {
             get {
                 return ResourceManager.GetString("FileDatabaseDescriptor_DisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap folder {
-            get {
-                object obj = ResourceManager.GetObject("folder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap folder_add {
-            get {
-                object obj = ResourceManager.GetObject("folder_add", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap folder_delete {
-            get {
-                object obj = ResourceManager.GetObject("folder_delete", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap folder_edit {
-            get {
-                object obj = ResourceManager.GetObject("folder_edit", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -393,6 +425,35 @@ namespace SmallNotes.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ic_shortcuts {
+            get {
+                object obj = ResourceManager.GetObject("ic_shortcuts", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_tag {
+            get {
+                object obj = ResourceManager.GetObject("ic_tag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} ms.
+        /// </summary>
+        internal static string IdleTimeoutLabel {
+            get {
+                return ResourceManager.GetString("IdleTimeoutLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap image {
             get {
                 object obj = ResourceManager.GetObject("image", resourceCulture);
@@ -407,6 +468,15 @@ namespace SmallNotes.Properties {
             get {
                 object obj = ResourceManager.GetObject("link", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load notes: {0}.
+        /// </summary>
+        internal static string LoadNotesFailed {
+            get {
+                return ResourceManager.GetString("LoadNotesFailed", resourceCulture);
             }
         }
         
@@ -438,11 +508,38 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} more tags.
+        /// </summary>
+        internal static string N_More {
+            get {
+                return ResourceManager.GetString("N_More", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Note.
         /// </summary>
         internal static string NewNoteTitle {
             get {
                 return ResourceManager.GetString("NewNoteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         
@@ -613,6 +710,15 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preferences.
+        /// </summary>
+        internal static string Settings_Category_Preferences {
+            get {
+                return ResourceManager.GetString("Settings_Category_Preferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom additional CSS for rendering notes.
         /// </summary>
         internal static string Settings_CustomCss_Description {
@@ -739,11 +845,105 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Time in milliseconds for a note&apos;s lower title bar to hide after there has been no mouse activity on the note. Zero (0) disables hiding the lower title bar.
+        /// </summary>
+        internal static string Settings_IdleTimeout_Description {
+            get {
+                return ResourceManager.GetString("Settings_IdleTimeout_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note Idle Time.
+        /// </summary>
+        internal static string Settings_IdleTimeout_DisplayName {
+            get {
+                return ResourceManager.GetString("Settings_IdleTimeout_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tag_blue {
+            get {
+                object obj = ResourceManager.GetObject("tag_blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tag_blue_add {
+            get {
+                object obj = ResourceManager.GetObject("tag_blue_add", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tag_blue_delete {
+            get {
+                object obj = ResourceManager.GetObject("tag_blue_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tag_blue_edit {
+            get {
+                object obj = ResourceManager.GetObject("tag_blue_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} notes.
+        /// </summary>
+        internal static string TagNotesPlural {
+            get {
+                return ResourceManager.GetString("TagNotesPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} note.
+        /// </summary>
+        internal static string TagNotesSingular {
+            get {
+                return ResourceManager.GetString("TagNotesSingular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags for {0}.
+        /// </summary>
+        internal static string TagsFor {
+            get {
+                return ResourceManager.GetString("TagsFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to White.
         /// </summary>
         internal static string White {
             get {
                 return ResourceManager.GetString("White", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

@@ -43,15 +43,18 @@ namespace SmallNotes.UI
 			this.whiteForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.customForegroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tagsToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.titleTextBox = new System.Windows.Forms.TextBox();
 			this.markdownTextBox = new System.Windows.Forms.TextBox();
 			this.colorPickerDialog = new System.Windows.Forms.ColorDialog();
-			this.displayPanel = new SmallNotes.UI.Controls.ResizePanel();
-			this.titleDisplayLabel = new SmallNotes.UI.Controls.NoMouseLabel();
-			this.displayBrowser = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
+			this.displayPanel = new System.Windows.Forms.Panel();
+			this.displayScrollPanel = new System.Windows.Forms.Panel();
+			this.displayBrowser = new TheArtOfDev.HtmlRenderer.WinForms.HtmlLabel();
+			this.titleDisplayLabel = new System.Windows.Forms.Label();
 			this.editorPanel.SuspendLayout();
 			this.optionsToolStrip.SuspendLayout();
 			this.displayPanel.SuspendLayout();
+			this.displayScrollPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// cancelButton
@@ -83,9 +86,11 @@ namespace SmallNotes.UI
 			// 
 			// optionsToolStrip
 			// 
+			this.optionsToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.optionsToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.backgroundColorDropDownButton,
-            this.foregroundColorDropDownButton});
+            this.foregroundColorDropDownButton,
+            this.tagsToolStripButton});
 			resources.ApplyResources(this.optionsToolStrip, "optionsToolStrip");
 			this.optionsToolStrip.Name = "optionsToolStrip";
 			// 
@@ -142,40 +147,48 @@ namespace SmallNotes.UI
 			resources.ApplyResources(this.customForegroundColorToolStripMenuItem, "customForegroundColorToolStripMenuItem");
 			this.customForegroundColorToolStripMenuItem.Click += new System.EventHandler(this.customForegroundColorToolStripMenuItem_Click);
 			// 
+			// tagsToolStripButton
+			// 
+			this.tagsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tagsToolStripButton.Image = global::SmallNotes.Properties.Resources.tag_blue;
+			resources.ApplyResources(this.tagsToolStripButton, "tagsToolStripButton");
+			this.tagsToolStripButton.Name = "tagsToolStripButton";
+			this.tagsToolStripButton.Click += new System.EventHandler(this.tagsToolStripButton_Click);
+			// 
 			// titleTextBox
 			// 
 			resources.ApplyResources(this.titleTextBox, "titleTextBox");
 			this.titleTextBox.Name = "titleTextBox";
+			this.titleTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.titleTextBox_KeyPress);
 			// 
 			// markdownTextBox
 			// 
 			resources.ApplyResources(this.markdownTextBox, "markdownTextBox");
 			this.markdownTextBox.Name = "markdownTextBox";
+			this.markdownTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			// 
 			// displayPanel
 			// 
 			this.displayPanel.BackColor = System.Drawing.Color.Transparent;
+			this.displayPanel.Controls.Add(this.displayScrollPanel);
 			this.displayPanel.Controls.Add(this.titleDisplayLabel);
-			this.displayPanel.Controls.Add(this.displayBrowser);
 			resources.ApplyResources(this.displayPanel, "displayPanel");
 			this.displayPanel.Name = "displayPanel";
-			this.displayPanel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseDoubleClick);
-			this.displayPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseDown);
-			this.displayPanel.MouseEnter += new System.EventHandler(this.displayPanel_MouseEnter);
-			this.displayPanel.MouseLeave += new System.EventHandler(this.displayPanel_MouseLeave);
-			this.displayPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseMove);
-			this.displayPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayPanel_MouseUp);
 			// 
-			// titleDisplayLabel
+			// displayScrollPanel
 			// 
-			resources.ApplyResources(this.titleDisplayLabel, "titleDisplayLabel");
-			this.titleDisplayLabel.Name = "titleDisplayLabel";
+			resources.ApplyResources(this.displayScrollPanel, "displayScrollPanel");
+			this.displayScrollPanel.Controls.Add(this.displayBrowser);
+			this.displayScrollPanel.Name = "displayScrollPanel";
+			this.displayScrollPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseDown);
+			this.displayScrollPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseMove);
+			this.displayScrollPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseUp);
 			// 
 			// displayBrowser
 			// 
-			resources.ApplyResources(this.displayBrowser, "displayBrowser");
 			this.displayBrowser.BackColor = System.Drawing.SystemColors.Window;
 			this.displayBrowser.BaseStylesheet = null;
+			resources.ApplyResources(this.displayBrowser, "displayBrowser");
 			this.displayBrowser.Name = "displayBrowser";
 			this.displayBrowser.LinkClicked += new System.EventHandler<TheArtOfDev.HtmlRenderer.Core.Entities.HtmlLinkClickedEventArgs>(this.displayBrowser_LinkClicked);
 			this.displayBrowser.ImageLoad += new System.EventHandler<TheArtOfDev.HtmlRenderer.Core.Entities.HtmlImageLoadEventArgs>(this.displayBrowser_ImageLoad);
@@ -183,6 +196,18 @@ namespace SmallNotes.UI
 			this.displayBrowser.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseDown);
 			this.displayBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseMove);
 			this.displayBrowser.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseUp);
+			// 
+			// titleDisplayLabel
+			// 
+			resources.ApplyResources(this.titleDisplayLabel, "titleDisplayLabel");
+			this.titleDisplayLabel.Name = "titleDisplayLabel";
+			this.titleDisplayLabel.Paint += new System.Windows.Forms.PaintEventHandler(this.titleDisplayLabel_Paint);
+			this.titleDisplayLabel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.titleDisplayLabel_MouseDoubleClick);
+			this.titleDisplayLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titleDisplayLabel_MouseDown);
+			this.titleDisplayLabel.MouseEnter += new System.EventHandler(this.titleDisplayLabel_MouseEnter);
+			this.titleDisplayLabel.MouseLeave += new System.EventHandler(this.titleDisplayLabel_MouseLeave);
+			this.titleDisplayLabel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.titleDisplayLabel_MouseMove);
+			this.titleDisplayLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.titleDisplayLabel_MouseUp);
 			// 
 			// NoteForm
 			// 
@@ -204,6 +229,8 @@ namespace SmallNotes.UI
 			this.optionsToolStrip.ResumeLayout(false);
 			this.optionsToolStrip.PerformLayout();
 			this.displayPanel.ResumeLayout(false);
+			this.displayScrollPanel.ResumeLayout(false);
+			this.displayScrollPanel.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -215,12 +242,9 @@ namespace SmallNotes.UI
 		private System.Windows.Forms.Panel editorPanel;
 		private System.Windows.Forms.TextBox markdownTextBox;
 		private System.Windows.Forms.TextBox titleTextBox;
-		private TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel displayBrowser;
 		private System.Windows.Forms.ColorDialog colorPickerDialog;
 		private System.Windows.Forms.ToolStrip optionsToolStrip;
 		private System.Windows.Forms.ToolStripDropDownButton backgroundColorDropDownButton;
-		private ResizePanel displayPanel;
-		private NoMouseLabel titleDisplayLabel;
 		private System.Windows.Forms.ToolStripDropDownButton foregroundColorDropDownButton;
 		private System.Windows.Forms.ToolStripMenuItem automaticForegroundColorToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -228,5 +252,10 @@ namespace SmallNotes.UI
 		private System.Windows.Forms.ToolStripMenuItem whiteForegroundColorToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem customForegroundColorToolStripMenuItem;
+		private System.Windows.Forms.ToolStripButton tagsToolStripButton;
+		private System.Windows.Forms.Panel displayPanel;
+		private TheArtOfDev.HtmlRenderer.WinForms.HtmlLabel displayBrowser;
+		private System.Windows.Forms.Label titleDisplayLabel;
+		private System.Windows.Forms.Panel displayScrollPanel;
 	}
 }

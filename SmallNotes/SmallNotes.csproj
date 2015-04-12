@@ -53,6 +53,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SQLite.Net.Platform.Win32.2.5.1\lib\net4\SQLite.Net.Platform.Win32.dll</HintPath>
     </Reference>
+    <Reference Include="SQLiteNetExtensions">
+      <HintPath>..\packages\SQLiteNetExtensions.1.2.5\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\SQLiteNetExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
@@ -76,14 +79,40 @@
     <Compile Include="Data\DatabaseManager.cs" />
     <Compile Include="Data\DefaultColorValueAttribute.cs" />
     <Compile Include="Data\Entities\Settings.cs" />
-    <Compile Include="Data\Entities\SQLiteNote.cs" />
-    <Compile Include="Data\FileDatabase.cs" />
-    <Compile Include="Data\FileDatabaseDescriptor.cs" />
-    <Compile Include="Data\TestDatabase.cs" />
+    <Compile Include="Data\FileDatabaseImpl\Entities\SQLiteNoteTags.cs" />
+    <Compile Include="Data\FileDatabaseImpl\Entities\SQLiteTag.cs" />
+    <Compile Include="Data\FileDatabaseImpl\Entities\SQLiteNote.cs" />
+    <Compile Include="Data\FileDatabaseImpl\FileDatabase.cs" />
+    <Compile Include="Data\FileDatabaseImpl\FileDatabaseDescriptor.cs" />
+    <Compile Include="Data\TestDatabaseImpl\TestDatabase.cs" />
+    <Compile Include="Data\TestDatabaseImpl\TestDatabaseDescriptor.cs" />
     <Compile Include="UI\Controls\ImageListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\TagListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\TrackBarEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\TrackBarEditorControl.Designer.cs">
+      <DependentUpon>TrackBarEditorControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Editors\FileUIEditor.cs" />
+    <Compile Include="UI\Editors\IdleTimeoutEditor.cs" />
+    <Compile Include="UI\Editors\TrackBarEditor.cs" />
+    <Compile Include="UI\NoteTagForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\NoteTagForm.Designer.cs">
+      <DependentUpon>NoteTagForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TagForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\TagForm.Designer.cs">
+      <DependentUpon>TagForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Utils\ColorList.cs" />
     <Compile Include="UI\Editors\BackgroundColorEditor.cs" />
     <Compile Include="UI\Editors\ColorEditor.cs" />
@@ -93,9 +122,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Utils\NoteCodeFormatter.cs" />
-    <Compile Include="UI\Controls\ResizePanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UI\SimpleTemplate.cs" />
     <Compile Include="UI\SmallNotesOptionsForm.cs">
       <SubType>Form</SubType>
@@ -112,6 +138,7 @@
     <Compile Include="UI\NoteForm.Designer.cs">
       <DependentUpon>NoteForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Utils\UIElements.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -122,6 +149,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\Controls\TrackBarEditorControl.resx">
+      <DependentUpon>TrackBarEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\NoteTagForm.resx">
+      <DependentUpon>NoteTagForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SmallNotesOptionsForm.resx">
       <DependentUpon>SmallNotesOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -135,10 +168,6 @@
     <None Include="assets\application_view_tile.png" />
     <None Include="assets\disk.png" />
     <None Include="assets\disk_multiple.png" />
-    <None Include="assets\folder.png" />
-    <None Include="assets\folder_add.png" />
-    <None Include="assets\folder_delete.png" />
-    <None Include="assets\folder_edit.png" />
     <None Include="assets\font.png" />
     <None Include="assets\html.png" />
     <None Include="assets\ic_notes.png" />
@@ -173,9 +202,18 @@
     <None Include="assets\ic_notes_large.png" />
     <None Include="assets\page_white.png" />
     <None Include="assets\ic_content_save.png" />
+    <None Include="assets\ic_tag.png" />
+    <None Include="assets\tag_blue.png" />
+    <None Include="assets\tag_blue_add.png" />
+    <None Include="assets\tag_blue_delete.png" />
+    <None Include="assets\tag_blue_edit.png" />
+    <None Include="assets\ic_shortcuts.png" />
     <Content Include="colors.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="UI\TagForm.resx">
+      <DependentUpon>TagForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\template.html" />
     <EmbeddedResource Include="UI\template.css" />
     <EmbeddedResource Include="appicon.ico" />

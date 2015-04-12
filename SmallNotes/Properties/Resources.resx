@@ -145,9 +145,6 @@
   <data name="page_white_text" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\page_white_text.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="folder_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\assets\folder_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="AnotherInstance" xml:space="preserve">
     <value>Another instance is already running! Exiting...</value>
   </data>
@@ -162,9 +159,6 @@
   </data>
   <data name="Settings_FastRendering_DisplayName" xml:space="preserve">
     <value>Fast Rendering</value>
-  </data>
-  <data name="folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\assets\folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="photo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\photo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,9 +211,6 @@
   <data name="cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\cut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="folder_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\assets\folder_add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="html" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\html.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -270,9 +261,6 @@
   </data>
   <data name="image" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="folder_edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\assets\folder_edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ic_action_done" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\ic_action_done.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -333,5 +321,83 @@
   </data>
   <data name="FileDatabaseDescriptor_Category_Parameters" xml:space="preserve">
     <value>Parameters</value>
+  </data>
+  <data name="FatalDatabaseError" xml:space="preserve">
+    <value>Fatal Database Error: {0}</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="LoadNotesFailed" xml:space="preserve">
+    <value>Failed to load notes: {0}</value>
+  </data>
+  <data name="ic_tag" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\ic_tag.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tag_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\tag_blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tag_blue_add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\tag_blue_add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tag_blue_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\tag_blue_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tag_blue_edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\tag_blue_edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ic_shortcuts" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\ic_shortcuts.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="CopyOf" xml:space="preserve">
+    <value>Copy of {0}</value>
+  </data>
+  <data name="DeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to permanently delete '{0}'?</value>
+  </data>
+  <data name="DeleteMessageMulti" xml:space="preserve">
+    <value>Are you sure you want to permanently delete {0} notes?</value>
+  </data>
+  <data name="DeleteTagsMessage" xml:space="preserve">
+    <value>Are you sure you want to delete '{0}'?</value>
+  </data>
+  <data name="DeleteTagsMessagePlural" xml:space="preserve">
+    <value>Are you sure you want to delete {0} tags?</value>
+  </data>
+  <data name="TagNotesPlural" xml:space="preserve">
+    <value>{0} notes</value>
+  </data>
+  <data name="TagNotesSingular" xml:space="preserve">
+    <value>{0} note</value>
+  </data>
+  <data name="N_More" xml:space="preserve">
+    <value>{0} more tags</value>
+  </data>
+  <data name="TagsFor" xml:space="preserve">
+    <value>Tags for {0}</value>
+  </data>
+  <data name="Settings_Category_Preferences" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="Settings_IdleTimeout_Description" xml:space="preserve">
+    <value>Time in milliseconds for a note's lower title bar to hide after there has been no mouse activity on the note. Zero (0) disables hiding the lower title bar</value>
+  </data>
+  <data name="Settings_IdleTimeout_DisplayName" xml:space="preserve">
+    <value>Note Idle Time</value>
+  </data>
+  <data name="IdleTimeoutLabel" xml:space="preserve">
+    <value>{0} ms</value>
   </data>
 </root>

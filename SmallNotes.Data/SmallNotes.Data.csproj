@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Tag.cs" />
     <Compile Include="IDatabase.cs" />
     <Compile Include="IDatabaseDescriptor.cs" />
     <Compile Include="Entities\Note.cs" />

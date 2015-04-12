@@ -19,6 +19,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -29,6 +30,8 @@ namespace SmallNotes.UI
 {
 	public partial class NoteForm : Form
 	{
+		#region Properties
+
 		#region Note data property
 		private Note _Data;
 		public Note Data
@@ -56,6 +59,7 @@ namespace SmallNotes.UI
 				ControlBox = _EditMode;
 				editorPanel.Visible = _EditMode;
 				displayPanel.Visible = !_EditMode;
+				TopMost = !_EditMode;
 				UpdateUI();
 			}
 			get
@@ -65,17 +69,77 @@ namespace SmallNotes.UI
 		}
 		#endregion
 
-		#region Properties
+		#region CustomStylesheet property
 
-		public string CustomStylesheet { get; set; }
+		private string _CustomStylesheet;
+		public string CustomStylesheet
+		{
+			get
+			{
+				return _CustomStylesheet;
+			}
+			set
+			{
+				_CustomStylesheet = value;
+				UpdateUI();
+			}
+		}
+
+		#endregion
 
 		public string AppDataPath { get; set; }
 
 		public bool FastResizeMove { get; set; }
 
+		private long _IdleTimeout;
+		public long IdleTimeout
+		{
+			get
+			{
+				return _IdleTimeout;
+			}
+			set
+			{
+				_IdleTimeout = value;
+				if (_IdleTimeout < 0) _IdleTimeout = 0;
+				if (_IdleTimeout < 1) SetTitleDisplayVisible(true);
+				else MouseActivityForTitleBar();
+			}
+		}
+
+		public string DefaultBackgroundColor
+		{
+			set
+			{
+				if (value != null)
+				{
+					BackColor = ColorTranslator.FromHtml(value);
+				}
+			}
+		}
+
+		public string DefaultForegroundColor
+		{
+			set
+			{
+				if (value != null)
+				{
+					ForeColor = ColorTranslator.FromHtml(value);
+				}
+			}
+		}
+
 		public Func<Note> NoteFactory { get; set; }
 
 		private ILog Logger { get; set; }
+
+		#endregion
+
+		#region Static Properties
+
+		public static string StylesheetTemplate { get; set; }
+		public static string DocumentTemplate { get; set; }
+		public static Dictionary<string, Tag> TagList { get; set; }
 
 		#endregion
 
@@ -88,20 +152,17 @@ namespace SmallNotes.UI
 		private bool _moveMoved;
 		private bool _resizeCapture;
 		private bool _resizeResized;
-		private const int GRIP_SIZE = 16;
 		private bool _lastUpFromDrag;
 
 		private bool _automaticForeColor = false;
+
 		private ToolStripMenuItem customBackgroundColorMenuItem;
 
-		public static string StylesheetTemplate { get; set; }
-		public static string DocumentTemplate { get; set; }
+		private bool _closeNoSave = false;
 
-		//private static int MouseAreaW = SystemInformation.DoubleClickSize.Width;
-		//private static int MouseAreaH = SystemInformation.DoubleClickSize.Height;
-		//private static TimeSpan DoubleClickTime = TimeSpan.FromMilliseconds(SystemInformation.DoubleClickTime);
+		private CancellationTokenSource _tokenSource;
 
-		//private static Regex _codeBlock = new Regex(@"<code>((?:.*\n+)+)</code>", RegexOptions.Multiline | RegexOptions.Compiled);
+		private List<Tag> _selectedTags;
 
 		#endregion
 
@@ -136,24 +197,30 @@ namespace SmallNotes.UI
 			// Populate foreground color menu icons
 			blackForegroundColorToolStripMenuItem.Image = new ColorList.ColorItem("Black") { Color = Color.Black }.Icon;
 			whiteForegroundColorToolStripMenuItem.Image = new ColorList.ColorItem("White") { Color = Color.White }.Icon;
+		}
 
-			
+		public void CloseNoSave()
+		{
+			_closeNoSave = true;
+			Close();
 		}
 
 		#region Utility methods
 
 		private void UpdateUI()
 		{
+
 			// Window title
-			Text = _EditMode ? (Data != null ? Data.Title : Resources.NewNoteTitle) : "";
+			Text = _EditMode ? (Data != null ? Data.Title : Resources.NewNoteTitle) : String.Empty;
 
 			// Editor
 			titleTextBox.Text = Data != null ? Data.Title : Resources.NewNoteTitle;
-			markdownTextBox.Text = Data != null ? Data.Text : "";
+			markdownTextBox.Text = Data != null ? Data.Text : String.Empty;
 			_automaticForeColor = Data == null || !Data.ForegroundColor.HasValue;
-			BackColor = Data != null ? Data.BackgroundColor : ColorTranslator.FromHtml(Settings.DEFAULT_BACKGROUND_COLOR);
+			if (Data != null) BackColor = Data.BackgroundColor;
 			ForeColor = ComputeForegroundColor(Data, BackColor);
 			RedrawAutomaticMenuItemIcon();
+			_selectedTags = Data != null ? Data.Tags : new List<Tag>();
 
 			// Display
 			if (Data != null)
@@ -170,6 +237,9 @@ namespace SmallNotes.UI
 				StartPosition = FormStartPosition.Manual;
 				if (!Data.Dimensions.IsEmpty) this.Size = Data.Dimensions;
 				if (!Data.Location.IsEmpty) this.Location = Data.Location;
+
+				// Display the bottom title bar (possibly temporarily)
+				MouseActivityForTitleBar();
 			}
 		}
 
@@ -282,11 +352,16 @@ namespace SmallNotes.UI
 			}
 		}
 
+		private bool IsCursorOverResizeGripper()
+		{
+			Point cursorPos = titleDisplayLabel.PointToClient(Cursor.Position);
+			Rectangle gripperArea = new Rectangle(titleDisplayLabel.Width - UIElements.RESIZE_GRIPPER_SIZE, 0, UIElements.RESIZE_GRIPPER_SIZE, titleDisplayLabel.Height);
+			return gripperArea.Contains(cursorPos);
+		}
+
 		private void CheckCursor()
 		{
-			Point cursorPos = displayPanel.PointToClient(Cursor.Position);
-			Rectangle gripperArea = displayPanel.GetResizeRect();
-			if (displayPanel.Visible && gripperArea.Contains(cursorPos))
+			if (displayPanel.Visible && IsCursorOverResizeGripper())
 			{
 				Cursor = Cursors.SizeNWSE;
 			}
@@ -294,17 +369,6 @@ namespace SmallNotes.UI
 			{
 				Cursor = Cursors.Default;
 			}
-		}
-
-		private static bool IsBackgroundDark(Color backColor)
-		{
-			int val = (int)Math.Round((new int[] { backColor.R, backColor.G, backColor.B }).Average());
-			return val < 128;
-		}
-
-		private static Color GetAutomaticForegroundColor(Color backColor)
-		{
-			return IsBackgroundDark(backColor) ? Color.White : Color.Black;
 		}
 
 		private void RedrawAutomaticMenuItemIcon()
@@ -322,9 +386,60 @@ namespace SmallNotes.UI
 			}
 		}
 
+		private async void MouseActivityForTitleBar()
+		{
+			// Give focus
+			displayScrollPanel.Focus();
+
+			// Make sure the status is visible
+			SetTitleDisplayVisible(true);
+
+			// Cancel hide timeout
+			if (_tokenSource != null)
+			{
+				_tokenSource.Cancel();
+			}
+
+			// Start timeout for hiding Titlebar
+			if (IdleTimeout > 0)
+			{
+				try
+				{
+					_tokenSource = new CancellationTokenSource();
+					await Task.Delay(TimeSpan.FromMilliseconds(IdleTimeout), _tokenSource.Token);
+					if (!Bounds.Contains(Control.MousePosition))
+					{
+						SetTitleDisplayVisible(false);
+					}
+					_tokenSource = null;
+				}
+				catch (TaskCanceledException)
+				{
+					// Do nothing
+				}
+			}
+		}
+
+		private void SetTitleDisplayVisible(bool visible)
+		{
+			displayScrollPanel.Height = Height - ((visible ? titleDisplayLabel.Height : 0) + 4);
+			displayScrollPanel.AutoScroll = visible;
+
+			// TODO Fade animation
+			titleDisplayLabel.Visible = visible;
+		}
+
+		#region Static
+
 		private static Color ComputeForegroundColor(Note note, Color backgroundColor)
 		{
 			return note != null && note.ForegroundColor.HasValue ? note.ForegroundColor.Value : GetAutomaticForegroundColor(backgroundColor);
+		}
+
+		private static bool IsBackgroundDark(Color backColor)
+		{
+			float value = backColor.R * 0.299f + backColor.G * 0.587f + backColor.B * 0.114f;
+			return value < 186;
 		}
 
 		public static string RenderNoteToHtml(Note note, string customCss)
@@ -352,6 +467,13 @@ namespace SmallNotes.UI
 			return documentTemplate.Render();
 		}
 
+		public static Color GetAutomaticForegroundColor(Color backColor)
+		{
+			return IsBackgroundDark(backColor) ? Color.White : Color.Black;
+		}
+
+		#endregion
+
 		#endregion
 
 		#region Event handlers
@@ -367,6 +489,7 @@ namespace SmallNotes.UI
 				Data.ForegroundColor = _automaticForeColor ? (Color?)null : ForeColor;
 				Data.Location = this.Location;
 				Data.Dimensions = this.Size;
+				Data.Tags = _selectedTags;
 				EditMode = false;
 			}
 			else
@@ -379,6 +502,7 @@ namespace SmallNotes.UI
 				newNote.Visible = true;
 				newNote.Dimensions = this.Size;
 				newNote.Location = this.Location;
+				newNote.Tags = _selectedTags;
 				Data = newNote;
 			}
 
@@ -447,7 +571,10 @@ namespace SmallNotes.UI
 				{
 					_lastUpFromDrag = true;
 				}
+				Invalidate();
 			}
+
+			MouseActivityForTitleBar();
 		}
 
 		private void displayBrowser_MouseUp(object sender, MouseEventArgs e)
@@ -461,7 +588,7 @@ namespace SmallNotes.UI
 			_moveCapture = false;
 		}
 
-		private void displayPanel_MouseDoubleClick(object sender, MouseEventArgs e)
+		private void titleDisplayLabel_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			if (!EditMode)
 			{
@@ -471,23 +598,23 @@ namespace SmallNotes.UI
 			_resizeCapture = false;
 		}
 
-		private void displayPanel_MouseDown(object sender, MouseEventArgs e)
+		private void titleDisplayLabel_MouseDown(object sender, MouseEventArgs e)
 		{
-			_mouseDown = e.Location;
 			_formLocation = ((Form)TopLevelControl).Location;
 			_formSize = ((Form)TopLevelControl).Size;
-			Rectangle resizeGripRegion = new Rectangle(displayPanel.Width - GRIP_SIZE, displayPanel.Height - GRIP_SIZE, GRIP_SIZE, GRIP_SIZE);
-			if (resizeGripRegion.Contains(_mouseDown))
+			if (IsCursorOverResizeGripper())
 			{
 				_resizeCapture = true;
+				_mouseDown = titleDisplayLabel.PointToScreen(e.Location);
 			}
 			else
 			{
+				_mouseDown = e.Location;
 				_moveCapture = true;
 			}
 		}
 
-		private void displayPanel_MouseMove(object sender, MouseEventArgs e)
+		private void titleDisplayLabel_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (_moveCapture)
 			{
@@ -498,21 +625,25 @@ namespace SmallNotes.UI
 				((Form)TopLevelControl).Location = newLocation;
 				_formLocation = newLocation;
 				_moveMoved = true;
+				Invalidate();
 			}
 			if (_resizeCapture)
 			{
 				if (FastResizeMove) displayBrowser.DisableRedraw();
-				int dx = e.Location.X - _mouseDown.X;
-				int dy = e.Location.Y - _mouseDown.Y;
+				Point loc = titleDisplayLabel.PointToScreen(e.Location);
+				int dx = loc.X - _mouseDown.X;
+				int dy = loc.Y - _mouseDown.Y;
 				Size newSize = new Size(_formSize.Width + dx, _formSize.Height + dy);
+				Size oldSize = ((Form)TopLevelControl).Size;
 				((Form)TopLevelControl).Size = newSize;
 				_resizeResized = true;
 			}
 
+			MouseActivityForTitleBar();
 			CheckCursor();
 		}
 
-		private void displayPanel_MouseUp(object sender, MouseEventArgs e)
+		private void titleDisplayLabel_MouseUp(object sender, MouseEventArgs e)
 		{
 			displayBrowser.EnableRedraw();
 			if (_moveMoved || _resizeResized)
@@ -525,12 +656,12 @@ namespace SmallNotes.UI
 			_resizeResized = false;
 		}
 
-		private void displayPanel_MouseEnter(object sender, EventArgs e)
+		private void titleDisplayLabel_MouseEnter(object sender, EventArgs e)
 		{
 			CheckCursor();
 		}
 
-		private void displayPanel_MouseLeave(object sender, EventArgs e)
+		private void titleDisplayLabel_MouseLeave(object sender, EventArgs e)
 		{
 			CheckCursor();
 		}
@@ -594,6 +725,11 @@ namespace SmallNotes.UI
 			}
 		}
 
+		private void titleTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			Text = titleTextBox.Text;
+		}
+
 		private void NoteForm_BackColorChanged(object sender, EventArgs e)
 		{
 			// Redraw image for main button
@@ -624,10 +760,104 @@ namespace SmallNotes.UI
 
 		private void NoteForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (Data != null && NoteUpdated != null)
+			if (e.CloseReason == CloseReason.UserClosing && !_closeNoSave && Data != null)
 			{
 				Data.Visible = false;
-				NoteUpdated(this, new NoteUpdateEventArgs { UpdatedNote = Data });
+				OnNoteUpdated();
+			}
+		}
+
+		private void tagsToolStripButton_Click(object sender, EventArgs e)
+		{
+			// Launch Note -> Tags editor
+			NoteTagForm noteTagForm = new NoteTagForm();
+			noteTagForm.Owner = this;
+			noteTagForm.NoteTitle = Text;
+			noteTagForm.TagList = TagList.Values.ToList();
+			if (Data != null)
+			{
+				noteTagForm.SelectedTagList = _selectedTags;
+			}
+			if (noteTagForm.ShowDialog() == DialogResult.OK)
+			{
+				_selectedTags = noteTagForm.SelectedTagList;
+			}
+		}
+
+		private void titleDisplayLabel_Paint(object sender, PaintEventArgs e)
+		{
+			// Only draw if we actually have something to draw
+			if (Data != null)
+			{
+				// Setup graphics environment
+				Graphics g = e.Graphics;
+				Rectangle clipRect = e.ClipRectangle;
+				g.FillRectangle(new SolidBrush(BackColor), clipRect);
+				g.DrawLine(new Pen(titleDisplayLabel.ForeColor, 1), clipRect.Location, new Point(clipRect.Right, clipRect.Top));
+				g.SmoothingMode = SmoothingMode.AntiAlias;
+				Font boldFont = new Font(titleDisplayLabel.Font, FontStyle.Bold);
+				Font italicFont = new Font(titleDisplayLabel.Font, FontStyle.Italic);
+
+				// Draw custom colored resize gripper
+				UIElements.DrawColoredResizeGripper(g, clipRect, ForeColor);
+				clipRect.Width -= UIElements.RESIZE_GRIPPER_SIZE;
+
+				// Create text flags
+				StringFormat textFlags = new StringFormat();
+				textFlags.FormatFlags = StringFormatFlags.NoWrap;
+				textFlags.Alignment = StringAlignment.Near;
+				textFlags.LineAlignment = StringAlignment.Center;
+
+				// Measure and draw Title text
+				// Give a maximum 50% of the available width to the title, the rest goes to the labels
+				clipRect.X += UIElements.TAG_MARGIN;
+				float titleWidth = Math.Min(g.MeasureString(Data.Title, boldFont).Width, clipRect.Width / 2);
+				RectangleF titleBounds = new RectangleF(clipRect.X, clipRect.Y, titleWidth, clipRect.Height);
+				StringFormat titleStringFlags = new StringFormat(textFlags);
+				titleStringFlags.Trimming = StringTrimming.EllipsisCharacter;
+				g.DrawString(Data.Title, boldFont, new SolidBrush(titleDisplayLabel.ForeColor), titleBounds, titleStringFlags);
+
+				// Start drawing tags
+				if (Data.Tags != null && Data.Tags.Count > 0)
+				{
+					// Initial draw parameters
+					titleWidth += UIElements.TAG_MARGIN;
+					float tagsAvailableWidth = clipRect.Width - titleWidth;
+					float tagsStartX = clipRect.X + titleWidth;
+
+					// Compute draw mesurements and draw tags
+					int moreTagsCount = Data.Tags.Count;
+					foreach (Tag tag in Data.Tags)
+					{
+						float singleTagAvailableWidth = tagsAvailableWidth;
+
+						// First make sure the "N more" label will fit (if it won't, stop drawing)
+						float moreTagsWidth = moreTagsCount > 1 ? (g.MeasureString(string.Format(Resources.N_More, moreTagsCount), titleDisplayLabel.Font).Width + UIElements.TAG_MARGIN * 2) : 0f;
+						if (moreTagsWidth > tagsAvailableWidth) break;
+						singleTagAvailableWidth -= moreTagsWidth;
+
+						// If the remaining space is more than the minimum tag size, draw the tag
+						if (singleTagAvailableWidth >= UIElements.MIN_TAG_SIZE)
+						{
+							// Fit the tag in the remaining space
+							RectangleF bounds = new RectangleF(tagsStartX, clipRect.Y + UIElements.TAG_MARGIN, singleTagAvailableWidth, clipRect.Height - (UIElements.TAG_MARGIN * 2));
+							RectangleF actualBounds = UIElements.DrawTag(g, bounds, tag, titleDisplayLabel.Font);
+							float actualWidth = actualBounds.Width + UIElements.TAG_MARGIN;
+							tagsAvailableWidth -= actualWidth;
+							tagsStartX += actualWidth;
+							moreTagsCount--;
+						}
+					}
+
+					// Optionally draw the "N more" label
+					if (moreTagsCount > 0)
+					{
+						// Draw the "N more" label
+						string nMoreStr = string.Format(Resources.N_More, moreTagsCount);
+						RectangleF nMoreStrBounds = new RectangleF(tagsStartX, clipRect.Y, clipRect.Right - tagsStartX, clipRect.Height);
+						g.DrawString(nMoreStr, italicFont, new SolidBrush(titleDisplayLabel.ForeColor), nMoreStrBounds, new StringFormat(textFlags));
+					}
+				}
 			}
 		}
 
@@ -650,5 +880,20 @@ namespace SmallNotes.UI
 		}
 
 		#endregion
+
+		#region Overridden Form methods
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			if (!EditMode)
+			{
+				Rectangle rect = new Rectangle(e.ClipRectangle.X + 1, e.ClipRectangle.Y + 1, e.ClipRectangle.Width - 2, e.ClipRectangle.Height - 2);
+				e.Graphics.DrawRectangle(new Pen(ForeColor, 2), rect);
+			}
+		}
+
+		#endregion
+
 	}
 }

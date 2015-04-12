@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using SmallNotes.Data.Entities;
 using SQLite.Net.Attributes;
+using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,12 +11,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SmallNotes.Data.Entities
+namespace SmallNotes.Data.FileDatabaseImpl.Entities
 {
 	class SQLiteNote : Note
 	{
-		[AutoIncrement]
-		[PrimaryKey]
+		[AutoIncrement, PrimaryKey]
 		public int? _ID
 		{
 			get
@@ -66,8 +67,7 @@ namespace SmallNotes.Data.Entities
 			}
 		}
 
-		[NotNull]
-		[Default(value: true)]
+		[NotNull, Default(value: true)]
 		public override bool Visible
 		{
 			get
@@ -77,6 +77,32 @@ namespace SmallNotes.Data.Entities
 			set
 			{
 				base.Visible = value;
+			}
+		}
+
+		[NotNull]
+		public override DateTime Created
+		{
+			get
+			{
+				return base.Created;
+			}
+			set
+			{
+				base.Created = value;
+			}
+		}
+
+		[NotNull]
+		public override DateTime Modified
+		{
+			get
+			{
+				return base.Modified;
+			}
+			set
+			{
+				base.Modified = value;
 			}
 		}
 
@@ -236,6 +262,32 @@ namespace SmallNotes.Data.Entities
 						}
 					}
 				}
+			}
+		}
+
+		[ManyToMany(typeof(SQLiteNoteTags))]
+		public List<SQLiteTag> _Tags
+		{
+			get
+			{
+				return Tags != null ? Tags.Cast<SQLiteTag>().ToList() : new List<SQLiteTag>();
+			}
+			set
+			{
+				Tags = value != null ? value.Cast<Tag>().ToList() : new List<Tag>();
+			}
+		}
+
+		[Ignore]
+		public override List<Tag> Tags
+		{
+			get
+			{
+				return base.Tags;
+			}
+			set
+			{
+				base.Tags = value;
 			}
 		}
 

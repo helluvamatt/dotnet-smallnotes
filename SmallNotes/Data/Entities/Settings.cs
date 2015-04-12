@@ -59,6 +59,15 @@ namespace SmallNotes.Data.Entities
 		]
 		public Size DefaultSize { get; set; }
 
+		[
+		LocalizedDisplayName(typeof(Resources), "Settings_IdleTimeout_DisplayName"),
+		LocalizedDescription(typeof(Resources), "Settings_IdleTimeout_Description"),
+		LocalizedCategory(typeof(Resources), "Settings_Category_Preferences"),
+		Editor(typeof(IdleTimeoutEditor), typeof(UITypeEditor)),
+		TypeConverter(typeof(IdleTimeoutEditor.IdleTimeoutConverter))
+		]
+		public long IdleTimeout { get; set; }
+
 		[Browsable(false)]
 		public string DatabaseType { get; set; }
 

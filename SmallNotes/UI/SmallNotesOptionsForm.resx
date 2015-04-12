@@ -174,14 +174,38 @@
   <data name="&gt;&gt;notesTabProgressBar.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="notesListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <data name="titleColumnHeader.Text" xml:space="preserve">
     <value>Title</value>
+  </data>
+  <data name="titleColumnHeader.Width" type="System.Int32, mscorlib">
+    <value>-1</value>
   </data>
   <data name="lastModifiedColumnHeader.Text" xml:space="preserve">
     <value>Last Modified</value>
   </data>
+  <data name="lastModifiedColumnHeader.Width" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
   <data name="createdColumnHeader.Text" xml:space="preserve">
     <value>Date Created</value>
+  </data>
+  <data name="createdColumnHeader.Width" type="System.Int32, mscorlib">
+    <value>-1</value>
+  </data>
+  <data name="visibleColumnHeader.Text" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="visibleColumnHeader.Width" type="System.Int32, mscorlib">
+    <value>-2</value>
+  </data>
+  <data name="tagsColumnHeader.Text" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="tagsColumnHeader.Width" type="System.Int32, mscorlib">
+    <value>-1</value>
   </data>
   <metadata name="_largeImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>148, 17</value>
@@ -219,6 +243,114 @@
   <metadata name="notesToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="newNoteToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="newNoteToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="newNoteToolStripButton.Text" xml:space="preserve">
+    <value>&amp;New Note</value>
+  </data>
+  <data name="exportToMarkdownToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 22</value>
+  </data>
+  <data name="exportToMarkdownToolStripMenuItem.Text" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="exportToHTMLToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 22</value>
+  </data>
+  <data name="exportToHTMLToolStripMenuItem.Text" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="exportToPlaintextToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 22</value>
+  </data>
+  <data name="exportToPlaintextToolStripMenuItem.Text" xml:space="preserve">
+    <value>Plaintext</value>
+  </data>
+  <data name="saveToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="saveToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 22</value>
+  </data>
+  <data name="saveToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Save</value>
+  </data>
+  <data name="printToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="printToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="printToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Print</value>
+  </data>
+  <data name="toolStripSeparator.Size" type="System.Drawing.Size, System.Drawing">
+    <value>6, 25</value>
+  </data>
+  <data name="copyToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="copyToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="copyToolStripButton.Text" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="deleteToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="deleteToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="deleteToolStripButton.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>6, 25</value>
+  </data>
+  <data name="detailsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="detailsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="listToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="listToolStripMenuItem.Text" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="smallIconsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="smallIconsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Small Icons</value>
+  </data>
+  <data name="largeIconsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="largeIconsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Large Icons</value>
+  </data>
+  <data name="tilesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="tilesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tiles</value>
+  </data>
+  <data name="viewToolStripDropDownButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="viewToolStripDropDownButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 22</value>
+  </data>
+  <data name="viewToolStripDropDownButton.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
   <data name="notesToolStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
@@ -267,6 +399,138 @@
   <data name="&gt;&gt;notesTabPage.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="tagsTabProgressBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="tagsTabProgressBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>264, 276</value>
+  </data>
+  <data name="tagsTabProgressBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="tagsTabProgressBar.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tagsTabProgressBar.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;tagsTabProgressBar.Name" xml:space="preserve">
+    <value>tagsTabProgressBar</value>
+  </data>
+  <data name="&gt;&gt;tagsTabProgressBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tagsTabProgressBar.Parent" xml:space="preserve">
+    <value>tagsTabPage</value>
+  </data>
+  <data name="&gt;&gt;tagsTabProgressBar.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tagsListBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="tagsListBox.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="tagsListBox.ItemHeight" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="tagsListBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 31</value>
+  </data>
+  <data name="tagsListBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>622, 519</value>
+  </data>
+  <data name="tagsListBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tagsListBox.Name" xml:space="preserve">
+    <value>tagsListBox</value>
+  </data>
+  <data name="&gt;&gt;tagsListBox.Type" xml:space="preserve">
+    <value>SmallNotes.UI.Controls.TagListBox, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tagsListBox.Parent" xml:space="preserve">
+    <value>tagsTabPage</value>
+  </data>
+  <data name="&gt;&gt;tagsListBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="tagsPageToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>553, 17</value>
+  </metadata>
+  <data name="newTagToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="newTagToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="newTagToolStripButton.Text" xml:space="preserve">
+    <value>New Tag</value>
+  </data>
+  <data name="newTagToolStripButton.ToolTipText" xml:space="preserve">
+    <value>New Tag</value>
+  </data>
+  <data name="deleteTagToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="deleteTagToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 22</value>
+  </data>
+  <data name="deleteTagToolStripButton.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="tagsPageToolStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="tagsPageToolStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>622, 25</value>
+  </data>
+  <data name="tagsPageToolStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tagsPageToolStrip.Text" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="&gt;&gt;tagsPageToolStrip.Name" xml:space="preserve">
+    <value>tagsPageToolStrip</value>
+  </data>
+  <data name="&gt;&gt;tagsPageToolStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tagsPageToolStrip.Parent" xml:space="preserve">
+    <value>tagsTabPage</value>
+  </data>
+  <data name="&gt;&gt;tagsPageToolStrip.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tagsTabPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>152, 4</value>
+  </data>
+  <data name="tagsTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tagsTabPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>628, 553</value>
+  </data>
+  <data name="tagsTabPage.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tagsTabPage.Text" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="&gt;&gt;tagsTabPage.Name" xml:space="preserve">
+    <value>tagsTabPage</value>
+  </data>
+  <data name="&gt;&gt;tagsTabPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tagsTabPage.Parent" xml:space="preserve">
+    <value>optionsFormTabControl</value>
+  </data>
+  <data name="&gt;&gt;tagsTabPage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="settingsTabPage.Location" type="System.Drawing.Point, System.Drawing">
     <value>152, 4</value>
   </data>
@@ -292,241 +556,7 @@
     <value>optionsFormTabControl</value>
   </data>
   <data name="&gt;&gt;settingsTabPage.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;refreshButton.Name" xml:space="preserve">
-    <value>refreshButton</value>
-  </data>
-  <data name="&gt;&gt;refreshButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;refreshButton.Parent" xml:space="preserve">
-    <value>databaseTabPage</value>
-  </data>
-  <data name="&gt;&gt;refreshButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;databaseTypeComboBox.Name" xml:space="preserve">
-    <value>databaseTypeComboBox</value>
-  </data>
-  <data name="&gt;&gt;databaseTypeComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;databaseTypeComboBox.Parent" xml:space="preserve">
-    <value>databaseTabPage</value>
-  </data>
-  <data name="&gt;&gt;databaseTypeComboBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;databasePropertyGrid.Name" xml:space="preserve">
-    <value>databasePropertyGrid</value>
-  </data>
-  <data name="&gt;&gt;databasePropertyGrid.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PropertyGrid, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;databasePropertyGrid.Parent" xml:space="preserve">
-    <value>databaseTabPage</value>
-  </data>
-  <data name="&gt;&gt;databasePropertyGrid.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="databaseTabPage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>152, 4</value>
-  </data>
-  <data name="databaseTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="databaseTabPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>628, 553</value>
-  </data>
-  <data name="databaseTabPage.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="databaseTabPage.Text" xml:space="preserve">
-    <value>Database</value>
-  </data>
-  <data name="&gt;&gt;databaseTabPage.Name" xml:space="preserve">
-    <value>databaseTabPage</value>
-  </data>
-  <data name="&gt;&gt;databaseTabPage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;databaseTabPage.Parent" xml:space="preserve">
-    <value>optionsFormTabControl</value>
-  </data>
-  <data name="&gt;&gt;databaseTabPage.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="optionsFormTabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="optionsFormTabControl.ItemSize" type="System.Drawing.Size, System.Drawing">
-    <value>40, 148</value>
-  </data>
-  <data name="optionsFormTabControl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="optionsFormTabControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>784, 561</value>
-  </data>
-  <data name="optionsFormTabControl.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;optionsFormTabControl.Name" xml:space="preserve">
-    <value>optionsFormTabControl</value>
-  </data>
-  <data name="&gt;&gt;optionsFormTabControl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;optionsFormTabControl.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;optionsFormTabControl.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="newToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="newToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 22</value>
-  </data>
-  <data name="newToolStripButton.Text" xml:space="preserve">
-    <value>&amp;New Note</value>
-  </data>
-  <data name="folderToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="folderToolStripMenuItem.Text" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
-  </data>
-  <data name="noteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="noteToolStripMenuItem.Text" xml:space="preserve">
-    <value>Note...</value>
-  </data>
-  <data name="saveToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="saveToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 22</value>
-  </data>
-  <data name="saveToolStripButton.Text" xml:space="preserve">
-    <value>&amp;Save</value>
-  </data>
-  <data name="exportToMarkdownToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="exportToMarkdownToolStripMenuItem.Text" xml:space="preserve">
-    <value>Markdown</value>
-  </data>
-  <data name="exportToHTMLToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="exportToHTMLToolStripMenuItem.Text" xml:space="preserve">
-    <value>HTML</value>
-  </data>
-  <data name="exportToPlaintextToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="exportToPlaintextToolStripMenuItem.Text" xml:space="preserve">
-    <value>Plaintext</value>
-  </data>
-  <data name="printToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="printToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="printToolStripButton.Text" xml:space="preserve">
-    <value>&amp;Print</value>
-  </data>
-  <data name="toolStripSeparator.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
-  </data>
-  <data name="cutToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="cutToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="cutToolStripButton.Text" xml:space="preserve">
-    <value>C&amp;ut</value>
-  </data>
-  <data name="copyToolStripButton1.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="copyToolStripButton1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="copyToolStripButton1.Text" xml:space="preserve">
-    <value>&amp;Copy</value>
-  </data>
-  <data name="pasteToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="pasteToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="pasteToolStripButton.Text" xml:space="preserve">
-    <value>&amp;Paste</value>
-  </data>
-  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
-  </data>
-  <data name="deleteToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="deleteToolStripButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 22</value>
-  </data>
-  <data name="deleteToolStripButton.Text" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>6, 25</value>
-  </data>
-  <data name="viewToolStripDropDownButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="viewToolStripDropDownButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 22</value>
-  </data>
-  <data name="viewToolStripDropDownButton.Text" xml:space="preserve">
-    <value>View</value>
-  </data>
-  <data name="detailsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="detailsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Details</value>
-  </data>
-  <data name="listToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="listToolStripMenuItem.Text" xml:space="preserve">
-    <value>List</value>
-  </data>
-  <data name="smallIconsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="smallIconsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Small Icons</value>
-  </data>
-  <data name="largeIconsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="largeIconsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Large Icons</value>
-  </data>
-  <data name="tilesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="tilesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tiles</value>
   </data>
   <data name="refreshButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -580,10 +610,10 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="databasePropertyGrid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 36</value>
+    <value>9, 36</value>
   </data>
   <data name="databasePropertyGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>614, 509</value>
+    <value>611, 509</value>
   </data>
   <data name="databasePropertyGrid.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -600,6 +630,87 @@
   <data name="&gt;&gt;databasePropertyGrid.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="noPropertiesLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="noPropertiesLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 36</value>
+  </data>
+  <data name="noPropertiesLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 13</value>
+  </data>
+  <data name="noPropertiesLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="noPropertiesLabel.Text" xml:space="preserve">
+    <value>This database type has no user editable properties.</value>
+  </data>
+  <data name="&gt;&gt;noPropertiesLabel.Name" xml:space="preserve">
+    <value>noPropertiesLabel</value>
+  </data>
+  <data name="&gt;&gt;noPropertiesLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;noPropertiesLabel.Parent" xml:space="preserve">
+    <value>databaseTabPage</value>
+  </data>
+  <data name="&gt;&gt;noPropertiesLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="databaseTabPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>152, 4</value>
+  </data>
+  <data name="databaseTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="databaseTabPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>628, 553</value>
+  </data>
+  <data name="databaseTabPage.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="databaseTabPage.Text" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="&gt;&gt;databaseTabPage.Name" xml:space="preserve">
+    <value>databaseTabPage</value>
+  </data>
+  <data name="&gt;&gt;databaseTabPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;databaseTabPage.Parent" xml:space="preserve">
+    <value>optionsFormTabControl</value>
+  </data>
+  <data name="&gt;&gt;databaseTabPage.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="optionsFormTabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="optionsFormTabControl.ItemSize" type="System.Drawing.Size, System.Drawing">
+    <value>40, 148</value>
+  </data>
+  <data name="optionsFormTabControl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="optionsFormTabControl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>784, 561</value>
+  </data>
+  <data name="optionsFormTabControl.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;optionsFormTabControl.Name" xml:space="preserve">
+    <value>optionsFormTabControl</value>
+  </data>
+  <data name="&gt;&gt;optionsFormTabControl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;optionsFormTabControl.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;optionsFormTabControl.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="_smallImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>416, 17</value>
   </metadata>
@@ -614,6 +725,9 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>784, 561</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>300, 300</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>SmallNotes</value>
@@ -636,6 +750,18 @@
   <data name="&gt;&gt;createdColumnHeader.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;visibleColumnHeader.Name" xml:space="preserve">
+    <value>visibleColumnHeader</value>
+  </data>
+  <data name="&gt;&gt;visibleColumnHeader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tagsColumnHeader.Name" xml:space="preserve">
+    <value>tagsColumnHeader</value>
+  </data>
+  <data name="&gt;&gt;tagsColumnHeader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;_largeImageList.Name" xml:space="preserve">
     <value>_largeImageList</value>
   </data>
@@ -648,29 +774,11 @@
   <data name="&gt;&gt;_iconImageList.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;newToolStripButton.Name" xml:space="preserve">
-    <value>newToolStripButton</value>
+  <data name="&gt;&gt;newNoteToolStripButton.Name" xml:space="preserve">
+    <value>newNoteToolStripButton</value>
   </data>
-  <data name="&gt;&gt;newToolStripButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;folderToolStripMenuItem.Name" xml:space="preserve">
-    <value>folderToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;folderToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
-    <value>toolStripSeparator2</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;noteToolStripMenuItem.Name" xml:space="preserve">
-    <value>noteToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;noteToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;newNoteToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;saveToolStripButton.Name" xml:space="preserve">
     <value>saveToolStripButton</value>
@@ -708,29 +816,11 @@
   <data name="&gt;&gt;toolStripSeparator.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cutToolStripButton.Name" xml:space="preserve">
-    <value>cutToolStripButton</value>
+  <data name="&gt;&gt;copyToolStripButton.Name" xml:space="preserve">
+    <value>copyToolStripButton</value>
   </data>
-  <data name="&gt;&gt;cutToolStripButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;copyToolStripButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;copyToolStripButton1.Name" xml:space="preserve">
-    <value>copyToolStripButton1</value>
-  </data>
-  <data name="&gt;&gt;copyToolStripButton1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pasteToolStripButton.Name" xml:space="preserve">
-    <value>pasteToolStripButton</value>
-  </data>
-  <data name="&gt;&gt;pasteToolStripButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
-    <value>toolStripSeparator1</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;deleteToolStripButton.Name" xml:space="preserve">
     <value>deleteToolStripButton</value>
@@ -779,6 +869,18 @@
   </data>
   <data name="&gt;&gt;tilesToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;newTagToolStripButton.Name" xml:space="preserve">
+    <value>newTagToolStripButton</value>
+  </data>
+  <data name="&gt;&gt;newTagToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;deleteTagToolStripButton.Name" xml:space="preserve">
+    <value>deleteTagToolStripButton</value>
+  </data>
+  <data name="&gt;&gt;deleteTagToolStripButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;_smallImageList.Name" xml:space="preserve">
     <value>_smallImageList</value>
