@@ -10,3 +10,6 @@
 [submodule "ColorCode"]
 	path = ColorCode
 	url = git@github.com:helluvamatt/colorcode.git
+[submodule "Transitions"]
+	path = Transitions
+	url = git@github.com:helluvamatt/dot-net-transitions.git
