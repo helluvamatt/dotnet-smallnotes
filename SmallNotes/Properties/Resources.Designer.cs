@@ -61,6 +61,15 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alt.
+        /// </summary>
+        internal static string Alt {
+            get {
+                return ResourceManager.GetString("Alt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Another instance is already running! Exiting....
         /// </summary>
         internal static string AnotherInstance {
@@ -182,6 +191,15 @@ namespace SmallNotes.Properties {
         internal static string CopyOf {
             get {
                 return ResourceManager.GetString("CopyOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ctrl.
+        /// </summary>
+        internal static string Ctrl {
+            get {
+                return ResourceManager.GetString("Ctrl", resourceCulture);
             }
         }
         
@@ -349,6 +367,60 @@ namespace SmallNotes.Properties {
         internal static string ForegroundColor_Automatic {
             get {
                 return ResourceManager.GetString("ForegroundColor_Automatic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit the most recently saved note..
+        /// </summary>
+        internal static string Hotkey_EditMostRecentNote_Desc {
+            get {
+                return ResourceManager.GetString("Hotkey_EditMostRecentNote_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Most Recent Note.
+        /// </summary>
+        internal static string Hotkey_EditMostRecentNote_Name {
+            get {
+                return ResourceManager.GetString("Hotkey_EditMostRecentNote_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create and start editing a new note.
+        /// </summary>
+        internal static string Hotkey_NewNote_Desc {
+            get {
+                return ResourceManager.GetString("Hotkey_NewNote_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Note.
+        /// </summary>
+        internal static string Hotkey_NewNote_Name {
+            get {
+                return ResourceManager.GetString("Hotkey_NewNote_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle note visibility temporarily. (Does not persist visibility.).
+        /// </summary>
+        internal static string Hotkey_ShowHideAllNotes_Desc {
+            get {
+                return ResourceManager.GetString("Hotkey_ShowHideAllNotes_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show/Hide All Notes.
+        /// </summary>
+        internal static string Hotkey_ShowHideAllNotes_Name {
+            get {
+                return ResourceManager.GetString("Hotkey_ShowHideAllNotes_Name", resourceCulture);
             }
         }
         
@@ -604,6 +676,15 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not Set.
+        /// </summary>
+        internal static string NotSet {
+            get {
+                return ResourceManager.GetString("NotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap page_code {
@@ -660,6 +741,15 @@ namespace SmallNotes.Properties {
             get {
                 object obj = ResourceManager.GetObject("photo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press a key combination....
+        /// </summary>
+        internal static string PressKeyCombination {
+            get {
+                return ResourceManager.GetString("PressKeyCombination", resourceCulture);
             }
         }
         
@@ -863,6 +953,15 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shift.
+        /// </summary>
+        internal static string Shift {
+            get {
+                return ResourceManager.GetString("Shift", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap tag_blue {
@@ -935,6 +1034,15 @@ namespace SmallNotes.Properties {
         internal static string White {
             get {
                 return ResourceManager.GetString("White", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Win.
+        /// </summary>
+        internal static string Win {
+            get {
+                return ResourceManager.GetString("Win", resourceCulture);
             }
         }
         

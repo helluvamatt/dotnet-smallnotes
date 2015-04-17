@@ -61,16 +61,20 @@
 			this.tilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tagsTabPage = new System.Windows.Forms.TabPage();
 			this.tagsTabProgressBar = new System.Windows.Forms.ProgressBar();
-			this.tagsListBox = new SmallNotes.UI.Controls.TagListBox();
 			this.tagsPageToolStrip = new System.Windows.Forms.ToolStrip();
 			this.newTagToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.deleteTagToolStripButton = new System.Windows.Forms.ToolStripButton();
+			this.tagsListBox = new SmallNotes.UI.Controls.TagListBox();
 			this.settingsTabPage = new System.Windows.Forms.TabPage();
 			this.databaseTabPage = new System.Windows.Forms.TabPage();
 			this.refreshButton = new System.Windows.Forms.Button();
 			this.databaseTypeComboBox = new System.Windows.Forms.ComboBox();
 			this.databasePropertyGrid = new System.Windows.Forms.PropertyGrid();
 			this.noPropertiesLabel = new System.Windows.Forms.Label();
+			this.hotkeysTabPage = new System.Windows.Forms.TabPage();
+			this.hotkeyListScrollPanel = new System.Windows.Forms.Panel();
+			this.hotkeyListLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+			this.hotkeyEnabledCheckBox = new System.Windows.Forms.CheckBox();
 			this._smallImageList = new System.Windows.Forms.ImageList(this.components);
 			this.optionsFormTabControl.SuspendLayout();
 			this.notesTabPage.SuspendLayout();
@@ -79,6 +83,8 @@
 			this.tagsPageToolStrip.SuspendLayout();
 			this.settingsTabPage.SuspendLayout();
 			this.databaseTabPage.SuspendLayout();
+			this.hotkeysTabPage.SuspendLayout();
+			this.hotkeyListScrollPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// settingsPropertyGrid
@@ -94,6 +100,7 @@
 			this.optionsFormTabControl.Controls.Add(this.tagsTabPage);
 			this.optionsFormTabControl.Controls.Add(this.settingsTabPage);
 			this.optionsFormTabControl.Controls.Add(this.databaseTabPage);
+			this.optionsFormTabControl.Controls.Add(this.hotkeysTabPage);
 			this.optionsFormTabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
 			this.optionsFormTabControl.Multiline = true;
 			this.optionsFormTabControl.Name = "optionsFormTabControl";
@@ -308,8 +315,8 @@
 			// tagsTabPage
 			// 
 			this.tagsTabPage.Controls.Add(this.tagsTabProgressBar);
-			this.tagsTabPage.Controls.Add(this.tagsListBox);
 			this.tagsTabPage.Controls.Add(this.tagsPageToolStrip);
+			this.tagsTabPage.Controls.Add(this.tagsListBox);
 			resources.ApplyResources(this.tagsTabPage, "tagsTabPage");
 			this.tagsTabPage.Name = "tagsTabPage";
 			this.tagsTabPage.UseVisualStyleBackColor = true;
@@ -319,16 +326,6 @@
 			resources.ApplyResources(this.tagsTabProgressBar, "tagsTabProgressBar");
 			this.tagsTabProgressBar.Name = "tagsTabProgressBar";
 			this.tagsTabProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-			// 
-			// tagsListBox
-			// 
-			resources.ApplyResources(this.tagsListBox, "tagsListBox");
-			this.tagsListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.tagsListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.tagsListBox.DrawNoteCount = true;
-			this.tagsListBox.Name = "tagsListBox";
-			this.tagsListBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tagsListBox_KeyUp);
-			this.tagsListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tagsListBox_MouseDoubleClick);
 			// 
 			// tagsPageToolStrip
 			// 
@@ -354,6 +351,16 @@
 			resources.ApplyResources(this.deleteTagToolStripButton, "deleteTagToolStripButton");
 			this.deleteTagToolStripButton.Name = "deleteTagToolStripButton";
 			this.deleteTagToolStripButton.Click += new System.EventHandler(this.deleteTagToolStripButton_Click);
+			// 
+			// tagsListBox
+			// 
+			resources.ApplyResources(this.tagsListBox, "tagsListBox");
+			this.tagsListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.tagsListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.tagsListBox.DrawNoteCount = true;
+			this.tagsListBox.Name = "tagsListBox";
+			this.tagsListBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tagsListBox_KeyUp);
+			this.tagsListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tagsListBox_MouseDoubleClick);
 			// 
 			// settingsTabPage
 			// 
@@ -398,6 +405,34 @@
 			resources.ApplyResources(this.noPropertiesLabel, "noPropertiesLabel");
 			this.noPropertiesLabel.Name = "noPropertiesLabel";
 			// 
+			// hotkeysTabPage
+			// 
+			this.hotkeysTabPage.Controls.Add(this.hotkeyListScrollPanel);
+			this.hotkeysTabPage.Controls.Add(this.hotkeyEnabledCheckBox);
+			resources.ApplyResources(this.hotkeysTabPage, "hotkeysTabPage");
+			this.hotkeysTabPage.Name = "hotkeysTabPage";
+			this.hotkeysTabPage.UseVisualStyleBackColor = true;
+			// 
+			// hotkeyListScrollPanel
+			// 
+			resources.ApplyResources(this.hotkeyListScrollPanel, "hotkeyListScrollPanel");
+			this.hotkeyListScrollPanel.BackColor = System.Drawing.SystemColors.Control;
+			this.hotkeyListScrollPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.hotkeyListScrollPanel.Controls.Add(this.hotkeyListLayoutPanel);
+			this.hotkeyListScrollPanel.Name = "hotkeyListScrollPanel";
+			// 
+			// hotkeyListLayoutPanel
+			// 
+			resources.ApplyResources(this.hotkeyListLayoutPanel, "hotkeyListLayoutPanel");
+			this.hotkeyListLayoutPanel.Name = "hotkeyListLayoutPanel";
+			// 
+			// hotkeyEnabledCheckBox
+			// 
+			resources.ApplyResources(this.hotkeyEnabledCheckBox, "hotkeyEnabledCheckBox");
+			this.hotkeyEnabledCheckBox.Name = "hotkeyEnabledCheckBox";
+			this.hotkeyEnabledCheckBox.UseVisualStyleBackColor = true;
+			this.hotkeyEnabledCheckBox.CheckedChanged += new System.EventHandler(this.hotkeyEnabledCheckBox_CheckedChanged);
+			// 
 			// _smallImageList
 			// 
 			this._smallImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
@@ -422,6 +457,9 @@
 			this.settingsTabPage.ResumeLayout(false);
 			this.databaseTabPage.ResumeLayout(false);
 			this.databaseTabPage.PerformLayout();
+			this.hotkeysTabPage.ResumeLayout(false);
+			this.hotkeyListScrollPanel.ResumeLayout(false);
+			this.hotkeyListScrollPanel.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -470,6 +508,10 @@
 		private SmallNotes.UI.Controls.TagListBox tagsListBox;
 		private System.Windows.Forms.ProgressBar tagsTabProgressBar;
 		private System.Windows.Forms.Label noPropertiesLabel;
+		private System.Windows.Forms.TabPage hotkeysTabPage;
+		private System.Windows.Forms.CheckBox hotkeyEnabledCheckBox;
+		private System.Windows.Forms.TableLayoutPanel hotkeyListLayoutPanel;
+		private System.Windows.Forms.Panel hotkeyListScrollPanel;
 	}
 }
 

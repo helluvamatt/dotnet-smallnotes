@@ -17,6 +17,7 @@ using System.Xml;
 using Common.Data;
 using SmallNotes.UI.Utils;
 using System.Collections.Concurrent;
+using SmallNotes.UI.Utils.Win32Interop;
 
 namespace SmallNotes
 {
@@ -34,6 +35,10 @@ namespace SmallNotes
 		private ConcurrentDictionary<string, NoteForm> _Forms;
 		private ConcurrentDictionary<int, NoteForm> _SavingNoteForms;
 		private List<NoteForm> _NewNoteForms;
+		private HotkeyManager _HotkeyManager;
+		private StackSet<string> _MostRecentNoteId = new StackSet<string>();
+
+		private bool _AllNotesVisible = true;
 
 		private const string INI_FILE_NAME = "SmallNotes.ini";
 		private string IniFile
@@ -46,6 +51,14 @@ namespace SmallNotes
 
 		#endregion
 
+		#region Hotkey names
+
+		public const string HK_NEWNOTE = "NewNote";
+		public const string HK_SHOWHIDEALLNOTES = "ShowHideAllNotes";
+		public const string HK_EDITMOSTRECENTNOTE = "EditMostRecentNote";
+
+		#endregion
+
 		public SmallNotesTrayApplicationContext() : base()
 		{
 			// Initialize variables
@@ -53,12 +66,18 @@ namespace SmallNotes
 			_SavingNoteForms = new ConcurrentDictionary<int, NoteForm>();
 			_NewNoteForms = new List<NoteForm>();
 			_DatabaseManager = new DatabaseManager(AppDataPath);
+			_HotkeyManager = new HotkeyManager();
 		}
 
 		#region TrayApplicationContext implementation
 
 		protected override void OnInitializeContext()
 		{
+			// Initialize the hotkey manager
+			_HotkeyManager.AddHook(HK_NEWNOTE, Resources.Hotkey_NewNote_Name, Resources.Hotkey_NewNote_Desc, hotkey_NewNote);
+			_HotkeyManager.AddHook(HK_SHOWHIDEALLNOTES, Resources.Hotkey_ShowHideAllNotes_Name, Resources.Hotkey_ShowHideAllNotes_Desc, hotkey_ShowHideAllNotes);
+			_HotkeyManager.AddHook(HK_EDITMOSTRECENTNOTE, Resources.Hotkey_EditMostRecentNote_Name, Resources.Hotkey_EditMostRecentNote_Desc, hotkey_EditMostRecentNote);
+
 			// Make sure the AppDataPath folder is available
 			Directory.CreateDirectory(AppDataPath);
 
@@ -94,6 +113,20 @@ namespace SmallNotes
 
 				// Initialize the database
 				_DatabaseManager.SetDatabase(Settings.DatabaseType, Settings.DatabaseProperties);
+
+				// Initialize hotkeys
+				foreach (KeyValuePair<string, GlobalHotkeyHook> entry in _HotkeyManager.GetHooks())
+				{
+					if (Settings.Hotkeys != null && Settings.Hotkeys.ContainsKey(entry.Key))
+					{
+						entry.Value.Key = Settings.Hotkeys[entry.Key];
+					}
+					if (Settings.HotkeyEnabled != null && Settings.HotkeyEnabled.ContainsKey(entry.Key))
+					{
+						entry.Value.Enabled = Settings.HotkeyEnabled[entry.Key];
+					}
+				}
+				_HotkeyManager.Enabled = Settings.HotkeysEnabled;
 
 				// Populate settings
 				if (optionsForm != null)
@@ -132,7 +165,7 @@ namespace SmallNotes
 
 		protected override OptionsForm BuildOptionsForm()
 		{
-			SmallNotesOptionsForm form = new SmallNotesOptionsForm(SettingsManager, _DatabaseManager);
+			SmallNotesOptionsForm form = new SmallNotesOptionsForm(SettingsManager, _DatabaseManager, _HotkeyManager);
 			form.OptionChanged += SmallNotesOptionsForm_OptionChanged;
 			form.NewNoteAction += SmallNotesOptionsForm_NewNoteAction;
 			form.ShowNoteAction += SmallNotesOptionsForm_ShowNoteAction;
@@ -185,6 +218,12 @@ namespace SmallNotes
 			}
 		}
 
+		protected override void Dispose(bool disposing)
+		{
+			_HotkeyManager.Dispose();
+			base.Dispose(disposing);
+		}
+
 		#endregion
 
 		#region Event handlers
@@ -220,22 +259,14 @@ namespace SmallNotes
 				// Draw newly valid ones
 				foreach (KeyValuePair<string, Note> entry in result.NoteList)
 				{
-					if (_Forms.ContainsKey(entry.Key))
-					{
-						NoteForm existingNoteForm = _Forms[entry.Key];
-						existingNoteForm.Visible = entry.Value.Visible;
-						if (entry.Value.IsChangedFrom(existingNoteForm.Data))
-						{
-							existingNoteForm.Data = entry.Value;
-						}
-					}
-					else if (entry.Value.Visible)
+					if (entry.Value.Visible)
 					{
 						// New Note: Add form and display
 						NoteForm newNoteForm = CreateNoteForm();
 						newNoteForm.Data = entry.Value;
 						newNoteForm.Show();
 						_Forms.TryAdd(entry.Key, newNoteForm);
+						_MostRecentNoteId.Push(entry.Key);
 					}
 					else
 					{
@@ -280,7 +311,7 @@ namespace SmallNotes
 						_Forms.TryAdd(form.Data.ID, form);
 					}
 				}
-				else if (!_Forms.ContainsKey(result.SavedNote.ID))
+				else if (!_Forms.ContainsKey(result.SavedNote.ID) && result.SavedNote.Visible)
 				{
 					NoteForm form = CreateNoteForm();
 					form.Data = result.SavedNote;
@@ -288,6 +319,12 @@ namespace SmallNotes
 
 					// Make sure the note is in the _Forms hash
 					_Forms.TryAdd(form.Data.ID, form);
+				}
+
+				// Track most recent save
+				if (result.SavedNote.Visible)
+				{
+					_MostRecentNoteId.Push(result.SavedNote.ID);
 				}
 			}
 		}
@@ -420,6 +457,7 @@ namespace SmallNotes
 			if (noteForm.Data != null && !string.IsNullOrEmpty(noteForm.Data.ID))
 			{
 				_Forms.TryRemove(noteForm.Data.ID, out noteForm);
+				_MostRecentNoteId.Remove(noteForm.Data.ID);
 			}
 			else
 			{
@@ -429,6 +467,39 @@ namespace SmallNotes
 				}
 			}
 		}
+
+		#region Hotkey callbacks
+
+		private void hotkey_NewNote()
+		{
+			CreateNewNote();
+		}
+
+		private void hotkey_ShowHideAllNotes()
+		{
+			_AllNotesVisible = !_AllNotesVisible;
+			AllNoteFormsIterator(f => f.Visible = _AllNotesVisible);
+		}
+
+		private void hotkey_EditMostRecentNote()
+		{
+			while (_MostRecentNoteId.Count > 0)
+			{
+				string mostRecentId = _MostRecentNoteId.Peek();
+				if (_Forms.ContainsKey(mostRecentId))
+				{
+					_Forms[mostRecentId].EditMode = true;
+					_Forms[mostRecentId].Activate();
+					break;
+				}
+				else
+				{
+					_MostRecentNoteId.Pop();
+				}
+			}
+		}
+
+		#endregion
 
 		#endregion
 
@@ -454,6 +525,7 @@ namespace SmallNotes
 			_NewNoteForms.Add(newNoteForm);
 			newNoteForm.Data = null;
 			newNoteForm.Show();
+			newNoteForm.Activate();
 		}
 
 		private void AllNoteFormsIterator(Action<NoteForm> callback)

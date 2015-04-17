@@ -730,6 +730,17 @@ namespace SmallNotes.UI
 			Text = titleTextBox.Text;
 		}
 
+		private void NoteForm_Activated(object sender, EventArgs e)
+		{
+			if (EditMode)
+			{
+				markdownTextBox.Focus();
+				markdownTextBox.SelectionStart = markdownTextBox.Text.Length;
+				markdownTextBox.SelectionLength = 0;
+				markdownTextBox.ScrollToCaret();
+			}
+		}
+
 		private void NoteForm_BackColorChanged(object sender, EventArgs e)
 		{
 			// Redraw image for main button

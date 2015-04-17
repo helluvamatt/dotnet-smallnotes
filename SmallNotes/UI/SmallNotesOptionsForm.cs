@@ -5,7 +5,9 @@ using log4net;
 using SmallNotes.Data;
 using SmallNotes.Data.Entities;
 using SmallNotes.Properties;
+using SmallNotes.UI.Controls;
 using SmallNotes.UI.Utils;
+using SmallNotes.UI.Utils.Win32Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,6 +36,7 @@ namespace SmallNotes.UI
 
 		private SettingsManager<Settings> _SettingsManager;
 		private DatabaseManager _DatabaseManager;
+		private HotkeyManager _HotkeyManager;
 		private Dictionary<string, IDatabaseDescriptor> _Types = new Dictionary<string, IDatabaseDescriptor>();
 		private Dictionary<string, Note> _NoteList = new Dictionary<string, Note>();
 		private Dictionary<string, Tag> _TagList = new Dictionary<string, Tag>();
@@ -42,7 +45,7 @@ namespace SmallNotes.UI
 
 		#endregion
 
-		public SmallNotesOptionsForm(SettingsManager<Settings> sm, DatabaseManager dm) : base()
+		public SmallNotesOptionsForm(SettingsManager<Settings> sm, DatabaseManager dm, HotkeyManager hm) : base()
 		{
 			// Init logger
 			Logger = LogManager.GetLogger(GetType());
@@ -53,6 +56,7 @@ namespace SmallNotes.UI
 			// Populate settings
 			_SettingsManager = sm;
 			_DatabaseManager = dm;
+			_HotkeyManager = hm;
 
 			// Bind events
 			_DatabaseManager.NotesLoading += _DatabaseManager_NotesLoading;
@@ -90,6 +94,25 @@ namespace SmallNotes.UI
 
 			SelectedDatabase = _DatabaseManager.DatabaseDescriptor;
 			PopulateDatabaseTypesComboBox();
+
+			// Hotkeys
+			hotkeyEnabledCheckBox.CheckedChanged -= hotkeyEnabledCheckBox_CheckedChanged;
+			hotkeyEnabledCheckBox.Checked = _SettingsManager.SettingsObject.HotkeysEnabled;
+			hotkeyEnabledCheckBox.CheckedChanged += hotkeyEnabledCheckBox_CheckedChanged;
+			SetHotkeysEnabled(_SettingsManager.SettingsObject.HotkeysEnabled);
+
+			// Populate hotkeys
+			hotkeyListLayoutPanel.Controls.Clear();
+			int index = 0;
+			foreach (KeyValuePair<string, GlobalHotkeyHook> entry in _HotkeyManager.GetHooks())
+			{
+				Logger.InfoFormat("Adding hotkey definition: {0} - {1}", entry.Key, entry.Value.Name);
+				HotkeyListItem item = new HotkeyListItem(entry.Key, entry.Value);
+				item.Dock = DockStyle.Fill;
+				item.HotkeyChanged += hotkeyListItems_HotkeyChanged;
+				hotkeyListLayoutPanel.Controls.Add(item, 0, index);
+				index++;
+			}
 		}
 
 		#endregion
@@ -155,6 +178,11 @@ namespace SmallNotes.UI
 			else if (_tabPage == databaseTabPage)
 			{
 				g.DrawImage(Resources.ic_content_save, _tabBounds.X, _tabBounds.Y, _tabBounds.Height, _tabBounds.Height);
+				_tabBounds.X += _tabBounds.Height;
+			}
+			else if (_tabPage == hotkeysTabPage)
+			{
+				g.DrawImage(Resources.ic_shortcuts, _tabBounds.X, _tabBounds.Y, _tabBounds.Height, _tabBounds.Height);
 				_tabBounds.X += _tabBounds.Height;
 			}
 
@@ -396,6 +424,29 @@ namespace SmallNotes.UI
 
 		#endregion
 
+		#region Hotkeys Tab
+
+		private void hotkeyEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			bool enabled = hotkeyEnabledCheckBox.Checked;
+			_SettingsManager.SettingsObject.HotkeysEnabled = enabled;
+			_HotkeyManager.Enabled = enabled;
+			OnOptionChanged("HotkeyEnabled", enabled);
+			SetHotkeysEnabled(enabled);
+		}
+
+		private void hotkeyListItems_HotkeyChanged(object sender, HotkeyListItem.HotkeySetComboEventArgs e)
+		{
+			// Save hotkey settings
+			if (_SettingsManager.SettingsObject.Hotkeys == null) _SettingsManager.SettingsObject.Hotkeys = new Dictionary<string, GlobalHotkeyHook.KeyCombo>();
+			_SettingsManager.SettingsObject.Hotkeys[e.ItemID] = e.ItemHook.Key;
+			if (_SettingsManager.SettingsObject.HotkeyEnabled == null) _SettingsManager.SettingsObject.HotkeyEnabled = new Dictionary<string, bool>();
+			_SettingsManager.SettingsObject.HotkeyEnabled[e.ItemID] = e.ItemHook.Enabled;
+			OnOptionChanged("Hotkeys", _SettingsManager.SettingsObject.Hotkeys);
+		}
+
+		#endregion
+
 		#endregion
 
 		#region Utility methods
@@ -616,8 +667,16 @@ namespace SmallNotes.UI
 
 		#endregion
 
+		#region Hotkeys tab
+
+		private void SetHotkeysEnabled(bool enabled)
+		{
+			hotkeyListLayoutPanel.Enabled = enabled;
+		}
+
 		#endregion
 
+		#endregion
 
 	}
 }

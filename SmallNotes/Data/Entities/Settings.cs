@@ -2,6 +2,7 @@
 using Common.UI.LocalizedDesignAttributes;
 using SmallNotes.Properties;
 using SmallNotes.UI.Editors;
+using SmallNotes.UI.Utils.Win32Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -76,5 +77,14 @@ namespace SmallNotes.Data.Entities
 
 		[Browsable(false), DefaultValue("LargeIcon")]
 		public string NotesListView { get; set; }
+
+		[Browsable(false), DefaultValue(false)]
+		public bool HotkeysEnabled { get; set; }
+
+		[Browsable(false)]
+		public Dictionary<string, GlobalHotkeyHook.KeyCombo> Hotkeys { get; set; }
+
+		[Browsable(false)]
+		public Dictionary<string, bool> HotkeyEnabled { get; set; }
 	}
 }

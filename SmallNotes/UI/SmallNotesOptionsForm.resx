@@ -150,6 +150,9 @@
   <data name="notesTabProgressBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>None</value>
   </data>
+  <data name="notesTabProgressBar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="notesTabProgressBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>264, 276</value>
   </data>
@@ -402,6 +405,9 @@
   <data name="tagsTabProgressBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>None</value>
   </data>
+  <data name="tagsTabProgressBar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="tagsTabProgressBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>264, 276</value>
   </data>
@@ -425,36 +431,6 @@
   </data>
   <data name="&gt;&gt;tagsTabProgressBar.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="tagsListBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="tagsListBox.IntegralHeight" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="tagsListBox.ItemHeight" type="System.Int32, mscorlib">
-    <value>36</value>
-  </data>
-  <data name="tagsListBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 31</value>
-  </data>
-  <data name="tagsListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>622, 519</value>
-  </data>
-  <data name="tagsListBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;tagsListBox.Name" xml:space="preserve">
-    <value>tagsListBox</value>
-  </data>
-  <data name="&gt;&gt;tagsListBox.Type" xml:space="preserve">
-    <value>SmallNotes.UI.Controls.TagListBox, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;tagsListBox.Parent" xml:space="preserve">
-    <value>tagsTabPage</value>
-  </data>
-  <data name="&gt;&gt;tagsListBox.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <metadata name="tagsPageToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>553, 17</value>
@@ -502,6 +478,36 @@
     <value>tagsTabPage</value>
   </data>
   <data name="&gt;&gt;tagsPageToolStrip.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tagsListBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="tagsListBox.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="tagsListBox.ItemHeight" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="tagsListBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 31</value>
+  </data>
+  <data name="tagsListBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>622, 519</value>
+  </data>
+  <data name="tagsListBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tagsListBox.Name" xml:space="preserve">
+    <value>tagsListBox</value>
+  </data>
+  <data name="&gt;&gt;tagsListBox.Type" xml:space="preserve">
+    <value>SmallNotes.UI.Controls.TagListBox, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tagsListBox.Parent" xml:space="preserve">
+    <value>tagsTabPage</value>
+  </data>
+  <data name="&gt;&gt;tagsListBox.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="tagsTabPage.Location" type="System.Drawing.Point, System.Drawing">
@@ -544,7 +550,7 @@
     <value>1</value>
   </data>
   <data name="settingsTabPage.Text" xml:space="preserve">
-    <value>Settings</value>
+    <value>Advanced Settings</value>
   </data>
   <data name="&gt;&gt;settingsTabPage.Name" xml:space="preserve">
     <value>settingsTabPage</value>
@@ -560,6 +566,9 @@
   </data>
   <data name="refreshButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
+  </data>
+  <data name="refreshButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="refreshButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>586, 9</value>
@@ -633,6 +642,9 @@
   <data name="noPropertiesLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="noPropertiesLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="noPropertiesLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 36</value>
   </data>
@@ -683,6 +695,123 @@
   </data>
   <data name="&gt;&gt;databaseTabPage.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="hotkeyListScrollPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="hotkeyListScrollPanel.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="hotkeyListLayoutPanel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="hotkeyListLayoutPanel.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="hotkeyListLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="hotkeyListLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="hotkeyListLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="hotkeyListLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>609, 0</value>
+  </data>
+  <data name="hotkeyListLayoutPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;hotkeyListLayoutPanel.Name" xml:space="preserve">
+    <value>hotkeyListLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;hotkeyListLayoutPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;hotkeyListLayoutPanel.Parent" xml:space="preserve">
+    <value>hotkeyListScrollPanel</value>
+  </data>
+  <data name="&gt;&gt;hotkeyListLayoutPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="hotkeyListLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls /&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="hotkeyListScrollPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 40</value>
+  </data>
+  <data name="hotkeyListScrollPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>613, 505</value>
+  </data>
+  <data name="hotkeyListScrollPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;hotkeyListScrollPanel.Name" xml:space="preserve">
+    <value>hotkeyListScrollPanel</value>
+  </data>
+  <data name="&gt;&gt;hotkeyListScrollPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;hotkeyListScrollPanel.Parent" xml:space="preserve">
+    <value>hotkeysTabPage</value>
+  </data>
+  <data name="&gt;&gt;hotkeyListScrollPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="hotkeyEnabledCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="hotkeyEnabledCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 9</value>
+  </data>
+  <data name="hotkeyEnabledCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>613, 24</value>
+  </data>
+  <data name="hotkeyEnabledCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="hotkeyEnabledCheckBox.Text" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="&gt;&gt;hotkeyEnabledCheckBox.Name" xml:space="preserve">
+    <value>hotkeyEnabledCheckBox</value>
+  </data>
+  <data name="&gt;&gt;hotkeyEnabledCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;hotkeyEnabledCheckBox.Parent" xml:space="preserve">
+    <value>hotkeysTabPage</value>
+  </data>
+  <data name="&gt;&gt;hotkeyEnabledCheckBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="hotkeysTabPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>152, 4</value>
+  </data>
+  <data name="hotkeysTabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="hotkeysTabPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>628, 553</value>
+  </data>
+  <data name="hotkeysTabPage.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="hotkeysTabPage.Text" xml:space="preserve">
+    <value>Hotkeys</value>
+  </data>
+  <data name="&gt;&gt;hotkeysTabPage.Name" xml:space="preserve">
+    <value>hotkeysTabPage</value>
+  </data>
+  <data name="&gt;&gt;hotkeysTabPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;hotkeysTabPage.Parent" xml:space="preserve">
+    <value>optionsFormTabControl</value>
+  </data>
+  <data name="&gt;&gt;hotkeysTabPage.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="optionsFormTabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

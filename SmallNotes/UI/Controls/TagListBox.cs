@@ -3,6 +3,7 @@ using SmallNotes.Properties;
 using SmallNotes.UI.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace SmallNotes.UI.Controls
 			PerformLayout();
 		}
 
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public List<Tag> SelectedTags
 		{
 			get

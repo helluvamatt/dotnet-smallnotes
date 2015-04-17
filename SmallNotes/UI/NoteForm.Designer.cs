@@ -165,7 +165,6 @@ namespace SmallNotes.UI
 			// 
 			resources.ApplyResources(this.markdownTextBox, "markdownTextBox");
 			this.markdownTextBox.Name = "markdownTextBox";
-			this.markdownTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			// 
 			// displayPanel
 			// 
@@ -180,6 +179,7 @@ namespace SmallNotes.UI
 			resources.ApplyResources(this.displayScrollPanel, "displayScrollPanel");
 			this.displayScrollPanel.Controls.Add(this.displayBrowser);
 			this.displayScrollPanel.Name = "displayScrollPanel";
+			this.displayScrollPanel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseDoubleClick);
 			this.displayScrollPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseDown);
 			this.displayScrollPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseMove);
 			this.displayScrollPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseUp);
@@ -221,6 +221,7 @@ namespace SmallNotes.UI
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.TopMost = true;
+			this.Activated += new System.EventHandler(this.NoteForm_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NoteForm_FormClosing);
 			this.BackColorChanged += new System.EventHandler(this.NoteForm_BackColorChanged);
 			this.ForeColorChanged += new System.EventHandler(this.NoteForm_ForeColorChanged);
