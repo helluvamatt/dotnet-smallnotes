@@ -1,15 +1,12 @@
 [submodule "Common"]
 	path = Common
-	url = git@github.com:helluvamatt/dotnet-common.git
+	url = https://github.com/helluvamatt/dotnet-common.git
 [submodule "HTML-Renderer"]
 	path = HTML-Renderer
-	url = git@github.com:helluvamatt/HTML-Renderer.git
+	url = https://github.com/helluvamatt/HTML-Renderer.git
 [submodule "CommonMark.NET"]
 	path = CommonMark.NET
-	url = git@github.com:Knagis/CommonMark.NET.git
+	url = http://github.com/Knagis/CommonMark.NET.git
 [submodule "ColorCode"]
 	path = ColorCode
-	url = git@github.com:helluvamatt/colorcode.git
-[submodule "Transitions"]
-	path = Transitions
-	url = git@github.com:helluvamatt/dot-net-transitions.git
+	url = https://github.com/helluvamatt/colorcode.git
