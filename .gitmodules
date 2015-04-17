@@ -1,12 +1,12 @@
 [submodule "Common"]
 	path = Common
 	url = https://github.com/helluvamatt/dotnet-common.git
-[submodule "HTML-Renderer"]
-	path = HTML-Renderer
-	url = https://github.com/helluvamatt/HTML-Renderer.git
 [submodule "CommonMark.NET"]
 	path = CommonMark.NET
 	url = http://github.com/Knagis/CommonMark.NET.git
 [submodule "ColorCode"]
 	path = ColorCode
 	url = https://github.com/helluvamatt/colorcode.git
+[submodule "HTML-Renderer"]
+	path = HTML-Renderer
+	url = https://github.com/helluvamatt/HTML-Renderer.git
