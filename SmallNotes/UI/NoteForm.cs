@@ -1,4 +1,5 @@
 ﻿using ColorCode;
+using Common.Data.Async;
 using CommonMark;
 using CommonMark.Syntax;
 using log4net;
@@ -6,6 +7,7 @@ using SmallNotes.Data;
 using SmallNotes.Data.Entities;
 using SmallNotes.Properties;
 using SmallNotes.UI.Utils;
+using Svg;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +15,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -544,8 +547,20 @@ namespace SmallNotes.UI
 
 		private void displayBrowser_ImageLoad(object sender, HtmlImageLoadEventArgs e)
 		{
-			// TODO Use this to make sure we support SVG images
-			
+			// Make sure we support SVG images
+			try
+			{
+				var ext = Path.GetExtension(e.Src);
+				if (ext != null && ext.Equals(".svg", StringComparison.OrdinalIgnoreCase))
+				{
+					e.Handled = true;
+					new AsyncRunner<Bitmap, string>().AsyncRun(url => ImageUtil.LoadSVG(url), result => e.Callback(result), e.Src);
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger.Error("Failed to load SVG", ex);
+			}
 		}
 
 		private void displayBrowser_MouseDown(object sender, MouseEventArgs e)

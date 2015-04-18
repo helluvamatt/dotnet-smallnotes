@@ -56,6 +56,10 @@
     <Reference Include="SQLiteNetExtensions">
       <HintPath>..\packages\SQLiteNetExtensions.1.2.5\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\SQLiteNetExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="Svg, Version=2.0.0.21807, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Svg.2.0.0\lib\Svg.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
@@ -131,6 +135,7 @@
     <Compile Include="UI\Editors\BackgroundColorEditor.cs" />
     <Compile Include="UI\Editors\ColorEditor.cs" />
     <Compile Include="UI\Editors\ForegroundColorEditor.cs" />
+    <Compile Include="UI\Utils\ImageUtil.cs" />
     <Compile Include="UI\Utils\NativeDisableRendering.cs" />
     <Compile Include="UI\Controls\NoMouseLabel.cs">
       <SubType>Component</SubType>

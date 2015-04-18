@@ -520,6 +520,7 @@ namespace SmallNotes.UI
 			// Display notes
 			foreach (KeyValuePair<string, Note> entry in _NoteList)
 			{
+				// TODO May need to figure out a way to asynchronously load the icons so that it doesn't slow the rendering of these icons down
 				try
 				{
 					using (Image noteRender = HtmlRender.RenderToImage(NoteForm.RenderNoteToHtml(entry.Value, _SettingsManager.SettingsObject.CustomCss), entry.Value.Dimensions, entry.Value.BackgroundColor))
