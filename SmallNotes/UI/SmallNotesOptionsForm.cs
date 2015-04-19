@@ -520,29 +520,12 @@ namespace SmallNotes.UI
 			// Display notes
 			foreach (KeyValuePair<string, Note> entry in _NoteList)
 			{
-				// TODO May need to figure out a way to asynchronously load the icons so that it doesn't slow the rendering of these icons down
-				try
-				{
-					using (Image noteRender = HtmlRender.RenderToImage(NoteForm.RenderNoteToHtml(entry.Value, _SettingsManager.SettingsObject.CustomCss), entry.Value.Dimensions, entry.Value.BackgroundColor))
-					{
-						int dimension = Math.Min(noteRender.Width, noteRender.Height);
-						Rectangle clipRect = new Rectangle(0, 0, dimension, dimension);
-						Rectangle tileSize = new Rectangle(new Point(0, 0), _largeImageList.ImageSize);
-						Bitmap tile = new Bitmap(tileSize.Width, tileSize.Height);
-						using (Graphics g = Graphics.FromImage(tile))
-						{
-							g.SmoothingMode = SmoothingMode.AntiAlias;
-							g.DrawImage(noteRender, tileSize, clipRect, GraphicsUnit.Pixel);
-						}
-						_largeImageList.Images.Add(tile);
-					}
-				}
-				catch (Exception ex)
-				{
-					Logger.Error("Failed to render note preview", ex);
-					_largeImageList.Images.Add(Resources.ic_notes_large);
-				}
+				// Asynchronously load the icons so that it doesn't tie up the UI thread
+				ImageUtil.RenderNoteRequest imageRequest = new ImageUtil.RenderNoteRequest(entry.Value, _largeImageList.ImageSize, _SettingsManager.SettingsObject.CustomCss);
+				ImageUtil.RenderNoteToBitmap(NoteRenderComplete, imageRequest, index);
 
+				// Populate image lists
+				_largeImageList.Images.Add(Resources.ic_notes_large);
 				_smallImageList.Images.Add(Resources.ic_notes_large);
 				_iconImageList.Images.Add(Resources.note);
 
@@ -570,6 +553,19 @@ namespace SmallNotes.UI
 			tagsColumnHeader.Width = -1;
 
 			notesListView.PerformLayout();
+		}
+
+		private void NoteRenderComplete(ImageUtil.RenderNoteRequest req)
+		{
+			if (req.Success && req.Image != null)
+			{
+				_largeImageList.Images[req.ResultId.Value] = req.Image;
+				notesListView.Refresh();
+			}
+			else
+			{
+				Logger.Error("Failed to render Note to image", req.Exception);
+			}
 		}
 
 		private void DoDeleteSelectedNotes()
