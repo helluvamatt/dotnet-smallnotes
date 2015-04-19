@@ -191,7 +191,6 @@ namespace SmallNotes.UI
 			resources.ApplyResources(this.displayBrowser, "displayBrowser");
 			this.displayBrowser.Name = "displayBrowser";
 			this.displayBrowser.LinkClicked += new System.EventHandler<TheArtOfDev.HtmlRenderer.Core.Entities.HtmlLinkClickedEventArgs>(this.displayBrowser_LinkClicked);
-			this.displayBrowser.ImageLoad += new System.EventHandler<TheArtOfDev.HtmlRenderer.Core.Entities.HtmlImageLoadEventArgs>(this.displayBrowser_ImageLoad);
 			this.displayBrowser.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseDoubleClick);
 			this.displayBrowser.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseDown);
 			this.displayBrowser.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayBrowser_MouseMove);

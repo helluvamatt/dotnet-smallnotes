@@ -3,6 +3,7 @@ using Common.Data.Async;
 using Common.TrayApplication;
 using log4net;
 using SmallNotes.Data;
+using SmallNotes.Data.Cache;
 using SmallNotes.Data.Entities;
 using SmallNotes.Properties;
 using SmallNotes.UI.Controls;
@@ -37,6 +38,7 @@ namespace SmallNotes.UI
 		private SettingsManager<Settings> _SettingsManager;
 		private DatabaseManager _DatabaseManager;
 		private HotkeyManager _HotkeyManager;
+		private FileCache _FileCache;
 		private Dictionary<string, IDatabaseDescriptor> _Types = new Dictionary<string, IDatabaseDescriptor>();
 		private Dictionary<string, Note> _NoteList = new Dictionary<string, Note>();
 		private Dictionary<string, Tag> _TagList = new Dictionary<string, Tag>();
@@ -45,7 +47,7 @@ namespace SmallNotes.UI
 
 		#endregion
 
-		public SmallNotesOptionsForm(SettingsManager<Settings> sm, DatabaseManager dm, HotkeyManager hm) : base()
+		public SmallNotesOptionsForm(SettingsManager<Settings> sm, DatabaseManager dm, HotkeyManager hm, FileCache cache) : base()
 		{
 			// Init logger
 			Logger = LogManager.GetLogger(GetType());
@@ -57,6 +59,7 @@ namespace SmallNotes.UI
 			_SettingsManager = sm;
 			_DatabaseManager = dm;
 			_HotkeyManager = hm;
+			_FileCache = cache;
 
 			// Bind events
 			_DatabaseManager.NotesLoading += _DatabaseManager_NotesLoading;
@@ -521,7 +524,7 @@ namespace SmallNotes.UI
 			foreach (KeyValuePair<string, Note> entry in _NoteList)
 			{
 				// Asynchronously load the icons so that it doesn't tie up the UI thread
-				ImageUtil.RenderNoteRequest imageRequest = new ImageUtil.RenderNoteRequest(entry.Value, _largeImageList.ImageSize, _SettingsManager.SettingsObject.CustomCss);
+				ImageUtil.RenderNoteRequest imageRequest = new ImageUtil.RenderNoteRequest(entry.Value, _largeImageList.ImageSize, _SettingsManager.SettingsObject.CustomCss, _FileCache);
 				ImageUtil.RenderNoteToBitmap(NoteRenderComplete, imageRequest, index);
 
 				// Populate image lists

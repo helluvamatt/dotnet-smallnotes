@@ -18,6 +18,7 @@ using Common.Data;
 using SmallNotes.UI.Utils;
 using System.Collections.Concurrent;
 using SmallNotes.UI.Utils.Win32Interop;
+using SmallNotes.Data.Cache;
 
 namespace SmallNotes
 {
@@ -36,9 +37,12 @@ namespace SmallNotes
 		private ConcurrentDictionary<int, NoteForm> _SavingNoteForms;
 		private List<NoteForm> _NewNoteForms;
 		private HotkeyManager _HotkeyManager;
+		private FileCache _FileCache;
 		private StackSet<string> _MostRecentNoteId = new StackSet<string>();
 
 		private bool _AllNotesVisible = true;
+
+		private const string CACHE_DIR = "cache";
 
 		private const string INI_FILE_NAME = "SmallNotes.ini";
 		private string IniFile
@@ -67,6 +71,7 @@ namespace SmallNotes
 			_NewNoteForms = new List<NoteForm>();
 			_DatabaseManager = new DatabaseManager(AppDataPath);
 			_HotkeyManager = new HotkeyManager();
+			_FileCache = new FileCache(Path.Combine(AppDataPath, CACHE_DIR));
 		}
 
 		#region TrayApplicationContext implementation
@@ -165,7 +170,7 @@ namespace SmallNotes
 
 		protected override OptionsForm BuildOptionsForm()
 		{
-			SmallNotesOptionsForm form = new SmallNotesOptionsForm(SettingsManager, _DatabaseManager, _HotkeyManager);
+			SmallNotesOptionsForm form = new SmallNotesOptionsForm(SettingsManager, _DatabaseManager, _HotkeyManager, _FileCache);
 			form.OptionChanged += SmallNotesOptionsForm_OptionChanged;
 			form.NewNoteAction += SmallNotesOptionsForm_NewNoteAction;
 			form.ShowNoteAction += SmallNotesOptionsForm_ShowNoteAction;
@@ -507,7 +512,7 @@ namespace SmallNotes
 
 		private NoteForm CreateNoteForm()
 		{
-			NoteForm noteForm = new NoteForm(AppDataPath, BackgroundColorList);
+			NoteForm noteForm = new NoteForm(AppDataPath, BackgroundColorList, _FileCache);
 			noteForm.NoteUpdated += noteForm_NoteUpdated;
 			noteForm.FormClosed += noteForm_FormClosed;
 			noteForm.NoteFactory = () => _DatabaseManager.CreateNewNote();

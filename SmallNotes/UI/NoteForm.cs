@@ -4,6 +4,7 @@ using CommonMark;
 using CommonMark.Syntax;
 using log4net;
 using SmallNotes.Data;
+using SmallNotes.Data.Cache;
 using SmallNotes.Data.Entities;
 using SmallNotes.Properties;
 using SmallNotes.UI.Utils;
@@ -148,6 +149,8 @@ namespace SmallNotes.UI
 
 		#region Private members
 
+		private FileCache _FileCache;
+
 		private Point _formLocation;
 		private Size _formSize;
 		private Point _mouseDown;
@@ -169,13 +172,16 @@ namespace SmallNotes.UI
 
 		#endregion
 
-		public NoteForm(string appDataPath, ColorList backgroundColorList)
+		public NoteForm(string appDataPath, ColorList backgroundColorList, FileCache cache)
 		{
 			Logger = LogManager.GetLogger(GetType());
+			_FileCache = cache;
 			AppDataPath = appDataPath;
 			InitializeComponent();
 			SetStyle(ControlStyles.ResizeRedraw, true);
 			CustomStylesheet = "";
+			displayBrowser.ImageLoad += _FileCache.AsyncImageLoadHandler;
+			displayBrowser.StylesheetLoad += _FileCache.AsyncStylesheetLoadHandler;
 
 			// Populate color menu
 			if (backgroundColorList.Items.Count > 0)
@@ -543,24 +549,6 @@ namespace SmallNotes.UI
 				Process.Start(e.Link);
 			}
 			e.Handled = true;
-		}
-
-		private void displayBrowser_ImageLoad(object sender, HtmlImageLoadEventArgs e)
-		{
-			// Make sure we support SVG images
-			try
-			{
-				var ext = Path.GetExtension(e.Src);
-				if (ext != null && ext.Equals(".svg", StringComparison.OrdinalIgnoreCase))
-				{
-					e.Handled = true;
-					new AsyncRunner<Bitmap, string>().AsyncRun(url => ImageUtil.LoadSVG(url), result => e.Callback(result), e.Src);
-				}
-			}
-			catch (Exception ex)
-			{
-				Logger.Error("Failed to load SVG", ex);
-			}
 		}
 
 		private void displayBrowser_MouseDown(object sender, MouseEventArgs e)

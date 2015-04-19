@@ -1,4 +1,5 @@
 ﻿using Common.Data.Async;
+using SmallNotes.Data.Cache;
 using SmallNotes.Data.Entities;
 using Svg;
 using System;
@@ -18,10 +19,10 @@ namespace SmallNotes.UI.Utils
 {
 	class ImageUtil
 	{
-		public static Bitmap LoadSVG(string url)
+		public static Bitmap LoadSVG(Stream stream)
 		{
 			XmlDocument xmlDoc = new XmlDocument();
-			xmlDoc.Load(url);
+			xmlDoc.Load(stream);
 			SvgDocument svgDoc = SvgDocument.Open(xmlDoc);
 			Bitmap svgImg = new Bitmap((int)svgDoc.Width, (int)svgDoc.Height, PixelFormat.Format32bppArgb);
 			svgDoc.Draw(svgImg);
@@ -37,7 +38,7 @@ namespace SmallNotes.UI.Utils
 		{
 			try
 			{
-				using (Image noteRender = HtmlRender.RenderToImage(NoteForm.RenderNoteToHtml(req.Note, req.CustomCss), req.Note.Dimensions, req.Note.BackgroundColor, null, null, HtmlRender_ImageLoad))
+				using (Image noteRender = HtmlRender.RenderToImage(NoteForm.RenderNoteToHtml(req.Note, req.CustomCss), req.Note.Dimensions, req.Note.BackgroundColor, null, req.FileCache.StylesheetLoadHandler, req.FileCache.ImageLoadHandler))
 				{
 					int dimension = Math.Min(noteRender.Width, noteRender.Height);
 					Rectangle clipRect = new Rectangle(0, 0, dimension, dimension);
@@ -61,30 +62,23 @@ namespace SmallNotes.UI.Utils
 			return req;
 		}
 
-		private static void HtmlRender_ImageLoad(object sender, HtmlImageLoadEventArgs args)
-		{
-			var ext = Path.GetExtension(args.Src);
-			if (ext != null && ext.Equals(".svg", StringComparison.OrdinalIgnoreCase))
-			{
-				args.Handled = true;
-				args.Callback(LoadSVG(args.Src));
-			}
-		}
-
 		public class RenderNoteRequest : TrackedResult
 		{
 			#region Inputs
 
-			public RenderNoteRequest(Note note, Size dimensions, string customCss)
+			public RenderNoteRequest(Note note, Size dimensions, string customCss, FileCache cache)
 			{
 				Note = note;
 				Dimensions = dimensions;
 				CustomCss = customCss;
+				FileCache = cache;
 			}
 			
 			public Size Dimensions { get; private set; }
 			public string CustomCss { get; private set; }
 			public Note Note { get; private set; }
+
+			public FileCache FileCache { get; private set; }
 			
 			#endregion
 
