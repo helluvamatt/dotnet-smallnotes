@@ -87,14 +87,19 @@ namespace SmallNotes.UI.Utils
 					background = plainTextStyle.Background;
 				}
 
-				htmlWriter.RenderBeginTag("legend");
+				// Code block title
+				htmlWriter.AddAttribute("class", "codeBlockTitle");
+				htmlWriter.RenderBeginTag("div");
 				htmlWriter.Write(_CodeBlockTitle);
 				htmlWriter.RenderEndTag();
 
-				htmlWriter.AddAttribute("class", language.CssClassName);
+				// Code block style start
+				htmlWriter.AddAttribute("class", "codeBlock " + language.CssClassName);
 				if (foreground != Color.Empty) htmlWriter.AddStyleAttribute("color", foreground.ToHtmlColor());
 				if (background != Color.Empty) htmlWriter.AddStyleAttribute("background-color", background.ToHtmlColor());
-				htmlWriter.RenderBeginTag("fieldset");
+				htmlWriter.RenderBeginTag("div");
+				
+				// Pre start
 				htmlWriter.RenderBeginTag("pre");
 			}
 		}

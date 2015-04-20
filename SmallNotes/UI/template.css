@@ -2,6 +2,7 @@
 {
 	color: $ForeColor$;
 	background-color: $BackColor$;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
 a
@@ -29,26 +30,30 @@ pre
 	margin-top: 5px;
 }
 
-fieldset, legend
+div.codeBlock, div.codeBlockTitle
 {
 	padding: 5px;
 	border: solid $ForeColor$ 2px;
 }
 
-fieldset
+div.codeBlock
 {
 	corner-se-radius: 6px;
 	corner-sw-radius: 6px;
 	corner-ne-radius: 6px;
+	corner-nw-radius: 6px;
 	overflow: hidden;
 	margin-top: 0px;
 }
 
-legend
+div.codeBlockTitle
 {
+	display: inline-block;
+	margin-left: 6px;
 	margin-bottom: 0px;
 	corner-ne-radius: 6px;
 	corner-nw-radius: 6px;
+	border-bottom: none;
 	background-color: $BackColor$;
 }
 
