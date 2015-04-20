@@ -291,12 +291,15 @@ namespace SmallNotes.UI
 						title = langName.Substring(colonSearch + 1);
 						langName = langName.Substring(0, colonSearch);
 					}
-					ILanguage lang = Languages.FindById(langName);
-					if (lang != null)
+					if (!string.IsNullOrEmpty(langName))
 					{
-						if (title == null) title = lang.Name;
-						_colorizer.Colorize(block.StringContent.ToString(), lang, new NoteCodeFormatter(title), StyleSheets.Default, _writer);
-						ignoreChildNodes = true;
+						ILanguage lang = Languages.FindById(langName);
+						if (lang != null)
+						{
+							if (title == null) title = lang.Name;
+							_colorizer.Colorize(block.StringContent.ToString(), lang, new NoteCodeFormatter(title), StyleSheets.Default, _writer);
+							ignoreChildNodes = true;
+						}
 					}
 				}
 				if (!ignoreChildNodes)
