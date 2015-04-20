@@ -1,6 +1,8 @@
 ﻿using Common.Data;
 using Common.Data.Async;
 using Common.TrayApplication;
+using CommonMark;
+using CommonMark.Syntax;
 using log4net;
 using SmallNotes.Data;
 using SmallNotes.Data.Cache;
@@ -17,6 +19,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -280,17 +283,31 @@ namespace SmallNotes.UI
 
 		private void exportToMarkdownToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			// TODO Export to Markdown
+			DoExportSelectedNotes(exportCallback_Markdown, Resources.MarkdownFilesFilter + "|" + Resources.AllFilesFilter, ".md");
 		}
 
 		private void exportToHTMLToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			// TODO Export to HTML
+			DoExportSelectedNotes(exportCallback_HTML, Resources.HtmlFilesFilter + "|" + Resources.AllFilesFilter, ".html");
 		}
 
-		private void exportToPlaintextToolStripMenuItem_Click(object sender, EventArgs e)
+		private void exportCallback_Markdown(Note note, string filename)
 		{
-			// TODO Export to Plaintext
+			using (StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8))
+			{
+				writer.WriteLine(string.Format("# {0}", note.Title));
+				writer.WriteLine();
+				writer.WriteLine(note.Text);
+			}
+		}
+
+		private void exportCallback_HTML(Note note, string filename)
+		{
+			string html = NoteForm.RenderNoteToHtml(note, _SettingsManager.SettingsObject.CustomCss, NoteForm.ExportStylesheetTemplate);
+			using (StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8))
+			{
+				writer.WriteLine(html);
+			}
 		}
 
 		private void printToolStripButton_Click(object sender, EventArgs e)
@@ -355,6 +372,7 @@ namespace SmallNotes.UI
 			{
 				DoDeleteSelectedNotes();
 			}
+			// TODO Add more keyboard shortcuts
 		}
 
 		#endregion
@@ -599,6 +617,79 @@ namespace SmallNotes.UI
 				{
 					_DatabaseManager.DeleteNoteAsync(note);
 				}
+			}
+		}
+
+		private void DoExportSelectedNotes(Action<Note, string> exportCallback, string filterString, string extension)
+		{
+			// Export each note to HTML
+			if (notesListView.SelectedItems.Count > 1)
+			{
+				FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+				folderDialog.SelectedPath = _SettingsManager.SettingsObject.LastExportLocation;
+				if (folderDialog.ShowDialog() == DialogResult.OK)
+				{
+					string savePath = folderDialog.SelectedPath;
+					UpdateSavePath(savePath);
+					Task.Run(() =>
+					{
+						try
+						{
+							foreach (ListViewItem item in notesListView.SelectedItems)
+							{
+								Note note = (Note)item.Tag;
+								string fileName = note.Title;
+								foreach (var c in Path.GetInvalidFileNameChars())
+								{
+									fileName = fileName.Replace(c, '_');
+								}
+								fileName += extension;
+								string saveFile = Path.Combine(savePath, fileName);
+								exportCallback(note, saveFile);
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(string.Format(Resources.FailedToExportNote, ex.Message), Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+							Logger.Error("Failed to export notes", ex);
+						}
+					});
+				}
+			}
+			else if (notesListView.SelectedItems.Count == 1)
+			{
+				SaveFileDialog saveFileDialog = new SaveFileDialog();
+				saveFileDialog.InitialDirectory = _SettingsManager.SettingsObject.LastExportLocation;
+				saveFileDialog.OverwritePrompt = true;
+				saveFileDialog.Filter = filterString;
+				if (saveFileDialog.ShowDialog() == DialogResult.OK)
+				{
+					string saveFile = saveFileDialog.FileName;
+					UpdateSavePath(Path.GetDirectoryName(saveFile));
+					Note note = (Note)notesListView.SelectedItems[0].Tag;
+					Task.Run(() =>
+					{
+						try
+						{
+							exportCallback(note, saveFile);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(string.Format(Resources.FailedToExportNote, ex.Message), Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+							Logger.Error("Failed to export note", ex);
+						}
+						
+					});
+				}
+			}
+		}
+
+		private void UpdateSavePath(string newSavePath)
+		{
+			if (_SettingsManager.SettingsObject.LastExportLocation != newSavePath)
+			{
+				_SettingsManager.SettingsObject.LastExportLocation = newSavePath;
+				OnOptionChanged("LastExportLocation", newSavePath);
 			}
 		}
 

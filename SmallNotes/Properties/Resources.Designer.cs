@@ -61,6 +61,15 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All files (*.*)|*.*.
+        /// </summary>
+        internal static string AllFilesFilter {
+            get {
+                return ResourceManager.GetString("AllFilesFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alt.
         /// </summary>
         internal static string Alt {
@@ -298,6 +307,15 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to export note: {0}.
+        /// </summary>
+        internal static string FailedToExportNote {
+            get {
+                return ResourceManager.GetString("FailedToExportNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fatal Database Error: {0}.
         /// </summary>
         internal static string FatalDatabaseError {
@@ -435,6 +453,15 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HTML files (*.html *.htm)|*.html;*.htm.
+        /// </summary>
+        internal static string HtmlFilesFilter {
+            get {
+                return ResourceManager.GetString("HtmlFilesFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ic_action_done {
@@ -549,6 +576,15 @@ namespace SmallNotes.Properties {
         internal static string LoadNotesFailed {
             get {
                 return ResourceManager.GetString("LoadNotesFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markdown files (*.md *.markdown)|*.md;*.markdown.
+        /// </summary>
+        internal static string MarkdownFilesFilter {
+            get {
+                return ResourceManager.GetString("MarkdownFilesFilter", resourceCulture);
             }
         }
         
@@ -1025,6 +1061,15 @@ namespace SmallNotes.Properties {
         internal static string TagsFor {
             get {
                 return ResourceManager.GetString("TagsFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text files (*.txt)|*.txt.
+        /// </summary>
+        internal static string TextFilesFilter {
+            get {
+                return ResourceManager.GetString("TextFilesFilter", resourceCulture);
             }
         }
         

@@ -38,7 +38,7 @@ namespace SmallNotes.UI.Utils
 		{
 			try
 			{
-				using (Image noteRender = HtmlRender.RenderToImage(NoteForm.RenderNoteToHtml(req.Note, req.CustomCss), req.Note.Dimensions, req.Note.BackgroundColor, null, req.FileCache.StylesheetLoadHandler, req.FileCache.ImageLoadHandler))
+				using (Image noteRender = HtmlRender.RenderToImage(NoteForm.RenderNoteToHtml(req.Note, req.CustomCss, NoteForm.StylesheetTemplate), req.Note.Dimensions, req.Note.BackgroundColor, null, req.FileCache.StylesheetLoadHandler, req.FileCache.ImageLoadHandler))
 				{
 					int dimension = Math.Min(noteRender.Width, noteRender.Height);
 					Rectangle clipRect = new Rectangle(0, 0, dimension, dimension);
