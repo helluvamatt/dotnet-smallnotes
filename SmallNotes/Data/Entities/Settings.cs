@@ -86,5 +86,8 @@ namespace SmallNotes.Data.Entities
 
 		[Browsable(false)]
 		public Dictionary<string, bool> HotkeyEnabled { get; set; }
+
+		[Browsable(false)]
+		public string LastExportLocation { get; set; }
 	}
 }

@@ -108,6 +108,15 @@ namespace SmallNotes
 				}
 			}
 
+			// Load Note exportTemplate.css
+			using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SmallNotes.UI.exportTemplate.css"))
+			{
+				using (StreamReader reader = new StreamReader(stream))
+				{
+					NoteForm.ExportStylesheetTemplate = reader.ReadToEnd();
+				}
+			}
+
 			// Load application configuration
 			LoadSettingsAsync(Settings => {
 

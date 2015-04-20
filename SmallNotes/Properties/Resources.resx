@@ -436,4 +436,19 @@
   <data name="NotSet" xml:space="preserve">
     <value>Not Set</value>
   </data>
+  <data name="AllFilesFilter" xml:space="preserve">
+    <value>All files (*.*)|*.*</value>
+  </data>
+  <data name="HtmlFilesFilter" xml:space="preserve">
+    <value>HTML files (*.html *.htm)|*.html;*.htm</value>
+  </data>
+  <data name="MarkdownFilesFilter" xml:space="preserve">
+    <value>Markdown files (*.md *.markdown)|*.md;*.markdown</value>
+  </data>
+  <data name="TextFilesFilter" xml:space="preserve">
+    <value>Text files (*.txt)|*.txt</value>
+  </data>
+  <data name="FailedToExportNote" xml:space="preserve">
+    <value>Failed to export note: {0}</value>
+  </data>
 </root>

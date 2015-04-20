@@ -47,7 +47,6 @@
 			this.saveToolStripButton = new System.Windows.Forms.ToolStripDropDownButton();
 			this.exportToMarkdownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportToHTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.exportToPlaintextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
 			this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -201,8 +200,7 @@
 			this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.saveToolStripButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportToMarkdownToolStripMenuItem,
-            this.exportToHTMLToolStripMenuItem,
-            this.exportToPlaintextToolStripMenuItem});
+            this.exportToHTMLToolStripMenuItem});
 			this.saveToolStripButton.Image = global::SmallNotes.Properties.Resources.disk;
 			resources.ApplyResources(this.saveToolStripButton, "saveToolStripButton");
 			this.saveToolStripButton.Name = "saveToolStripButton";
@@ -220,13 +218,6 @@
 			this.exportToHTMLToolStripMenuItem.Name = "exportToHTMLToolStripMenuItem";
 			resources.ApplyResources(this.exportToHTMLToolStripMenuItem, "exportToHTMLToolStripMenuItem");
 			this.exportToHTMLToolStripMenuItem.Click += new System.EventHandler(this.exportToHTMLToolStripMenuItem_Click);
-			// 
-			// exportToPlaintextToolStripMenuItem
-			// 
-			this.exportToPlaintextToolStripMenuItem.Image = global::SmallNotes.Properties.Resources.page_white_text;
-			this.exportToPlaintextToolStripMenuItem.Name = "exportToPlaintextToolStripMenuItem";
-			resources.ApplyResources(this.exportToPlaintextToolStripMenuItem, "exportToPlaintextToolStripMenuItem");
-			this.exportToPlaintextToolStripMenuItem.Click += new System.EventHandler(this.exportToPlaintextToolStripMenuItem_Click);
 			// 
 			// printToolStripButton
 			// 
@@ -476,7 +467,6 @@
 		private System.Windows.Forms.ToolStripDropDownButton saveToolStripButton;
 		private System.Windows.Forms.ToolStripMenuItem exportToMarkdownToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exportToHTMLToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem exportToPlaintextToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton printToolStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
 		private System.Windows.Forms.ToolStripButton copyToolStripButton;

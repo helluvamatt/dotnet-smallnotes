@@ -256,22 +256,16 @@
     <value>&amp;New Note</value>
   </data>
   <data name="exportToMarkdownToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="exportToMarkdownToolStripMenuItem.Text" xml:space="preserve">
     <value>Markdown</value>
   </data>
   <data name="exportToHTMLToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="exportToHTMLToolStripMenuItem.Text" xml:space="preserve">
     <value>HTML</value>
-  </data>
-  <data name="exportToPlaintextToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 22</value>
-  </data>
-  <data name="exportToPlaintextToolStripMenuItem.Text" xml:space="preserve">
-    <value>Plaintext</value>
   </data>
   <data name="saveToolStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
@@ -502,7 +496,7 @@
     <value>tagsListBox</value>
   </data>
   <data name="&gt;&gt;tagsListBox.Type" xml:space="preserve">
-    <value>SmallNotes.UI.Controls.TagListBox, SmallNotes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SmallNotes.UI.Controls.TagListBox, SmallNotes, Version=0.9.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tagsListBox.Parent" xml:space="preserve">
     <value>tagsTabPage</value>
@@ -925,12 +919,6 @@
     <value>exportToHTMLToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;exportToHTMLToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;exportToPlaintextToolStripMenuItem.Name" xml:space="preserve">
-    <value>exportToPlaintextToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;exportToPlaintextToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;printToolStripButton.Name" xml:space="preserve">

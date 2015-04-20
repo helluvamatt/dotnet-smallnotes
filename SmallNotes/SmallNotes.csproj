@@ -216,6 +216,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UI\exportTemplate.css" />
     <None Include="assets\cut.png" />
     <None Include="assets\delete.png" />
     <None Include="assets\page_white_copy.png" />

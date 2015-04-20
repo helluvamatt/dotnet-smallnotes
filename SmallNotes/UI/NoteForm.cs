@@ -140,6 +140,7 @@ namespace SmallNotes.UI
 
 		#region Static Properties
 
+		public static string ExportStylesheetTemplate { get; set; }
 		public static string StylesheetTemplate { get; set; }
 		public static string DocumentTemplate { get; set; }
 		public static Dictionary<string, Tag> TagList { get; set; }
@@ -228,7 +229,7 @@ namespace SmallNotes.UI
 			// Display
 			if (Data != null)
 			{
-				string documentHtml = RenderNoteToHtml(Data, CustomStylesheet);
+				string documentHtml = RenderNoteToHtml(Data, CustomStylesheet, StylesheetTemplate);
 
 				// Display the note
 				displayBrowser.BackColor = BackColor;
@@ -445,7 +446,7 @@ namespace SmallNotes.UI
 			return value < 186;
 		}
 
-		public static string RenderNoteToHtml(Note note, string customCss)
+		public static string RenderNoteToHtml(Note note, string customCss, string cssTemplate)
 		{
 			// Compute link color
 			// ForegroundColor == Automatic: LinkColor = AliceBlue for dark backgrounds, Blue for light backgrounds
@@ -456,7 +457,7 @@ namespace SmallNotes.UI
 			string bodyHtml = CommonMarkConverter.Convert(note.Text, GetCommonMarkSettings());
 
 			// Process _StylesheetTemplate
-			SimpleTemplate styleTemplate = new SimpleTemplate() { Template = StylesheetTemplate };
+			SimpleTemplate styleTemplate = new SimpleTemplate() { Template = cssTemplate };
 			styleTemplate["ForeColor"] = ColorTranslator.ToHtml(ComputeForegroundColor(note, note.BackgroundColor));
 			styleTemplate["BackColor"] = ColorTranslator.ToHtml(note.BackgroundColor);
 			styleTemplate["LinkColor"] = ColorTranslator.ToHtml(linkColor);
