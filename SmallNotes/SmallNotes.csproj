@@ -88,7 +88,6 @@
     <Compile Include="Data\FileDatabaseImpl\Entities\SQLiteNote.cs" />
     <Compile Include="Data\FileDatabaseImpl\FileDatabase.cs" />
     <Compile Include="Data\FileDatabaseImpl\FileDatabaseDescriptor.cs" />
-    <Compile Include="Data\HotkeyManager.cs" />
     <Compile Include="Data\StackSet.cs" />
     <Compile Include="Data\TestDatabaseImpl\TestDatabase.cs" />
     <Compile Include="Data\TestDatabaseImpl\TestDatabaseDescriptor.cs" />

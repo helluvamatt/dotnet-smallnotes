@@ -18,6 +18,7 @@ using Common.Data;
 using SmallNotes.UI.Utils;
 using System.Collections.Concurrent;
 using Common.UI.Win32Interop;
+using Common.UI.Hotkeys;
 
 namespace SmallNotes
 {
