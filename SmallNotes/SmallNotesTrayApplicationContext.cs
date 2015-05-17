@@ -173,7 +173,7 @@ namespace SmallNotes
 			}
 		}
 
-		protected override OptionsForm BuildOptionsForm()
+		protected override OptionsForm OnBuildOptionsForm()
 		{
 			SmallNotesOptionsForm form = new SmallNotesOptionsForm(SettingsManager, _DatabaseManager, _HotkeyManager);
 			form.OptionChanged += SmallNotesOptionsForm_OptionChanged;
@@ -182,7 +182,7 @@ namespace SmallNotes
 			return form;
 		}
 
-		protected override void BuildContextMenu()
+		protected override void OnBuildContextMenu(ContextMenuStrip menu)
 		{
 			// Build the context menu: showOptionsMenuItem
 			ToolStripMenuItem showOptionsMenuItem = new ToolStripMenuItem(Resources.MenuItemManage);
@@ -197,11 +197,11 @@ namespace SmallNotes
 			exitMenuItem.Click += exitMenuItem_Click;
 
 			// Build contextMenu
-			notifyIcon.ContextMenuStrip.Items.Add(showOptionsMenuItem);
-			notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
-			notifyIcon.ContextMenuStrip.Items.Add(newNoteMenuItem);
-			notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
-			notifyIcon.ContextMenuStrip.Items.Add(exitMenuItem);
+			menu.Items.Add(showOptionsMenuItem);
+			menu.Items.Add(new ToolStripSeparator());
+			menu.Items.Add(newNoteMenuItem);
+			menu.Items.Add(new ToolStripSeparator());
+			menu.Items.Add(exitMenuItem);
 		}
 
 		protected override string ApplicationName
