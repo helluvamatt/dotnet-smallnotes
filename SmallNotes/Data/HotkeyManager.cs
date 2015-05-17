@@ -1,4 +1,4 @@
-﻿using SmallNotes.UI.Utils.Win32Interop;
+﻿using Common.UI.Win32Interop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
