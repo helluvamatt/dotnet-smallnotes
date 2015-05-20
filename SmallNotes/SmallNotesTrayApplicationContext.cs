@@ -17,6 +17,8 @@ using System.Xml;
 using Common.Data;
 using SmallNotes.UI.Utils;
 using System.Collections.Concurrent;
+using SmallNotes.UI.Utils.Win32Interop;
+
 using Common.UI.Win32Interop;
 using Common.UI.Hotkeys;
 using SmallNotes.Data.Cache;
