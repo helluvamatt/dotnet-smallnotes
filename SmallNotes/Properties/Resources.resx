@@ -400,20 +400,8 @@
   <data name="IdleTimeoutLabel" xml:space="preserve">
     <value>{0} ms</value>
   </data>
-  <data name="Alt" xml:space="preserve">
-    <value>Alt</value>
-  </data>
-  <data name="Ctrl" xml:space="preserve">
-    <value>Ctrl</value>
-  </data>
   <data name="PressKeyCombination" xml:space="preserve">
     <value>Press a key combination...</value>
-  </data>
-  <data name="Shift" xml:space="preserve">
-    <value>Shift</value>
-  </data>
-  <data name="Win" xml:space="preserve">
-    <value>Win</value>
   </data>
   <data name="Hotkey_EditMostRecentNote_Desc" xml:space="preserve">
     <value>Edit the most recently saved note.</value>
@@ -432,9 +420,6 @@
   </data>
   <data name="Hotkey_ShowHideAllNotes_Name" xml:space="preserve">
     <value>Show/Hide All Notes</value>
-  </data>
-  <data name="NotSet" xml:space="preserve">
-    <value>Not Set</value>
   </data>
   <data name="AllFilesFilter" xml:space="preserve">
     <value>All files (*.*)|*.*</value>

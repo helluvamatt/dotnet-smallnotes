@@ -70,15 +70,6 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alt.
-        /// </summary>
-        internal static string Alt {
-            get {
-                return ResourceManager.GetString("Alt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Another instance is already running! Exiting....
         /// </summary>
         internal static string AnotherInstance {
@@ -200,15 +191,6 @@ namespace SmallNotes.Properties {
         internal static string CopyOf {
             get {
                 return ResourceManager.GetString("CopyOf", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ctrl.
-        /// </summary>
-        internal static string Ctrl {
-            get {
-                return ResourceManager.GetString("Ctrl", resourceCulture);
             }
         }
         
@@ -712,15 +694,6 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Set.
-        /// </summary>
-        internal static string NotSet {
-            get {
-                return ResourceManager.GetString("NotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap page_code {
@@ -989,15 +962,6 @@ namespace SmallNotes.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shift.
-        /// </summary>
-        internal static string Shift {
-            get {
-                return ResourceManager.GetString("Shift", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap tag_blue {
@@ -1079,15 +1043,6 @@ namespace SmallNotes.Properties {
         internal static string White {
             get {
                 return ResourceManager.GetString("White", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Win.
-        /// </summary>
-        internal static string Win {
-            get {
-                return ResourceManager.GetString("Win", resourceCulture);
             }
         }
         

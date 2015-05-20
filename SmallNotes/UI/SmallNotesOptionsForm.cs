@@ -10,7 +10,7 @@ using SmallNotes.Data.Entities;
 using SmallNotes.Properties;
 using SmallNotes.UI.Controls;
 using SmallNotes.UI.Utils;
-using SmallNotes.UI.Utils.Win32Interop;
+using Common.UI.Win32Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TheArtOfDev.HtmlRenderer.WinForms;
+using Common.UI.Hotkeys;
 
 namespace SmallNotes.UI
 {

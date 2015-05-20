@@ -2,7 +2,7 @@
 using Common.UI.LocalizedDesignAttributes;
 using SmallNotes.Properties;
 using SmallNotes.UI.Editors;
-using SmallNotes.UI.Utils.Win32Interop;
+using Common.UI.Win32Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -89,16 +89,9 @@
     <Compile Include="Data\FileDatabaseImpl\Entities\SQLiteNote.cs" />
     <Compile Include="Data\FileDatabaseImpl\FileDatabase.cs" />
     <Compile Include="Data\FileDatabaseImpl\FileDatabaseDescriptor.cs" />
-    <Compile Include="Data\HotkeyManager.cs" />
     <Compile Include="Data\StackSet.cs" />
     <Compile Include="Data\TestDatabaseImpl\TestDatabase.cs" />
     <Compile Include="Data\TestDatabaseImpl\TestDatabaseDescriptor.cs" />
-    <Compile Include="UI\Controls\HotkeyListItem.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\HotkeyListItem.Designer.cs">
-      <DependentUpon>HotkeyListItem.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\ImageListView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -114,12 +107,6 @@
     <Compile Include="UI\Editors\FileUIEditor.cs" />
     <Compile Include="UI\Editors\IdleTimeoutEditor.cs" />
     <Compile Include="UI\Editors\TrackBarEditor.cs" />
-    <Compile Include="UI\HotkeyForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\HotkeyForm.Designer.cs">
-      <DependentUpon>HotkeyForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\NoteTagForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,7 +146,6 @@
       <DependentUpon>NoteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Utils\UIElements.cs" />
-    <Compile Include="UI\Utils\Win32Interop\GlobalHotkeyHook.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -170,14 +156,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\Controls\HotkeyListItem.resx">
-      <DependentUpon>HotkeyListItem.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\TrackBarEditorControl.resx">
       <DependentUpon>TrackBarEditorControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\HotkeyForm.resx">
-      <DependentUpon>HotkeyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\NoteTagForm.resx">
       <DependentUpon>NoteTagForm.cs</DependentUpon>
