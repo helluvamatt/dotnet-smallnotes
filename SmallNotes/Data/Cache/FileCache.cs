@@ -129,10 +129,16 @@ namespace SmallNotes.Data.Cache
 			}
 		}
 
+		private void CleanUp()
+		{
+			// TODO Asynchrounously clean the cache of expired objects/files
+		}
+
 		private void ImageLoad(Uri src, Action<Image> callback)
 		{
-			Stream stream = GetUrlToStream(src);
-			if (src.Segments.Last().EndsWith(".svg"))
+			string mimeType;
+			Stream stream = GetUrlToStream(src, out mimeType);
+			if (mimeType == "image/svg+xml")
 			{
 				callback(ImageUtil.LoadSVG(stream));
 			}
@@ -147,8 +153,9 @@ namespace SmallNotes.Data.Cache
 			// TODO Implement stylesheet caching
 		}
 
-		private Stream GetUrlToStream(Uri uri)
+		private Stream GetUrlToStream(Uri uri, out string mimeType)
 		{
+			mimeType = "application/octet-stream";
 			if ("http".Equals(uri.Scheme, StringComparison.OrdinalIgnoreCase) || "https".Equals(uri.Scheme, StringComparison.OrdinalIgnoreCase))
 			{
 				// Check the cache for the file
@@ -157,12 +164,27 @@ namespace SmallNotes.Data.Cache
 					string cacheFilePath = Path.Combine(_CachePath, CacheDataDir, _CachedObjects[uri.ToString()].CacheFileName);
 					if (File.Exists(cacheFilePath))
 					{
+						mimeType = _CachedObjects[uri.ToString()].MimeType;
 						return new FileStream(cacheFilePath, FileMode.Open, FileAccess.Read);
 					}
 				}
 
-				// TODO Load from HTTP
-
+				// Load from HTTP
+				using (var client = new HttpClient())
+				{
+					Task<HttpResponseMessage> responseTask = client.GetAsync(uri);
+					responseTask.RunSynchronously();
+					HttpResponseMessage response = responseTask.Result;
+					if (response.IsSuccessStatusCode)
+					{
+						mimeType = response.Content.Headers.ContentType.MediaType;
+						CacheObject newObj = new CacheObject();
+						newObj.MimeType = mimeType;
+						newObj.Url = uri.ToString();
+						// TODO Save the response content to cache file and return a stream to that cache file
+						//response.Content.CopyToAsync().RunSynchronously();
+					}
+				}
 			}
 			return new FileStream(uri.ToString(), FileMode.Open, FileAccess.Read); ;
 		}
@@ -174,6 +196,7 @@ namespace SmallNotes.Data.Cache
 			public DateTime Expires { get; set; }
 			public string Url { get; set; }
 			public string CacheFileName { get; set; }
+			public string MimeType { get; set; }
 		}
 	}
 }
