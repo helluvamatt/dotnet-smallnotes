@@ -81,7 +81,7 @@ namespace SmallNotes.UI
 			PopulateListView();
 		}
 
-		public void PopulateSettings()
+		public override void PopulateSettings()
 		{
 			settingsPropertyGrid.SelectedObject = _SettingsManager.SettingsObject;
 
