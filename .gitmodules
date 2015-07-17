@@ -1,6 +1,3 @@
-[submodule "Common"]
-	path = Common
-	url = https://github.com/helluvamatt/dotnet-common.git
 [submodule "CommonMark.NET"]
 	path = CommonMark.NET
 	url = http://github.com/Knagis/CommonMark.NET.git

@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallNotes", "SmallNotes\SmallNotes.csproj", "{8847094B-FB26-4AB9-A034-B9504358BE77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{78FE99A8-493E-4F24-A59C-34B6FD1F4FBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common.csproj", "{78FE99A8-493E-4F24-A59C-34B6FD1F4FBA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallNotes.Data", "SmallNotes.Data\SmallNotes.Data.csproj", "{9BBEC0F6-DE29-4945-BECF-D1A4DFF3D758}"
 EndProject
