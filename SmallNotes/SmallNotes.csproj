@@ -242,7 +242,7 @@
       <Project>{0fd4b1dd-45a8-4f02-beb0-5881cd512573}</Project>
       <Name>CommonMark.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\..\Common\Common.csproj">
       <Project>{78fe99a8-493e-4f24-a59c-34b6fd1f4fba}</Project>
       <Name>Common</Name>
     </ProjectReference>
